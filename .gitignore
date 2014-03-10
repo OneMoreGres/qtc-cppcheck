@@ -1,0 +1,11 @@
+# Compiled translations
+*.qm
+
+# Qt creator user settings
+*.user
+
+# Archives
+*.zip
+*.rar
+*.tar.gz
+*.tar.bz2
