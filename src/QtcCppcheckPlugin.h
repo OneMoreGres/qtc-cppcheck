@@ -63,6 +63,8 @@ namespace QtcCppcheck {
         void handleBuildStateChange (ProjectExplorer::Project *project);
         //! Handle project's fileListChanged signal.
         void handleProjectFileListChanged ();
+        //! Handle session unload event.
+        void handleSessionUnload ();
 
         // Task handling.
         //! Add task to ProjectExplorer's task lits.
@@ -85,7 +87,7 @@ namespace QtcCppcheck {
         //! Check given ProjectExplorer::Node.
         void checkNode (const ProjectExplorer::Node* node);
         //! Check given files. Terminate current check if forced is true.
-        void checkFiles (const QStringList& fileNames, bool forced = false);
+        void checkFiles (const QStringList& fileNames);
         //! Check active project's open documents within given range with given modified flag.
         void checkActiveProjectDocuments (int beginRow, int endRow, bool modifiedFlag);
 

@@ -21,8 +21,11 @@ namespace QtcCppcheck {
         explicit CppcheckRunner(Settings* settings, QObject *parent = 0);
         ~CppcheckRunner ();
 
-        //! Add files to check queue. Terminate current check if forced is true.
-        void checkFiles (const QStringList& fileNames, bool forced);
+        //! Add files to check queue.
+        void checkFiles (const QStringList& fileNames);
+
+        //! Stop check progress if running and clear check queue.
+        void stopCheckhig ();
 
         //! Update data based on current settings_.
         void updateSettings ();

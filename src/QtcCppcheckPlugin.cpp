@@ -128,7 +128,7 @@ void QtcCppcheckPlugin::initConnections()
 
   connect (SessionManager::instance (),
            SIGNAL (aboutToUnloadSession(QString)),
-           SLOT (clearTasksForFiles ()));
+           SLOT (handleSessionUnload ()));
 
   connect (SessionManager::instance (),
            SIGNAL (startupProjectChanged(ProjectExplorer::Project *)),
@@ -178,12 +178,12 @@ ExtensionSystem::IPlugin::ShutdownFlag QtcCppcheckPlugin::aboutToShutdown()
   return SynchronousShutdown;
 }
 
-void QtcCppcheckPlugin::checkFiles(const QStringList &fileNames, bool forced)
+void QtcCppcheckPlugin::checkFiles(const QStringList &fileNames)
 {
   Q_ASSERT (runner_ != NULL);
   Q_ASSERT (!fileNames.isEmpty ());
   clearTasksForFiles (fileNames);
-  runner_->checkFiles (fileNames, forced);
+  runner_->checkFiles (fileNames);
 }
 
 void QtcCppcheckPlugin::checkCurrentDocument()
@@ -201,7 +201,7 @@ void QtcCppcheckPlugin::checkActiveProject()
 {
   if (!projectFileList_.isEmpty ())
   {
-    checkFiles (projectFileList_, true);
+    checkFiles (projectFileList_);
   }
 }
 
@@ -266,6 +266,8 @@ void QtcCppcheckPlugin::handleStartupProjectChange(Project *project)
   }
   activeProject_ = project;
   handleProjectFileListChanged ();
+  Q_ASSERT (runner_ != NULL);
+  runner_->stopCheckhig ();
   if (project == NULL)
   {
     return;
@@ -307,6 +309,13 @@ void QtcCppcheckPlugin::handleProjectFileListChanged()
   {
     checkFiles (addedFiles);
   }
+}
+
+void QtcCppcheckPlugin::handleSessionUnload()
+{
+  clearTasksForFiles ();
+  Q_ASSERT (runner_ != NULL);
+  runner_->stopCheckhig ();
 }
 
 void QtcCppcheckPlugin::handleBuildStateChange(Project *project)

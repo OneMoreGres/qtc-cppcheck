@@ -73,7 +73,7 @@ void CppcheckRunner::updateSettings()
   runArguments_ << QLatin1String ("--template={file},{line},{severity},{id},{message}");
 }
 
-void CppcheckRunner::checkFiles(const QStringList &fileNames, bool forced)
+void CppcheckRunner::checkFiles(const QStringList &fileNames)
 {
   Q_ASSERT (!fileNames.isEmpty ());
   fileCheckQueue_ += fileNames;
@@ -81,7 +81,7 @@ void CppcheckRunner::checkFiles(const QStringList &fileNames, bool forced)
   fileCheckQueue_.sort ();
   if (process_.isOpen ())
   {
-    if (fileCheckQueue_ == currentlyCheckingFiles_ || forced)
+    if (fileCheckQueue_ == currentlyCheckingFiles_)
     {
       process_.kill ();
       // Rechecking will be restarted on finish signal.
@@ -93,6 +93,15 @@ void CppcheckRunner::checkFiles(const QStringList &fileNames, bool forced)
   if (!queueTimer_.isActive ())
   {
     queueTimer_.singleShot (checkDelayInMs, this, SLOT (checkQueuedFiles ()));
+  }
+}
+
+void CppcheckRunner::stopCheckhig()
+{
+  fileCheckQueue_.clear ();
+  if (process_.isOpen ())
+  {
+    process_.kill ();
   }
 }
 
