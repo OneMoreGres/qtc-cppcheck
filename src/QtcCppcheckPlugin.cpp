@@ -22,6 +22,8 @@
 #include "Settings.h"
 #include "OptionsPage.h"
 #include "TaskInfo.h"
+#include <QDebug>
+#include <QFile>
 #include "CppcheckRunner.h"
 
 using namespace QtcCppcheck::Internal;
@@ -159,6 +161,14 @@ void QtcCppcheckPlugin::initLanguage()
     if (translator->load (trFile, creatorTrPath))
     {
       qApp->installTranslator (translator);
+    }
+    else
+    {
+        const QString& userCreatorTrPath = ICore::userResourcePath() + QLatin1String ("/translations");
+        if (translator->load(trFile, userCreatorTrPath))
+        {
+          qApp->installTranslator (translator);
+        }
     }
   }
 }
