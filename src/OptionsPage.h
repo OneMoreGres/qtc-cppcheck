@@ -2,6 +2,7 @@
 #define OPTIONSPAGE_H
 
 #include <coreplugin/dialogs/ioptionspage.h>
+#include <QPointer>
 
 namespace QtcCppcheck {
   namespace Internal {
