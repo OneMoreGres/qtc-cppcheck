@@ -21,6 +21,7 @@ namespace QtcCppcheck {
         ~OptionsPage ();
 
         bool matches(const QString &searchKeyWord) const;
+        QWidget *widget();
         QWidget *createPage(QWidget *parent);
         void apply();
         void finish();

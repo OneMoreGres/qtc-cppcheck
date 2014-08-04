@@ -28,6 +28,11 @@ bool OptionsPage::matches(const QString &searchKeyWord) const
   return keyWords_.contains (searchKeyWord);
 }
 
+QWidget *OptionsPage::widget()
+{
+  return createPage (NULL);
+}
+
 QWidget *OptionsPage::createPage(QWidget *parent)
 {
   Q_ASSERT (settings_ != NULL);
