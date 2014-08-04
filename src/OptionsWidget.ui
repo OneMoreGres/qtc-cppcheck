@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
+    <width>446</width>
     <height>313</height>
    </rect>
   </property>
@@ -14,6 +14,48 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="showOutputCheckBox">
+     <property name="text">
+      <string>Show binary's output</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="onProjectChangeCheckBox">
+     <property name="text">
+      <string>Check on active project change</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="unusedCheckBox">
+     <property name="text">
+      <string>Check for unused functions</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="onSaveCheckBox">
+     <property name="text">
+      <string>Check document on save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="onFileAddedCheckBox">
+     <property name="text">
+      <string>Check added files</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -44,59 +86,10 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="onBuildCheckBox">
+   <item row="9" column="1">
+    <widget class="QCheckBox" name="popupOnWarningCheckBox">
      <property name="text">
-      <string>Check project on build</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QCheckBox" name="onSaveCheckBox">
-     <property name="text">
-      <string>Check document on save</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="onProjectChangeCheckBox">
-     <property name="text">
-      <string>Check on active project change</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="onFileAddedCheckBox">
-     <property name="text">
-      <string>Check added files</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="unusedCheckBox">
-     <property name="text">
-      <string>Check for unused functions</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QCheckBox" name="inconclusiveCheckBox">
-     <property name="text">
-      <string>Check for inconclusive errors</string>
+      <string>Popup issues pane when warnings found</string>
      </property>
     </widget>
    </item>
@@ -124,14 +117,21 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="showOutputCheckBox">
+   <item row="9" column="0">
+    <widget class="QCheckBox" name="popupOnErrorCheckBox">
      <property name="text">
-      <string>Show binary's output</string>
+      <string>Popup issues pane when errors found</string>
      </property>
     </widget>
    </item>
    <item row="8" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -143,6 +143,27 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="inconclusiveCheckBox">
+     <property name="text">
+      <string>Check for inconclusive errors</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="onBuildCheckBox">
+     <property name="text">
+      <string>Check project on build</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

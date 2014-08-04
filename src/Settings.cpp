@@ -11,7 +11,8 @@ using namespace QtcCppcheck::Internal;
 Settings::Settings(bool autoLoad) :
   checkOnBuild_ (false), checkOnSave_ (false),
   checkUnused_ (false), checkInconclusive_ (false),
-  checkOnProjectChange_ (false), showBinaryOutput_ (false)
+  checkOnProjectChange_ (false), showBinaryOutput_ (false),
+  popupOnError_ (false), popupOnWarning_ (false)
 {
   if (autoLoad)
   {
@@ -32,6 +33,8 @@ void Settings::save()
   settings.setValue (QLatin1String (SETTINGS_CHECK_INCONCLUSIVE), checkInconclusive_);
   settings.setValue (QLatin1String (SETTINGS_CUSTOM_PARAMS), customParameters_);
   settings.setValue (QLatin1String (SETTINGS_SHOW_OUTPUT), showBinaryOutput_);
+  settings.setValue (QLatin1String (SETTINGS_POPUP_ON_ERROR), popupOnError_);
+  settings.setValue (QLatin1String (SETTINGS_POPUP_ON_WARNING), popupOnWarning_);
   settings.endGroup ();
 }
 
@@ -56,6 +59,10 @@ void Settings::load()
                                       QString ()).toString ();
   showBinaryOutput_ = settings.value (QLatin1String (SETTINGS_SHOW_OUTPUT),
                                       false).toBool ();
+  popupOnError_ = settings.value (QLatin1String (SETTINGS_POPUP_ON_ERROR),
+                                      true).toBool ();
+  popupOnWarning_ = settings.value (QLatin1String (SETTINGS_POPUP_ON_WARNING),
+                                      true).toBool ();
   settings.endGroup ();
 }
 
@@ -108,6 +115,26 @@ void Settings::setShowBinaryOutput(bool showBinaryOutput)
 {
   showBinaryOutput_ = showBinaryOutput;
 }
+bool Settings::popupOnError() const
+{
+  return popupOnError_;
+}
+
+void Settings::setPopupOnError(bool popupOnError)
+{
+  popupOnError_ = popupOnError;
+}
+bool Settings::popupOnWarning() const
+{
+  return popupOnWarning_;
+}
+
+void Settings::setPopupOnWarning(bool popupOnWarning)
+{
+  popupOnWarning_ = popupOnWarning;
+}
+
+
 
 bool Settings::checkOnProjectChange() const
 {

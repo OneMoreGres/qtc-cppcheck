@@ -399,7 +399,13 @@ void QtcCppcheckPlugin::addTask(char type, const QString &description,
   Task::TaskType taskType = (type == 'e') ? Task::Error : Task::Warning;
   Task task (taskType, fullDescription, file, line, Constants::TASK_CATEGORY_ID);
   TaskHub::addTask (task);
-  TaskHub::requestPopup ();
+  Q_ASSERT (settings_ != NULL);
+  bool shouldPopup = (taskType == Task::Error) ? settings_->popupOnError ()
+                                               : settings_->popupOnWarning ();
+  if (shouldPopup)
+  {
+    TaskHub::requestPopup ();
+  }
 
   taskInfo = task;
   fileTasks_.insertMulti (fileName, taskInfo);

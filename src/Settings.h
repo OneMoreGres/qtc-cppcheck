@@ -46,6 +46,12 @@ namespace QtcCppcheck {
         bool showBinaryOutput() const;
         void setShowBinaryOutput(bool showBinaryOutput);
 
+        bool popupOnError() const;
+        void setPopupOnError(bool popupOnError);
+
+        bool popupOnWarning() const;
+        void setPopupOnWarning(bool popupOnWarning);
+
       private:
         QString binaryFile_;
 
@@ -58,6 +64,9 @@ namespace QtcCppcheck {
         bool checkInconclusive_;
         QString customParameters_;
         bool showBinaryOutput_;
+
+        bool popupOnError_;
+        bool popupOnWarning_;
     };
 
   } // namespace Internal

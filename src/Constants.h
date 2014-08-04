@@ -18,6 +18,8 @@ namespace QtcCppcheck {
     const char SETTINGS_CHECK_INCONCLUSIVE[] = "checkInconclusive";
     const char SETTINGS_CUSTOM_PARAMS[] = "customParams";
     const char SETTINGS_SHOW_OUTPUT[] = "showOutput";
+    const char SETTINGS_POPUP_ON_ERROR[] = "popupOnError";
+    const char SETTINGS_POPUP_ON_WARNING[] = "popupOnWarning";
 
     const char TASK_CATEGORY_ID[] = "QtcCppcheck.TaskCategory";
     const char TASK_CATEGORY_NAME[] = "Cppcheck";
