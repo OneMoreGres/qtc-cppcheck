@@ -9,57 +9,67 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="28"/>
+        <location filename="../src/OptionsWidget.ui" line="70"/>
         <source>Binary file:</source>
         <translation>Исполняемый файл:</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="41"/>
+        <location filename="../src/OptionsWidget.ui" line="83"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="57"/>
+        <location filename="../src/OptionsWidget.ui" line="92"/>
+        <source>Popup issues pane when warnings found</source>
+        <translation>Показывать панель проблем для предупреждений</translation>
+    </message>
+    <message>
+        <location filename="../src/OptionsWidget.ui" line="123"/>
+        <source>Popup issues pane when errors found</source>
+        <translation>Показывать панель проблем для ошибок</translation>
+    </message>
+    <message>
+        <location filename="../src/OptionsWidget.ui" line="164"/>
         <source>Check project on build</source>
         <translation>Проверять проект после построения</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="64"/>
+        <location filename="../src/OptionsWidget.ui" line="41"/>
         <source>Check document on save</source>
         <translation>Проверять документы после сохранения</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="71"/>
+        <location filename="../src/OptionsWidget.ui" line="27"/>
         <source>Check on active project change</source>
         <translation>Проверять при смене активного проекта</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="78"/>
+        <location filename="../src/OptionsWidget.ui" line="48"/>
         <source>Check added files</source>
         <translation>Проверять добавленные файлы</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="92"/>
+        <location filename="../src/OptionsWidget.ui" line="34"/>
         <source>Check for unused functions</source>
         <translation>Проверять на неиспользуемые функции</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="99"/>
+        <location filename="../src/OptionsWidget.ui" line="150"/>
         <source>Check for inconclusive errors</source>
         <translation>Проверять на неточные ошибки</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="108"/>
+        <location filename="../src/OptionsWidget.ui" line="101"/>
         <source>Custom parameters:</source>
         <translation>Пользовательские параметры:</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="121"/>
+        <location filename="../src/OptionsWidget.ui" line="114"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="130"/>
+        <location filename="../src/OptionsWidget.ui" line="20"/>
         <source>Show binary&apos;s output</source>
         <translation>Показывать вывод программы</translation>
     </message>
@@ -67,17 +77,17 @@
 <context>
     <name>QtcCppcheck::Internal::CppcheckRunner</name>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="167"/>
+        <location filename="../src/CppcheckRunner.cpp" line="176"/>
         <source>Cppcheck started</source>
         <translation>Cppcheck запущен</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="176"/>
+        <location filename="../src/CppcheckRunner.cpp" line="185"/>
         <source>Cppcheck error occured</source>
         <translation>Cppcheck ошибка программы</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="185"/>
+        <location filename="../src/CppcheckRunner.cpp" line="196"/>
         <source>Cppcheck finished</source>
         <translation>Cppcheck завершил проверку</translation>
     </message>
@@ -111,12 +121,22 @@
         <translation>Проверить активный проект</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="108"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="106"/>
+        <source>Alt+C,Ctrl+A</source>
+        <translation>Alt+C,Ctrl+A</translation>
+    </message>
+    <message>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="109"/>
         <source>Check current document</source>
         <translation>Проверить активный документ</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="116"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="113"/>
+        <source>Alt+C,Ctrl+D</source>
+        <translation>Alt+C,Ctrl+D</translation>
+    </message>
+    <message>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="118"/>
         <source>Cppcheck</source>
         <translation>Cppcheck</translation>
     </message>
