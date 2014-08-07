@@ -53,7 +53,8 @@ void OptionsWidget::getVersion()
   {
     return;
   }
-  process_.start (QString (QLatin1String ("\"%1\" %2")).arg (binary, versionArg));
+  processArguments_ = QStringList () << versionArg;
+  process_.start (binary, processArguments_);
 }
 
 void OptionsWidget::getPossibleParams()
@@ -63,19 +64,20 @@ void OptionsWidget::getPossibleParams()
   {
     return;
   }
-  process_.start (QString (QLatin1String ("\"%1\" %2")).arg (binary, helpArg));
+  processArguments_ = QStringList () << helpArg;
+  process_.start (binary, processArguments_);
 }
 
 void OptionsWidget::finished()
 {
   QByteArray output = process_.readAllStandardOutput ();
   QString outputString = QString::fromUtf8 (output).trimmed ();
-  if (process_.arguments ().contains (versionArg))
+  if (processArguments_.contains (versionArg))
   {
     QString version = outputString.mid (outputString.indexOf (QLatin1Char (' ')) + 1);
     ui->binFileEdit->setToolTip (tr ("Version: ") + version);
   }
-  else if (process_.arguments ().contains (helpArg))
+  else if (processArguments_.contains (helpArg))
   {
     int startIndex = outputString.indexOf (QLatin1String ("Options:"));
     int endIndex = outputString.indexOf (QLatin1String ("Example usage:"));

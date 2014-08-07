@@ -22,6 +22,8 @@
 #include "Settings.h"
 #include "OptionsPage.h"
 #include "TaskInfo.h"
+#include <QDebug>
+#include <QFile>
 #include "CppcheckRunner.h"
 
 using namespace QtcCppcheck::Internal;
@@ -153,12 +155,17 @@ void QtcCppcheckPlugin::initLanguage()
   const QString& language = Core::ICore::userInterfaceLanguage();
   if (!language.isEmpty())
   {
-    QTranslator* translator = new QTranslator (this);
-    const QString& creatorTrPath = ICore::resourcePath () + QLatin1String ("/translations");
+    QStringList paths;
+    paths << ICore::resourcePath () << ICore::userResourcePath();
     const QString& trFile = QLatin1String ("QtcCppcheck_") + language;
-    if (translator->load (trFile, creatorTrPath))
+    QTranslator* translator = new QTranslator (this);
+    foreach (const QString& path, paths)
     {
-      qApp->installTranslator (translator);
+      if (translator->load (trFile, path + QLatin1String ("/translations")))
+      {
+        qApp->installTranslator (translator);
+        break;
+      }
     }
   }
 }

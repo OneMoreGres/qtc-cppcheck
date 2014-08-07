@@ -2,6 +2,9 @@
 #define QTCCPPCHECK_H
 
 #include "PluginGlobal.h"
+#include <QModelIndex>
+#include <QStringList>
+#include <QPointer>
 
 #include <extensionsystem/iplugin.h>
 
