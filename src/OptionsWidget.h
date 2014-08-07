@@ -42,8 +42,7 @@ namespace QtcCppcheck {
         Ui::OptionsWidget *ui;
         Settings* settings_;
         QProcess process_;
-        bool _isVersionReques;
-        bool _isHelpReques;
+        QStringList processArguments_; // Qt 4 compatibility
     };
 
   } // namespace Internal

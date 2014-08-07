@@ -16,9 +16,7 @@ namespace
 
 OptionsWidget::OptionsWidget(Settings *settings, QWidget *parent) :
   QWidget(parent),
-  ui(new Ui::OptionsWidget), settings_ (settings),
-  _isVersionReques(false),
-  _isHelpReques(false)
+  ui(new Ui::OptionsWidget), settings_ (settings)
 {
   Q_ASSERT (settings_ != NULL);
 
@@ -55,8 +53,8 @@ void OptionsWidget::getVersion()
   {
     return;
   }
-  _isVersionReques = true;
-  process_.start (QString (QLatin1String ("\"%1\" %2")).arg (binary, versionArg));
+  processArguments_ = QStringList () << versionArg;
+  process_.start (binary, processArguments_);
 }
 
 void OptionsWidget::getPossibleParams()
@@ -66,23 +64,21 @@ void OptionsWidget::getPossibleParams()
   {
     return;
   }
-  _isHelpReques = true;
-  process_.start (QString (QLatin1String ("\"%1\" %2")).arg (binary, helpArg));
+  processArguments_ = QStringList () << helpArg;
+  process_.start (binary, processArguments_);
 }
 
 void OptionsWidget::finished()
 {
   QByteArray output = process_.readAllStandardOutput ();
   QString outputString = QString::fromUtf8 (output).trimmed ();
-  if (_isVersionReques)
+  if (processArguments_.contains (versionArg))
   {
-    _isVersionReques = false;
     QString version = outputString.mid (outputString.indexOf (QLatin1Char (' ')) + 1);
     ui->binFileEdit->setToolTip (tr ("Version: ") + version);
   }
-  else if (_isHelpReques)
+  else if (processArguments_.contains (helpArg))
   {
-      _isHelpReques = false;
     int startIndex = outputString.indexOf (QLatin1String ("Options:"));
     int endIndex = outputString.indexOf (QLatin1String ("Example usage:"));
     if (startIndex >= endIndex)
