@@ -11,7 +11,7 @@ TaskInfo::TaskInfo() :
 }
 
 TaskInfo::TaskInfo(uint line, const QString &description) :
-  id_ (-1), line_ (line), description_ (description)
+  id_ (-1), description_ (description), line_ (line)
 {
 
 }

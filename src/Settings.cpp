@@ -10,8 +10,9 @@ using namespace QtcCppcheck::Internal;
 
 Settings::Settings(bool autoLoad) :
   checkOnBuild_ (false), checkOnSave_ (false),
+  checkOnProjectChange_ (false), checkOnFileAdd_ (false),
   checkUnused_ (false), checkInconclusive_ (false),
-  checkOnProjectChange_ (false), showBinaryOutput_ (false),
+  showBinaryOutput_ (false),
   popupOnError_ (false), popupOnWarning_ (false)
 {
   if (autoLoad)
