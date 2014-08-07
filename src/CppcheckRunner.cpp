@@ -52,20 +52,21 @@ void CppcheckRunner::updateSettings()
   Q_ASSERT (settings_ != NULL);
   showOutput_ = settings_->showBinaryOutput ();
   runArguments_.clear ();
+  runArguments_ << QLatin1String ("-q");
   // Pass custom params BEFORE most of runner's to shadow if some repeat.
   runArguments_ += settings_->customParameters ().split (QLatin1Char (' '));
-  runArguments_ << QLatin1String ("--enable=warning,style,performance,"
-                                  "portability,information,missingInclude");
-  runArguments_ << QLatin1String ("-q");
+  QString enabled = QLatin1String ("--enable=warning,style,performance,"
+                                   "portability,information,missingInclude");
   if (settings_->checkUnused ())
   {
-      runArguments_.first () += QLatin1String (",unusedFunction");
+      enabled += QLatin1String (",unusedFunction");
   }
   else //TODO always check with threads but rescan for unused after finish?
   {
     runArguments_ << (QLatin1String ("-j ") +
                       QString::number (QThread::idealThreadCount ()));
   }
+  runArguments_ << enabled;
   if (settings_->checkInconclusive ())
   {
     runArguments_ << QLatin1String ("--inconclusive");
