@@ -7,12 +7,10 @@ isEmpty(QTCREATOR_SOURCES):QTCREATOR_SOURCES=C:/Projects/qt-creator/$$QTCREATOR_
 ## set the QTC_BUILD environment variable to override the setting here
 IDE_BUILD_TREE = $$(QTC_BUILD)
 isEmpty(IDE_BUILD_TREE){
-  msvc{
-    IDE_BUILD_TREE=c:/Projects/qt-creator/$$QTCREATOR_VERSION/qtcreator-$$QT_VERSION-vc10
-    Release:IDE_BUILD_TREE+=release
+  Release {
+    IDE_BUILD_TREE=c:/Projects/qt-creator/$$QTCREATOR_VERSION/$$QT_VERSION-vc10-release
   }
-  else{
-    IDE_BUILD_TREE=c:/Projects/qt-creator/$$QTCREATOR_VERSION/qtcreator-$$QT_VERSION
-    Release:IDE_BUILD_TREE+=release
+  Debug {
+    IDE_BUILD_TREE=c:/Projects/qt-creator/$$QTCREATOR_VERSION/$$QT_VERSION-vc10-debug
   }
 }
