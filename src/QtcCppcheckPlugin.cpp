@@ -22,8 +22,6 @@
 #include "Settings.h"
 #include "OptionsPage.h"
 #include "TaskInfo.h"
-#include <QDebug>
-#include <QFile>
 #include "CppcheckRunner.h"
 
 using namespace QtcCppcheck::Internal;
