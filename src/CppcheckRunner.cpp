@@ -54,9 +54,19 @@ void CppcheckRunner::updateSettings()
   runArguments_.clear ();
   runArguments_ << QLatin1String ("-q");
   // Pass custom params BEFORE most of runner's to shadow if some repeat.
-  runArguments_ += settings_->customParameters ().split (QLatin1Char (' '));
+  runArguments_ += settings_->customParameters ().split (
+                     QLatin1Char (' '), QString::SkipEmptyParts);
   QString enabled = QLatin1String ("--enable=warning,style,performance,"
                                    "portability,information,missingInclude");
+  // Overwrite enable with user parameters if present
+  for(int i = runArguments_.size () - 1; i >= 0; --i)
+  {
+    if (runArguments_.at (i).startsWith (QLatin1String ("--enable")))
+    {
+      enabled = runArguments_.takeAt (i);
+      break;
+    }
+  }
   if (settings_->checkUnused ())
   {
       enabled += QLatin1String (",unusedFunction");
