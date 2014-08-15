@@ -69,7 +69,7 @@ void CppcheckRunner::updateSettings()
   }
   if (settings_->checkUnused ())
   {
-      enabled += QLatin1String (",unusedFunction");
+    enabled += QLatin1String (",unusedFunction");
   }
   else //TODO always check with threads but rescan for unused after finish?
   {
