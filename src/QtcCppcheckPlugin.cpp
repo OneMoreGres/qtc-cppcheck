@@ -140,10 +140,10 @@ void QtcCppcheckPlugin::initConnections()
            SLOT (handleBuildStateChange (ProjectExplorer::Project *)));
 
   // Open documents auto check.
-  connect (EditorManager::documentModel (),
+  connect (DocumentModel::model (),
            SIGNAL (dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)),
            SLOT (handleDocumentsChange(const QModelIndex &, const QModelIndex &, const QVector<int> &)));
-  connect (EditorManager::documentModel (),
+  connect (DocumentModel::model (),
            SIGNAL (rowsAboutToBeRemoved(const QModelIndex &, int, int)),
            SLOT (handleDocumentsClose(const QModelIndex &, int, int)));
 }
@@ -355,12 +355,10 @@ void QtcCppcheckPlugin::handleDocumentsClose(const QModelIndex &parent,
 void QtcCppcheckPlugin::checkActiveProjectDocuments(int beginRow, int endRow,
                                                     bool modifiedFlag)
 {
-  DocumentModel* model = EditorManager::documentModel ();
-  Q_ASSERT (model != NULL);
   QStringList filesToCheck;
   for (int row = beginRow; row <= endRow; ++row)
   {
-    DocumentModel::Entry* entry = model->documentAtRow (row);
+    DocumentModel::Entry* entry = DocumentModel::entryAtRow (row);
     if (entry == NULL)
     {
       continue;
