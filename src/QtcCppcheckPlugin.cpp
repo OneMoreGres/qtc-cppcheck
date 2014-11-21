@@ -31,11 +31,19 @@ using namespace Core;
 
 namespace
 {
+  bool isQbsProject (const Node *node)
+  {
+    QString projectPath = node->projectNode ()->path ();
+    return projectPath.endsWith (QLatin1String (".qbs"), Qt::CaseInsensitive);
+  }
+
   //! Check if node with given type should me checked.
   bool isFileNodeCheckable (const FileNode* node)
   {
-    return (!node->isGenerated () &&
-            (node->fileType ()== SourceType || node->fileType () == HeaderType));
+    bool isTypeCorrect = (node->fileType ()== SourceType ||
+                          node->fileType () == HeaderType);
+    bool isQbsFile = (isQbsProject (node) && node->fileType () == UnknownFileType);
+    return (!node->isGenerated () && (isTypeCorrect || isQbsFile));
   }
 }
 
