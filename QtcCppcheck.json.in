@@ -1,0 +1,13 @@
+{
+    \"Name\" : \"QtcCppcheck\",
+    \"Version\" : \"$$QTCREATOR_VERSION\",
+    \"CompatVersion\" : \"$$QTCREATOR_COMPAT_VERSION\",
+    \"Experimental\" : true,
+    \"Category\": \"Code Analyzer\",
+    \"Vendor\" : \"Gres\",
+    \"Copyright\" : \"(C) Gres\",
+    \"License\" : \"MIT license\",
+    \"Description\" : \"Integrates Cppcheck tool into Qt Creator\",
+    \"Url\" : \"http://gres.biz/qtc-cppcheck\",
+    $$dependencyList
+}

@@ -453,6 +453,3 @@ void QtcCppcheckPlugin::updateSettings()
   Q_ASSERT (runner_ != NULL);
   runner_->updateSettings ();
 }
-
-Q_EXPORT_PLUGIN2(QtcCppcheck, QtcCppcheckPlugin)
-

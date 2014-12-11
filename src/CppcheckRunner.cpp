@@ -174,7 +174,7 @@ void CppcheckRunner::readError()
     }
     QString file = QDir::fromNativeSeparators(details.at (ErrorFieldFile));
     int lineNumber = details.at (ErrorFieldLine).toInt ();
-    char type = details.at (ErrorFieldSeverity).at (0).toAscii ();
+    char type = details.at (ErrorFieldSeverity).at (0).toLatin1 ();
     QString description = line.mid (line.indexOf (details.at (ErrorFieldMessage)));
     emit newTask (type, description, file, lineNumber);
   }
