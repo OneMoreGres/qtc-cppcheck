@@ -350,14 +350,20 @@ void QtcCppcheckPlugin::handleDocumentsChange(const QModelIndex &topLeft,
                                               const QVector<int> &roles)
 {
   Q_UNUSED (roles);
-  checkActiveProjectDocuments (topLeft.row (), bottomRight.row (), false);
+  if (settings_->checkOnSave())
+  {
+    checkActiveProjectDocuments (topLeft.row (), bottomRight.row (), false);
+  }
 }
 
 void QtcCppcheckPlugin::handleDocumentsClose(const QModelIndex &parent,
                                              int start, int end)
 {
   Q_UNUSED (parent);
-  checkActiveProjectDocuments (start, end, true); // Documents were modified before remove.
+  if (settings_->checkOnSave())
+  {
+    checkActiveProjectDocuments (start, end, true); // Documents were modified before remove.
+  }
 }
 
 void QtcCppcheckPlugin::checkActiveProjectDocuments(int beginRow, int endRow,
