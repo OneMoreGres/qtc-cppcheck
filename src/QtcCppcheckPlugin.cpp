@@ -281,7 +281,7 @@ void QtcCppcheckPlugin::handleStartupProjectChange(Project *project)
   activeProject_ = project;
   handleProjectFileListChanged ();
   Q_ASSERT (runner_ != NULL);
-  runner_->stopCheckhig ();
+  runner_->stopChecking ();
   if (project == NULL)
   {
     return;
@@ -329,7 +329,7 @@ void QtcCppcheckPlugin::handleSessionUnload()
 {
   clearTasksForFiles ();
   Q_ASSERT (runner_ != NULL);
-  runner_->stopCheckhig ();
+  runner_->stopChecking ();
 }
 
 void QtcCppcheckPlugin::handleBuildStateChange(Project *project)

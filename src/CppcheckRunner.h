@@ -25,7 +25,7 @@ namespace QtcCppcheck {
         void checkFiles (const QStringList& fileNames);
 
         //! Stop check progress if running and clear check queue.
-        void stopCheckhig ();
+        void stopChecking ();
 
         //! Update data based on current settings_.
         void updateSettings ();

@@ -107,7 +107,7 @@ void CppcheckRunner::checkFiles(const QStringList &fileNames)
   }
 }
 
-void CppcheckRunner::stopCheckhig()
+void CppcheckRunner::stopChecking()
 {
   fileCheckQueue_.clear ();
   if (process_.isOpen ())
