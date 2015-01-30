@@ -317,7 +317,10 @@ void QtcCppcheckPlugin::handleProjectFileListChanged()
     }
     addedFiles << file;
   }
-  clearTasksForFiles (oldFiles); // Removed files.
+  if (!oldFiles.isEmpty())
+  {
+    clearTasksForFiles (oldFiles); // Removed files.
+  }
 
   if (settings_->checkOnFileAdd ())
   {
