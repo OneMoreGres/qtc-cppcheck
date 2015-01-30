@@ -30,6 +30,7 @@ void Settings::save()
   settings.setValue (QLatin1String (SETTINGS_CHECK_ON_BUILD), checkOnBuild_);
   settings.setValue (QLatin1String (SETTINGS_CHECK_ON_SAVE), checkOnSave_);
   settings.setValue (QLatin1String (SETTINGS_CHECK_ON_PROJECT_CHANGE), checkOnProjectChange_);
+  settings.setValue (QLatin1String (SETTINGS_CHECK_ON_FILE_ADD), checkOnFileAdd_);
   settings.setValue (QLatin1String (SETTINGS_CHECK_UNUSED), checkUnused_);
   settings.setValue (QLatin1String (SETTINGS_CHECK_INCONCLUSIVE), checkInconclusive_);
   settings.setValue (QLatin1String (SETTINGS_CUSTOM_PARAMS), customParameters_);
@@ -52,6 +53,8 @@ void Settings::load()
                                  false).toBool ();
   checkOnProjectChange_ = settings.value (QLatin1String (SETTINGS_CHECK_ON_PROJECT_CHANGE),
                                           false).toBool ();
+  checkOnFileAdd_ = settings.value (QLatin1String (SETTINGS_CHECK_ON_FILE_ADD),
+                                    false).toBool ();
   checkUnused_ = settings.value (QLatin1String (SETTINGS_CHECK_UNUSED),
                                  false).toBool ();
   checkInconclusive_ = settings.value (QLatin1String (SETTINGS_CHECK_INCONCLUSIVE),
