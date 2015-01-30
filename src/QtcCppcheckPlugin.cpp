@@ -133,6 +133,8 @@ void QtcCppcheckPlugin::initConnections()
 {
   connect (runner_, SIGNAL (newTask (char, const QString &, const QString&, int)),
            SLOT (addTask (char, const QString &, const QString&, int)));
+  connect (runner_, SIGNAL (startedChecking (const QStringList&)),
+           SLOT (clearTasksForFiles (const QStringList&)));
 
   connect (SessionManager::instance (),
            SIGNAL (aboutToUnloadSession(QString)),
@@ -195,7 +197,6 @@ void QtcCppcheckPlugin::checkFiles(const QStringList &fileNames)
 {
   Q_ASSERT (runner_ != NULL);
   Q_ASSERT (!fileNames.isEmpty ());
-  clearTasksForFiles (fileNames);
   runner_->checkFiles (fileNames);
 }
 

@@ -128,6 +128,7 @@ void CppcheckRunner::checkQueuedFiles()
   arguments += fileCheckQueue_;
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
+  emit startedChecking (currentlyCheckingFiles_);
   process_.start (binary, arguments);
 }
 

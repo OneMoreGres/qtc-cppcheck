@@ -34,6 +34,8 @@ namespace QtcCppcheck {
         //! New task has been generated.
         void newTask (char type, const QString &description,
                       const QString& fileName, int line);
+        //! Inform about starting checking specified files.
+        void startedChecking (const QStringList& files);
 
       private slots:
         //! Check files from queue.
