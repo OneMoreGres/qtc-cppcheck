@@ -1,5 +1,7 @@
 DEFINES += QTCCPPCHECK_LIBRARY
 
+VERSION_SUFFIX = "_1"
+
 include(paths.pri)
 
 # QtcCppcheck files

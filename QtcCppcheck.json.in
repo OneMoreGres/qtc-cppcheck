@@ -1,6 +1,6 @@
 {
     \"Name\" : \"QtcCppcheck\",
-    \"Version\" : \"$$QTCREATOR_VERSION\",
+    \"Version\" : \"$$QTCREATOR_VERSION$$VERSION_SUFFIX\",
     \"CompatVersion\" : \"$$QTCREATOR_COMPAT_VERSION\",
     \"Experimental\" : true,
     \"Category\": \"Code Analyzer\",
