@@ -1,6 +1,6 @@
 DEFINES += QTCCPPCHECK_LIBRARY
 
-VERSION_SUFFIX = "_1"
+VERSION_SUFFIX = ""
 
 include(paths.pri)
 
