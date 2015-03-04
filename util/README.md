@@ -1,4 +1,7 @@
 # Changelog
+## v 3.3.0
+- Always check selected node from project explorer.
+- Hardcoded supported extensions. Now works similar for all project types.
 ## v 3.3.0_1
 - Fixed bug that caused possible deletion of old issues after adding new file to project.
 - Fixed bug that caused option "Check on file add" not being saved.
