@@ -85,7 +85,7 @@ namespace QtcCppcheck {
         void initLanguage ();
 
         //! Get checkable files for given node.
-        QStringList checkableFiles (const ProjectExplorer::Node* node) const;
+        QStringList checkableFiles (const ProjectExplorer::Node* node, bool forceSelected = false) const;
 
         //! Check given ProjectExplorer::Node.
         void checkNode (const ProjectExplorer::Node* node);

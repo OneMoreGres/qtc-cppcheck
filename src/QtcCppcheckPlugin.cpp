@@ -231,14 +231,14 @@ void QtcCppcheckPlugin::checkCurrentNode()
     return;
   }
 
-  QStringList files = checkableFiles (node);
+  QStringList files = checkableFiles (node, true);
   if (!files.isEmpty ())
   {
     checkFiles (files);
   }
 }
 
-QStringList QtcCppcheckPlugin::checkableFiles(const Node *node) const
+QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelected) const
 {
   QStringList files;
   switch (node->nodeType ())
@@ -246,7 +246,7 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node) const
     case FileNodeType:
     {
       const FileNode* file = (const FileNode*) node;
-      if (isFileNodeCheckable (file))
+      if (forceSelected || isFileNodeCheckable (file))
       {
         files << file->path ();
       }
@@ -260,11 +260,11 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node) const
       const FolderNode* folder = (const FolderNode*) node;
       foreach (const FolderNode* subfolder, folder->subFolderNodes ())
       {
-        files += checkableFiles (subfolder);
+        files += checkableFiles (subfolder, false); // force only selected, not its children
       }
       foreach (const FileNode* file, folder->fileNodes ())
       {
-        files += checkableFiles (file);
+        files += checkableFiles (file, false); // force only selected, not its children
       }
     }
       break;
