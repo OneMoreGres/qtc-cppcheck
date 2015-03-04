@@ -1,5 +1,5 @@
 # Changelog
-## v 3.3.0
+## v 3.3.1
 - Always check selected node from project explorer.
 - Hardcoded supported extensions. Now works similar for all project types.
 ## v 3.3.0_1
