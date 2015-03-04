@@ -31,19 +31,23 @@ using namespace Core;
 
 namespace
 {
-  bool isQbsProject (const Node *node)
-  {
-    QString projectPath = node->projectNode ()->path ();
-    return projectPath.endsWith (QLatin1String (".qbs"), Qt::CaseInsensitive);
+  QStringList supportedExtensions () {
+    QStringList extensions;
+    extensions << QLatin1String("cpp") << QLatin1String("cxx") << QLatin1String("cc")
+              << QLatin1String("c") << QLatin1String("c++") << QLatin1String("txx")
+              << QLatin1String("tpp")
+              << QLatin1String("h") << QLatin1String("hh") << QLatin1String("hpp")
+              << QLatin1String("h++") << QLatin1String("hxx");
+    return extensions;
   }
 
   //! Check if node with given type should me checked.
   bool isFileNodeCheckable (const FileNode* node)
   {
-    bool isTypeCorrect = (node->fileType ()== SourceType ||
-                          node->fileType () == HeaderType);
-    bool isQbsFile = (isQbsProject (node) && node->fileType () == UnknownFileType);
-    return (!node->isGenerated () && (isTypeCorrect || isQbsFile));
+    static QStringList extensions = supportedExtensions ();
+    QFileInfo info (node->path());
+    QString extension = info.completeSuffix ();
+    return (extensions.contains (extension));
   }
 }
 
