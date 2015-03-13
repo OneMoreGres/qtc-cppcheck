@@ -4,6 +4,8 @@
 #include <QProcess>
 #include <QTimer>
 
+#include <QFuture>
+
 namespace QtcCppcheck {
   namespace Internal {
 
@@ -24,11 +26,12 @@ namespace QtcCppcheck {
         //! Add files to check queue.
         void checkFiles (const QStringList& fileNames);
 
-        //! Stop check progress if running and clear check queue.
-        void stopChecking ();
-
         //! Update data based on current settings_.
         void updateSettings ();
+
+      public slots:
+        //! Stop check progress if running and clear check queue.
+        void stopChecking ();
 
       signals:
         //! New task has been generated.
@@ -63,6 +66,8 @@ namespace QtcCppcheck {
         QStringList currentlyCheckingFiles_;
         //! Should print process' output to MessageManager or not.
         bool showOutput_;
+        //! Interface to inform about checking.
+        QFutureInterface<void> *futureInterface_;
     };
 
   } // namespace Internal
