@@ -5,8 +5,11 @@
 #include <QThread>
 
 #include <coreplugin/messagemanager.h>
+#include <coreplugin/progressmanager/progressmanager.h>
+#include <coreplugin/progressmanager/futureprogress.h>
 
 #include "CppcheckRunner.h"
+#include "Constants.h"
 #include "Settings.h"
 
 using namespace QtcCppcheck::Internal;
@@ -21,7 +24,7 @@ namespace
 }
 
 CppcheckRunner::CppcheckRunner(Settings *settings, QObject *parent) :
-  QObject(parent), settings_ (settings), showOutput_ (false)
+  QObject(parent), settings_ (settings), showOutput_ (false), futureInterface_ (NULL)
 {
   Q_ASSERT (settings_ != NULL);
 
@@ -45,6 +48,7 @@ CppcheckRunner::~CppcheckRunner()
 {
   queueTimer_.stop ();
   settings_ = NULL;
+  delete futureInterface_;
 }
 
 void CppcheckRunner::updateSettings()
@@ -187,6 +191,15 @@ void CppcheckRunner::started()
   {
     Core::MessageManager::write (tr ("Cppcheck started"), Core::MessageManager::Silent);
   }
+
+  using namespace Core;
+  delete futureInterface_;
+  futureInterface_ = new QFutureInterface<void>;
+  FutureProgress *progress = ProgressManager::addTask(futureInterface_->future(),
+                                                      tr("Cppcheck"), Constants::TASK_CHECKING);
+  connect (progress, SIGNAL(canceled ()), SLOT(stopChecking ()));
+  futureInterface_->setProgressRange(0, 1); // To enable cancel action in progress
+  futureInterface_->reportStarted();
 }
 
 void CppcheckRunner::error(QProcess::ProcessError error)
@@ -202,6 +215,8 @@ void CppcheckRunner::finished(int exitCode, QProcess::ExitStatus exitStatus)
 {
   Q_UNUSED (exitCode);
   Q_UNUSED (exitStatus);
+  Q_ASSERT (futureInterface_ != NULL);
+  futureInterface_->reportFinished ();
   process_.close ();
   if (showOutput_)
   {

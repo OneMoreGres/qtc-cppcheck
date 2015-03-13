@@ -4,6 +4,8 @@
 #include <QProcess>
 #include <QTimer>
 
+#include <QFuture>
+
 namespace QtcCppcheck {
   namespace Internal {
 
@@ -64,6 +66,8 @@ namespace QtcCppcheck {
         QStringList currentlyCheckingFiles_;
         //! Should print process' output to MessageManager or not.
         bool showOutput_;
+        //! Interface to inform about checking.
+        QFutureInterface<void> *futureInterface_;
     };
 
   } // namespace Internal
