@@ -24,6 +24,8 @@ namespace QtcCppcheck {
     const char TASK_CATEGORY_ID[] = "QtcCppcheck.TaskCategory";
     const char TASK_CATEGORY_NAME[] = "Cppcheck";
 
+    const char TASK_CHECKING[] = "Cppcheck.Task.Checking";
+
     const char MENU_ID[] = "Cppcheck.Menu";
     const char ACTION_CHECK_NODE_ID[] = "Cppcheck.CheckCurrentNode";
     const char ACTION_CHECK_PROJECT_ID[] = "Cppcheck.CheckActiveProject";
