@@ -24,11 +24,12 @@ namespace QtcCppcheck {
         //! Add files to check queue.
         void checkFiles (const QStringList& fileNames);
 
-        //! Stop check progress if running and clear check queue.
-        void stopChecking ();
-
         //! Update data based on current settings_.
         void updateSettings ();
+
+      public slots:
+        //! Stop check progress if running and clear check queue.
+        void stopChecking ();
 
       signals:
         //! New task has been generated.
