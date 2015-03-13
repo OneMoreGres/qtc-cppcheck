@@ -60,7 +60,6 @@ void CppcheckRunner::updateSettings()
   Q_ASSERT (settings_ != NULL);
   showOutput_ = settings_->showBinaryOutput ();
   runArguments_.clear ();
-  runArguments_ << QLatin1String ("-q");
   // Pass custom params BEFORE most of runner's to shadow if some repeat.
   runArguments_ += settings_->customParameters ().split (
                      QLatin1Char (' '), QString::SkipEmptyParts);
@@ -156,6 +155,14 @@ void CppcheckRunner::readOutput()
     {
       continue;
     }
+    const QString progressSample = QLatin1String ("% done");
+    if (line.endsWith (progressSample))
+    {
+      int percentEndIndex = line.length () - progressSample.length ();
+      int percentStartIndex = line.lastIndexOf(QLatin1String (" "), percentEndIndex);
+      int done = line.mid (percentStartIndex, percentEndIndex - percentStartIndex).toInt ();
+      futureInterface_->setProgressValue (done);
+    }
     Core::MessageManager::write (line, Core::MessageManager::Silent);
   }
 }
@@ -202,7 +209,7 @@ void CppcheckRunner::started()
   FutureProgress *progress = ProgressManager::addTask(futureInterface_->future(),
                                                       tr("Cppcheck"), Constants::TASK_CHECKING);
   connect (progress, SIGNAL(canceled ()), SLOT(stopChecking ()));
-  futureInterface_->setProgressRange(0, 1); // To enable cancel action in progress
+  futureInterface_->setProgressRange(0, 100); // %
   futureInterface_->reportStarted();
 }
 
