@@ -46,6 +46,10 @@ CppcheckRunner::CppcheckRunner(Settings *settings, QObject *parent) :
 
 CppcheckRunner::~CppcheckRunner()
 {
+  if (process_.isOpen())
+  {
+    process_.kill();
+  }
   queueTimer_.stop ();
   settings_ = NULL;
   delete futureInterface_;
