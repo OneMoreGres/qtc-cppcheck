@@ -21,6 +21,22 @@ namespace
     ErrorFieldFile = 0, ErrorFieldLine, ErrorFieldSeverity, ErrorFieldId,
     ErrorFieldMessage
   };
+
+  QStringList includePaths (const QStringList& files)
+  {
+    QStringList paths;
+    foreach (const QString& file, files)
+    {
+      QFileInfo info (file);
+      QString current = QString (QLatin1String("-I")) + info.absolutePath ();
+      if (!paths.contains(current))
+      {
+        paths << current;
+      }
+    }
+    return paths;
+  }
+
 }
 
 CppcheckRunner::CppcheckRunner(Settings *settings, QObject *parent) :
@@ -132,6 +148,7 @@ void CppcheckRunner::checkQueuedFiles()
   QString binary = settings_->binaryFile ();
   Q_ASSERT (!binary.isEmpty ());
   QStringList arguments (runArguments_);
+  arguments += includePaths (fileCheckQueue_);
   arguments += fileCheckQueue_;
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
