@@ -146,7 +146,10 @@ void CppcheckRunner::checkQueuedFiles()
     return;
   }
   QString binary = settings_->binaryFile ();
-  Q_ASSERT (!binary.isEmpty ());
+  if (binary.isEmpty ())
+  {
+    return;
+  }
   QStringList arguments (runArguments_);
   arguments += includePaths (fileCheckQueue_);
   arguments += fileCheckQueue_;
@@ -173,7 +176,8 @@ void CppcheckRunner::readOutput()
       continue;
     }
     const QString progressSample = QLatin1String ("% done");
-    if (line.endsWith (progressSample))
+    // check futureInterface because read can be triggered before started..
+    if (line.endsWith (progressSample) && futureInterface_ != NULL)
     {
       int percentEndIndex = line.length () - progressSample.length ();
       int percentStartIndex = line.lastIndexOf(QLatin1String (" "), percentEndIndex);

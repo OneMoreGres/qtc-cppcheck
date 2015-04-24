@@ -1,4 +1,8 @@
 # Changelog
+## v 3.4.0
+- QTC version update
+- Improved support of relative includes
+- Added progress bar/dialog
 ## v 3.3.1
 - Always check selected node from project explorer.
 - Hardcoded supported extensions. Now works similar for all project types.
