@@ -77,22 +77,27 @@
 <context>
     <name>QtcCppcheck::Internal::CppcheckRunner</name>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="139"/>
+        <location filename="../src/CppcheckRunner.cpp" line="262"/>
         <source>Cppcheck</source>
         <translation>Cppcheck</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="198"/>
+        <location filename="../src/CppcheckRunner.cpp" line="255"/>
         <source>Cppcheck started</source>
         <translation>Cppcheck запущен</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="207"/>
+        <location filename="../src/CppcheckRunner.cpp" line="181"/>
+        <source>Failed to write cppcheck&apos;s argument files</source>
+        <translation>Не удалось записать файлы с параметрами запуска cppcheck</translation>
+    </message>
+    <message>
+        <location filename="../src/CppcheckRunner.cpp" line="273"/>
         <source>Cppcheck error occured</source>
         <translation>Cppcheck ошибка программы</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="219"/>
+        <location filename="../src/CppcheckRunner.cpp" line="286"/>
         <source>Cppcheck finished</source>
         <translation>Cppcheck завершил проверку</translation>
     </message>
@@ -116,32 +121,32 @@
 <context>
     <name>QtcCppcheck::Internal::QtcCppcheckPlugin</name>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="100"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="103"/>
         <source>Scan with cppcheck</source>
         <translation>Проверить Cppcheck</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="114"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="117"/>
         <source>Check current project</source>
         <translation>Проверить активный проект</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="118"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="121"/>
         <source>Alt+C,Ctrl+A</source>
         <translation>Alt+C,Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="121"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="124"/>
         <source>Check current document</source>
         <translation>Проверить активный документ</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="125"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="128"/>
         <source>Alt+C,Ctrl+D</source>
         <translation>Alt+C,Ctrl+D</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="130"/>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="133"/>
         <source>Cppcheck</source>
         <translation>Cppcheck</translation>
     </message>

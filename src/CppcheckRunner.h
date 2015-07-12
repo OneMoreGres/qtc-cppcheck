@@ -3,6 +3,7 @@
 
 #include <QProcess>
 #include <QTimer>
+#include <QTemporaryFile>
 
 #include <QFuture>
 
@@ -68,6 +69,14 @@ namespace QtcCppcheck {
         bool showOutput_;
         //! Interface to inform about checking.
         QFutureInterface<void> *futureInterface_;
+        //! Max summary arguments length.
+        int maxArgumentsLength_;
+        //! Current file names in fileListFile_.
+        QStringList fileListFileContents_;
+        //! File that contains files to check (if there are too much run args).
+        QTemporaryFile fileListFile_;
+        //! File that contains include paths list (if there are too much run args).
+        QTemporaryFile includeListFile_;
     };
 
   } // namespace Internal

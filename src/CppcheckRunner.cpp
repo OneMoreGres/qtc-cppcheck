@@ -40,8 +40,18 @@ namespace
 }
 
 CppcheckRunner::CppcheckRunner(Settings *settings, QObject *parent) :
-  QObject(parent), settings_ (settings), showOutput_ (false), futureInterface_ (NULL)
+  QObject(parent), settings_ (settings), showOutput_ (false), futureInterface_ (NULL),
+  maxArgumentsLength_ (0)
 {
+#ifdef __linux__
+  QProcess getConf;
+  getConf.start (QLatin1String("getconf ARG_MAX"));
+  getConf.waitForFinished (2000);
+  QByteArray argMax = getConf.readAllStandardOutput ().replace ("\n", "");
+  maxArgumentsLength_ = std::max (argMax.toInt (), 32000);
+#else
+  maxArgumentsLength_ = 32767;
+#endif
   Q_ASSERT (settings_ != NULL);
 
   connect (&process_, SIGNAL (readyReadStandardOutput()),
@@ -151,10 +161,31 @@ void CppcheckRunner::checkQueuedFiles()
     return;
   }
   QStringList arguments (runArguments_);
-  arguments += includePaths (fileCheckQueue_);
+  QStringList includes = includePaths (fileCheckQueue_);
+  arguments += includes;
   arguments += fileCheckQueue_;
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
+
+  int argumentLength = arguments.join (QLatin1Literal (" ")).length ();
+  if (argumentLength >= maxArgumentsLength_) {
+    if (fileListFileContents_ != currentlyCheckingFiles_) {
+      fileListFileContents_ = currentlyCheckingFiles_;
+      if (fileListFile_.open () && includeListFile_.open ()){
+        QByteArray filesArg = fileListFileContents_.join (QLatin1String ("\n")).toLocal8Bit ();
+        fileListFile_.write (filesArg);
+        QByteArray includesArg = includes.join (QLatin1String ("\n")).toLocal8Bit ();
+        includeListFile_.write (includesArg);
+      }
+      else {
+        Core::MessageManager::write (tr ("Failed to write cppcheck's argument files"), Core::MessageManager::Silent);
+        return;
+      }
+    }
+    arguments = runArguments_;
+    arguments << QString (QLatin1String("--file-list=%1")).arg (fileListFile_.fileName ());
+    arguments << QString (QLatin1String("--includes-file=%1")).arg (includeListFile_.fileName ());
+  }
   emit startedChecking (currentlyCheckingFiles_);
   process_.start (binary, arguments);
 }
