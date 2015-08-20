@@ -272,6 +272,10 @@ void CppcheckRunner::error(QProcess::ProcessError error)
   {
     Core::MessageManager::write (tr ("Cppcheck error occured"), Core::MessageManager::Silent);
   }
+  if (error == QProcess::FailedToStart)
+  {
+    finished (-1, QProcess::CrashExit);
+  }
 }
 
 void CppcheckRunner::finished(int exitCode, QProcess::ExitStatus exitStatus)
