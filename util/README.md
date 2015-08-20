@@ -1,4 +1,7 @@
 # Changelog
+## v 3.5.0
+- QTC version update
+- Fixed issue with wrong binary setup
 ## v 3.4.0
 - QTC version update
 - Improved support of relative includes
