@@ -1,4 +1,5 @@
 #include <QPointer>
+#include <QCoreApplication>
 
 #include "OptionsPage.h"
 #include "OptionsWidget.h"
@@ -13,6 +14,7 @@ OptionsPage::OptionsPage(Settings *settings, QObject *parent) :
   setId (Constants::OPTIONS_PAGE_ID);
   setDisplayName (tr ("QtcCppcheck"));
   setCategory(Constants::OPTIONS_CATEGORY_ID);
+  setDisplayCategory(QCoreApplication::translate("Analyzer", "Analyzer"));
   setCategoryIcon(QLatin1String (Constants::OPTIONS_CATEGORY_ICON));
 
   keyWords_ << QLatin1String ("cppcheck");
