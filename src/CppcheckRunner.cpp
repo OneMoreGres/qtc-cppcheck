@@ -282,8 +282,10 @@ void CppcheckRunner::finished(int exitCode, QProcess::ExitStatus exitStatus)
 {
   Q_UNUSED (exitCode);
   Q_UNUSED (exitStatus);
-  Q_ASSERT (futureInterface_ != NULL);
-  futureInterface_->reportFinished ();
+  if (futureInterface_ != NULL)
+  {
+    futureInterface_->reportFinished ();
+  }
   process_.close ();
   if (showOutput_)
   {
