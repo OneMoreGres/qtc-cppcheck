@@ -87,6 +87,7 @@ void OptionsWidget::finished()
     }
     QString options = outputString.mid (startIndex, endIndex - startIndex);
     QTextEdit* editor = new QTextEdit;
+    editor->setAttribute (Qt::WA_ShowModal);
     editor->setAttribute (Qt::WA_DeleteOnClose);
     editor->setReadOnly (false);
     editor->setText (options);
