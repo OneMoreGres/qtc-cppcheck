@@ -1,4 +1,6 @@
 # Changelog
+## v 3.6.0
+- QTC version update
 ## v 3.5.0
 - QTC version update
 - Fixed issue with wrong binary setup
