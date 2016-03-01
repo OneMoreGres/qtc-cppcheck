@@ -48,7 +48,7 @@ namespace
   bool isFileNodeCheckable (const FileNode* node)
   {
     static QStringList extensions = supportedExtensions ();
-    QFileInfo info (node->path().toString());
+    QFileInfo info (node->filePath().toString());
     QString extension = info.completeSuffix ();
     return (extensions.contains (extension));
   }
@@ -251,7 +251,7 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelect
       const FileNode* file = (const FileNode*) node;
       if (forceSelected || isFileNodeCheckable (file))
       {
-        files << file->path().toString();
+        files << file->filePath().toString();
       }
     }
       break;
