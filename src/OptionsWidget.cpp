@@ -2,6 +2,8 @@
 #include <QTextStream>
 #include <QTextEdit>
 
+#include <coreplugin/variablechooser.h>
+
 #include "OptionsWidget.h"
 #include "ui_OptionsWidget.h"
 #include "Settings.h"
@@ -21,6 +23,9 @@ OptionsWidget::OptionsWidget(Settings *settings, QWidget *parent) :
   Q_ASSERT (settings_ != NULL);
 
   ui->setupUi(this);
+
+  auto chooser = new Core::VariableChooser(this);
+  chooser->addSupportedWidget(ui->customParametersEdit);
 
   connect (ui->binSelectButton, SIGNAL (clicked ()), SLOT (selectBinaryFile ()));
   connect (ui->getHelpButton, SIGNAL (clicked ()), SLOT (getPossibleParams ()));

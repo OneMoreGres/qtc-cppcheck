@@ -1,4 +1,6 @@
 # Changelog
+## v 4.0.0
+- Added support of variables in custom parameters.
 ## v 3.6.0
 - QTC version update
 ## v 3.5.0

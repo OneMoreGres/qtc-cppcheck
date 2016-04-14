@@ -7,6 +7,7 @@
 #include <coreplugin/messagemanager.h>
 #include <coreplugin/progressmanager/progressmanager.h>
 #include <coreplugin/progressmanager/futureprogress.h>
+#include <utils/macroexpander.h>
 
 #include "CppcheckRunner.h"
 #include "Constants.h"
@@ -86,9 +87,6 @@ void CppcheckRunner::updateSettings()
   Q_ASSERT (settings_ != NULL);
   showOutput_ = settings_->showBinaryOutput ();
   runArguments_.clear ();
-  // Pass custom params BEFORE most of runner's to shadow if some repeat.
-  runArguments_ += settings_->customParameters ().split (
-                     QLatin1Char (' '), QString::SkipEmptyParts);
   QString enabled = QLatin1String ("--enable=warning,style,performance,"
                                    "portability,information,missingInclude");
   // Overwrite enable with user parameters if present
@@ -160,7 +158,12 @@ void CppcheckRunner::checkQueuedFiles()
   {
     return;
   }
-  QStringList arguments (runArguments_);
+  // Pass custom params BEFORE most of runner's to shadow if some repeat.
+  auto expander = Utils::globalMacroExpander();
+  auto expanded = expander->expand (settings_->customParameters ());
+  QStringList arguments (expanded.split (QLatin1Char (' '), QString::SkipEmptyParts));
+  arguments += runArguments_;
+
   QStringList includes = includePaths (fileCheckQueue_);
   arguments += includes;
   arguments += fileCheckQueue_;
