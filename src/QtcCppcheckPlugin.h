@@ -87,6 +87,8 @@ namespace QtcCppcheck {
         //! Get checkable files for given node.
         QStringList checkableFiles (const ProjectExplorer::Node* node, bool forceSelected = false) const;
 
+        void updateProjectFileList ();
+
         //! Check given ProjectExplorer::Node.
         void checkNode (const ProjectExplorer::Node* node);
         //! Check given files. Terminate current check if forced is true.

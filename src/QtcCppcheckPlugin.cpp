@@ -220,6 +220,10 @@ void QtcCppcheckPlugin::checkCurrentDocument()
 
 void QtcCppcheckPlugin::checkActiveProject()
 {
+  if (projectFileList_.isEmpty ())
+  {
+    updateProjectFileList ();
+  }
   if (!projectFileList_.isEmpty ())
   {
     checkFiles (projectFileList_);
@@ -278,6 +282,15 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelect
   return files;
 }
 
+void QtcCppcheckPlugin::updateProjectFileList()
+{
+  if (activeProject_)
+  {
+    Q_ASSERT (activeProject_->rootProjectNode () != NULL);
+    projectFileList_ = checkableFiles (activeProject_->rootProjectNode ());
+  }
+}
+
 void QtcCppcheckPlugin::handleStartupProjectChange(Project *project)
 {
   if (!activeProject_.isNull ())
@@ -312,8 +325,7 @@ void QtcCppcheckPlugin::handleProjectFileListChanged()
   }
 
   QStringList oldFiles = projectFileList_;
-  Q_ASSERT (activeProject_->rootProjectNode () != NULL);
-  projectFileList_ = checkableFiles (activeProject_->rootProjectNode ());
+  updateProjectFileList ();
   QStringList addedFiles;
   foreach (const QString& file, projectFileList_)
   {
@@ -392,6 +404,10 @@ void QtcCppcheckPlugin::checkActiveProjectDocuments(int beginRow, int endRow,
     if (document == NULL)
     {
       continue;
+    }
+    if (projectFileList_.isEmpty ())
+    {
+      updateProjectFileList ();
     }
     if (projectFileList_.contains (document->filePath().toString()) &&
         document->isModified () == modifiedFlag)
