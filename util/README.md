@@ -1,4 +1,7 @@
 # Changelog
+## v 4.2.0
+- QTC version update
+- Add ability to exlude files from check.
 ## v 4.1.0
 - QTC version update
 - Added support of variables in custom parameters.
