@@ -1,7 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QString>
+#include <QStringList>
 
 namespace QtcCppcheck {
   namespace Internal {
@@ -14,7 +14,7 @@ namespace QtcCppcheck {
     class Settings
     {
       public:
-        Settings(bool autoLoad = false);
+        explicit Settings(bool autoLoad = false);
 
         void save ();
         void load ();
@@ -52,7 +52,10 @@ namespace QtcCppcheck {
         bool popupOnWarning() const;
         void setPopupOnWarning(bool popupOnWarning);
 
-      private:
+        QStringList ignorePatterns() const;
+        void setIgnorePatterns(const QStringList &ignorePatterns);
+
+    private:
         QString binaryFile_;
 
         bool checkOnBuild_;
@@ -63,6 +66,7 @@ namespace QtcCppcheck {
         bool checkUnused_;
         bool checkInconclusive_;
         QString customParameters_;
+        QStringList ignorePatterns_;
         bool showBinaryOutput_;
 
         bool popupOnError_;

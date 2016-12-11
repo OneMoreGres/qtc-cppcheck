@@ -1,6 +1,7 @@
 #include <QAction>
 #include <QTranslator>
 #include <QMenu>
+#include <QRegExp>
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -44,11 +45,23 @@ namespace
     return extensions;
   }
 
-  //! Check if node with given type should me checked.
-  bool isFileNodeCheckable (const FileNode* node)
+  bool isFilteredOut (const QString& name, const QList<QRegExp>& filters)
+  {
+    for (const auto& filter: filters)
+    {
+      if (filter.exactMatch (name))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //! Check if node with given name should me checked.
+  bool isFileNodeCheckable (const QString& name)
   {
     static QStringList extensions = supportedExtensions ();
-    QFileInfo info (node->filePath().toString());
+    QFileInfo info (name);
     QString extension = info.completeSuffix ();
     return (extensions.contains (extension));
   }
@@ -247,15 +260,22 @@ void QtcCppcheckPlugin::checkCurrentNode()
 
 QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelected) const
 {
+  QList<QRegExp> filters;
+  for (const auto& i: settings_->ignorePatterns ())
+  {
+    filters << QRegExp(i, Qt::CaseSensitive, QRegExp::Wildcard);
+  }
+
   QStringList files;
   switch (node->nodeType ())
   {
     case FileNodeType:
     {
       const FileNode* file = (const FileNode*) node;
-      if (forceSelected || isFileNodeCheckable (file))
+      auto name = file->filePath ().toString ();
+      if (forceSelected || (isFileNodeCheckable (name) && !isFilteredOut (name, filters)))
       {
-        files << file->filePath().toString();
+        files << name;
       }
     }
       break;
