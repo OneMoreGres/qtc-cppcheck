@@ -15,7 +15,7 @@ OptionsPage::OptionsPage(Settings *settings, QObject *parent) :
   setDisplayName (tr ("QtcCppcheck"));
   setCategory(Constants::OPTIONS_CATEGORY_ID);
   setDisplayCategory(QCoreApplication::translate("Analyzer", "Analyzer"));
-  setCategoryIcon(QLatin1String (Constants::OPTIONS_CATEGORY_ICON));
+  setCategoryIcon(Utils::Icon (Constants::OPTIONS_CATEGORY_ICON));
 
   keyWords_ << QLatin1String ("cppcheck");
 }
