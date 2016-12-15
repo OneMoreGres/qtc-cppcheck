@@ -2,7 +2,7 @@
 
 set /p VERSION=<..\..\qtcreator-latest\version
 set PLUGIN_NAME=QtcCppcheck
-set BUILD_DIR=..\..\qtcreator-latest\release-vc12
+set BUILD_DIR=..\..\qtcreator-latest\release
 del %PLUGIN_NAME%-%VERSION%-win.zip
 
 rd /Q /S dist
