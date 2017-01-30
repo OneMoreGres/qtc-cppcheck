@@ -13,6 +13,7 @@ Settings::Settings(bool autoLoad) :
   checkOnProjectChange_ (false), checkOnFileAdd_ (false),
   checkUnused_ (false), checkInconclusive_ (false),
   showBinaryOutput_ (false),
+  showId_ (false),
   popupOnError_ (false), popupOnWarning_ (false)
 {
   if (autoLoad)
@@ -36,6 +37,7 @@ void Settings::save()
   settings.setValue (QLatin1String (SETTINGS_CUSTOM_PARAMS), customParameters_);
   settings.setValue (QLatin1String (SETTINGS_IGNORE_PATTERNS), ignorePatterns_.join (","));
   settings.setValue (QLatin1String (SETTINGS_SHOW_OUTPUT), showBinaryOutput_);
+  settings.setValue (QLatin1String (SETTINGS_SHOW_ID), showId_);
   settings.setValue (QLatin1String (SETTINGS_POPUP_ON_ERROR), popupOnError_);
   settings.setValue (QLatin1String (SETTINGS_POPUP_ON_WARNING), popupOnWarning_);
   settings.endGroup ();
@@ -65,6 +67,8 @@ void Settings::load()
   ignorePatterns_ = settings.value (QLatin1String (SETTINGS_IGNORE_PATTERNS),
                                     QString ()).toString ().split (",", QString::SkipEmptyParts);
   showBinaryOutput_ = settings.value (QLatin1String (SETTINGS_SHOW_OUTPUT),
+                                      false).toBool ();
+  showId_ = settings.value (QLatin1String (SETTINGS_SHOW_ID),
                                       false).toBool ();
   popupOnError_ = settings.value (QLatin1String (SETTINGS_POPUP_ON_ERROR),
                                       true).toBool ();
@@ -122,6 +126,17 @@ void Settings::setShowBinaryOutput(bool showBinaryOutput)
 {
   showBinaryOutput_ = showBinaryOutput;
 }
+
+bool Settings::showId() const
+{
+  return showId_;
+}
+
+void Settings::setShowId(bool showId)
+{
+  showId_ = showId;
+}
+
 bool Settings::popupOnError() const
 {
   return popupOnError_;

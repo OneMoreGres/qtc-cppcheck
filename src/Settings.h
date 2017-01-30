@@ -46,6 +46,9 @@ namespace QtcCppcheck {
         bool showBinaryOutput() const;
         void setShowBinaryOutput(bool showBinaryOutput);
 
+        bool showId() const;
+        void setShowId(bool showId);
+
         bool popupOnError() const;
         void setPopupOnError(bool popupOnError);
 
@@ -68,6 +71,7 @@ namespace QtcCppcheck {
         QString customParameters_;
         QStringList ignorePatterns_;
         bool showBinaryOutput_;
+        bool showId_;
 
         bool popupOnError_;
         bool popupOnWarning_;

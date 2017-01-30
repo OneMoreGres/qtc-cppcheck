@@ -71,7 +71,7 @@ namespace QtcCppcheck {
 
         // Task handling.
         //! Add task to ProjectExplorer's task lits.
-        void addTask (char type, const QString &description,
+        void addTask (char type, const QString &, const QString &description,
                       const QString &fileName, int line);
         //! Clear self tasks for given files. All tasks if list is empty.
         void clearTasksForFiles (const QStringList& fileList = QStringList ());
