@@ -17,77 +17,82 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="149"/>
+        <location filename="../src/OptionsWidget.ui" line="28"/>
         <source>Binary file:</source>
         <translation>Исполняемый файл:</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="162"/>
+        <location filename="../src/OptionsWidget.ui" line="41"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="114"/>
+        <location filename="../src/OptionsWidget.ui" line="169"/>
         <source>Popup issues pane when warnings found</source>
         <translation>Показывать панель проблем для предупреждений</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="107"/>
+        <location filename="../src/OptionsWidget.ui" line="162"/>
         <source>Popup issues pane when errors found</source>
         <translation>Показывать панель проблем для ошибок</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="27"/>
+        <location filename="../src/OptionsWidget.ui" line="57"/>
         <source>Check project on build</source>
         <translation>Проверять проект после построения</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="34"/>
+        <location filename="../src/OptionsWidget.ui" line="64"/>
         <source>Check document on save</source>
         <translation>Проверять документы после сохранения</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="41"/>
+        <location filename="../src/OptionsWidget.ui" line="71"/>
         <source>Check on active project change</source>
         <translation>Проверять при смене активного проекта</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="48"/>
+        <location filename="../src/OptionsWidget.ui" line="78"/>
         <source>Check added files</source>
         <translation>Проверять добавленные файлы</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="62"/>
+        <location filename="../src/OptionsWidget.ui" line="92"/>
         <source>Check for unused functions</source>
         <translation>Проверять на неиспользуемые функции</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="69"/>
+        <location filename="../src/OptionsWidget.ui" line="99"/>
         <source>Check for inconclusive errors</source>
         <translation>Проверять на неточные ошибки</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="78"/>
+        <location filename="../src/OptionsWidget.ui" line="108"/>
         <source>Custom parameters:</source>
         <translation>Пользовательские параметры:</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="91"/>
+        <location filename="../src/OptionsWidget.ui" line="121"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="134"/>
+        <location filename="../src/OptionsWidget.ui" line="148"/>
         <source>Show binary&apos;s output</source>
         <translation>Показывать вывод программы</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="173"/>
+        <location filename="../src/OptionsWidget.ui" line="189"/>
+        <source>Show message Id on Issues</source>
+        <translation>Показывать ИД ошибки</translation>
+    </message>
+    <message>
+        <location filename="../src/OptionsWidget.ui" line="132"/>
         <source>Ignore patterns:</source>
         <translation>Игнорировать файлы:</translation>
     </message>
     <message>
-        <location filename="../src/OptionsWidget.ui" line="180"/>
+        <location filename="../src/OptionsWidget.ui" line="139"/>
         <source>Comma separated wildcards</source>
         <translation>Wildcards, разделенные запятыми</translation>
     </message>
@@ -95,27 +100,27 @@
 <context>
     <name>QtcCppcheck::Internal::CppcheckRunner</name>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="265"/>
+        <location filename="../src/CppcheckRunner.cpp" line="275"/>
         <source>Cppcheck</source>
         <translation>Cppcheck</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="258"/>
+        <location filename="../src/CppcheckRunner.cpp" line="268"/>
         <source>Cppcheck started</source>
         <translation>Cppcheck запущен</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="184"/>
+        <location filename="../src/CppcheckRunner.cpp" line="185"/>
         <source>Failed to write cppcheck&apos;s argument files</source>
         <translation>Не удалось записать файлы с параметрами запуска cppcheck</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="276"/>
+        <location filename="../src/CppcheckRunner.cpp" line="286"/>
         <source>Cppcheck error occured</source>
         <translation>Cppcheck ошибка программы</translation>
     </message>
     <message>
-        <location filename="../src/CppcheckRunner.cpp" line="295"/>
+        <location filename="../src/CppcheckRunner.cpp" line="305"/>
         <source>Cppcheck finished</source>
         <translation>Cppcheck завершил проверку</translation>
     </message>
