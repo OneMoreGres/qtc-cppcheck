@@ -41,7 +41,7 @@ namespace
 }
 
 CppcheckRunner::CppcheckRunner(Settings *settings, QObject *parent) :
-  QObject(parent), settings_ (settings), showOutput_ (false), futureInterface_ (NULL),
+  QObject(parent), settings_ (settings), showOutput_ (false), showId_(false), futureInterface_ (NULL),
   maxArgumentsLength_ (0)
 {
 #ifdef __linux__
@@ -86,6 +86,7 @@ void CppcheckRunner::updateSettings()
 {
   Q_ASSERT (settings_ != NULL);
   showOutput_ = settings_->showBinaryOutput ();
+  showId_ = settings_->showId ();
   runArguments_.clear ();
   QString enabled = QLatin1String ("--enable=warning,style,performance,"
                                    "portability,information,missingInclude");
@@ -190,6 +191,10 @@ void CppcheckRunner::checkQueuedFiles()
     arguments << QString (QLatin1String("--includes-file=%1")).arg (includeListFile_.fileName ());
   }
   emit startedChecking (currentlyCheckingFiles_);
+  if (showOutput_)
+  {
+    Core::MessageManager::write(QString("Starting CppChecker with:%1, %2").arg(binary,arguments.join(" ")), Core::MessageManager::WithFocus);
+  }
   process_.start (binary, arguments);
 }
 
@@ -246,8 +251,13 @@ void CppcheckRunner::readError()
     QString file = QDir::fromNativeSeparators(details.at (ErrorFieldFile));
     int lineNumber = details.at (ErrorFieldLine).toInt ();
     char type = details.at (ErrorFieldSeverity).at (0).toLatin1 ();
+    QString id = "";
+    if (showId_)
+    {
+      id = details.at (ErrorFieldId);
+    }
     QString description = line.mid (line.indexOf (details.at (ErrorFieldMessage)));
-    emit newTask (type, description, file, lineNumber);
+    emit newTask (type, id, description, file, lineNumber);
   }
 }
 

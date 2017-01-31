@@ -19,6 +19,7 @@ namespace QtcCppcheck {
     const char SETTINGS_CUSTOM_PARAMS[] = "customParams";
     const char SETTINGS_IGNORE_PATTERNS[] = "ignorePatterns";
     const char SETTINGS_SHOW_OUTPUT[] = "showOutput";
+    const char SETTINGS_SHOW_ID[] = "showId";
     const char SETTINGS_POPUP_ON_ERROR[] = "popupOnError";
     const char SETTINGS_POPUP_ON_WARNING[] = "popupOnWarning";
 

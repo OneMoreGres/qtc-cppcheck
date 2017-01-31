@@ -151,8 +151,8 @@ void QtcCppcheckPlugin::initMenus()
 
 void QtcCppcheckPlugin::initConnections()
 {
-  connect (runner_, SIGNAL (newTask (char, const QString &, const QString&, int)),
-           SLOT (addTask (char, const QString &, const QString&, int)));
+  connect (runner_, SIGNAL (newTask (char, const QString &, const QString &, const QString&, int)),
+           SLOT (addTask (char, const QString &, const QString &, const QString&, int)));
   connect (runner_, SIGNAL (startedChecking (const QStringList&)),
            SLOT (clearTasksForFiles (const QStringList&)));
 
@@ -442,7 +442,7 @@ void QtcCppcheckPlugin::checkActiveProjectDocuments(int beginRow, int endRow,
   }
 }
 
-void QtcCppcheckPlugin::addTask(char type, const QString &description,
+void QtcCppcheckPlugin::addTask(char type, const QString &id, const QString &description,
                                 const QString &fileName, int line)
 {
   QFileInfo info(fileName);
@@ -452,6 +452,7 @@ void QtcCppcheckPlugin::addTask(char type, const QString &description,
   }
   Utils::FileName file (info);
   QString fullDescription = QLatin1String (Constants::TASK_CATEGORY_NAME) +
+                            ( id.isEmpty() ? QString("") : QLatin1String ("(") + id + QLatin1String (")") ) +
                             QLatin1String (": ") + description;
   TaskInfo taskInfo (line, fullDescription);
   // Search for duplicates (see TaskInfo class description).

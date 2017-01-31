@@ -36,7 +36,7 @@ namespace QtcCppcheck {
 
       signals:
         //! New task has been generated.
-        void newTask (char type, const QString &description,
+        void newTask (char type, const QString &id, const QString &description,
                       const QString& fileName, int line);
         //! Inform about starting checking specified files.
         void startedChecking (const QStringList& files);
@@ -67,6 +67,8 @@ namespace QtcCppcheck {
         QStringList currentlyCheckingFiles_;
         //! Should print process' output to MessageManager or not.
         bool showOutput_;
+        //! Show message Id in issue field.
+        bool showId_;
         //! Interface to inform about checking.
         QFutureInterface<void> *futureInterface_;
         //! Max summary arguments length.
