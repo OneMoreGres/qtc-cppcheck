@@ -29,7 +29,7 @@ namespace
     foreach (const QString& file, files)
     {
       QFileInfo info (file);
-      QString current = QString (QLatin1String("-I")) + info.absolutePath ();
+      QString current = info.absolutePath ();
       if (!paths.contains(current))
       {
         paths << current;
