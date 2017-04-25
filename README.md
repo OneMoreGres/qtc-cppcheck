@@ -1,9 +1,11 @@
-#Qt Creator Cppcheck Integration
+Qt Creator Cppcheck Integration
+------
 
-##Introduction
+## Introduction
+
 Plugin integrates some [Cppcheck](http://cppcheck.sourceforge.net/ "Cppcheck") functionality into Qt Creator IDE.
 
-##Features
+## Features
 * Automatically check active project after build
 * Automatically check active project's files on save
 * Manually check any project's file
@@ -11,30 +13,36 @@ Plugin integrates some [Cppcheck](http://cppcheck.sourceforge.net/ "Cppcheck") f
 * Most settings are configurable
 * Translation support
 
-##Tips
+## Tips
 * Checking for unused functions prevents use of several threads and can decrease performance
 * Custom launch parameters are passing *before* plugin's so can take no effect
 
-##Downloads
+## Downloads
+
 Built plugin can be downloaded [here](https://sourceforge.net/projects/qtc-cppcheck/ "Sourceforge")
 or from github releases.
 
 
-##Installation
-IMPORTANT: plugin's version must match Qt Creator's version (difference in last digit is acceptable)
+## Installation
 
-###From source
+**IMPORTANT**: plugin's version must **match** Qt Creator's version (difference in last digit is acceptable)
+
+### From source
+
 1. Change paths.pri:
 
- - set `QTCREATOR_SOURCES` = path to Qt Creator source dir (with qtcreator.pro)
- - set `IDE_BUILD_TREE` = path to compiled Qt Creator dir (with bin,lib,libexec,...)
+     - set `QTCREATOR_SOURCES` = path to Qt Creator source dir  (with qtcreator.pro)
+    - set `IDE_BUILD_TREE` = path to compiled Qt Creator dir (with bin,lib,libexec,...)
 
 2. Compile plugin.
 
-###From binaries
+### From binaries
 1. Extract/copy files from archive into Qt Creator's dir (archive already contains proper paths).
+  - find QtCreator install directory
+  - copy lib/qtcreator/plugins/libQtcCppcheck.so to QC_DIR's lib/qtcreator/plugins
+  - copy share/qtcreator/translations/QtcCppcheck_ru.qm to QC_DIR's share/qtcreator/translations/
+
 2. Enable plugin in Help->Modules menu.
 
-
-##More info
+## More info
 Additional information can be obtained [here](http://gres.biz/qtc-cppcheck/ "Homepage") (in russian)
