@@ -80,7 +80,6 @@ QtcCppcheckPlugin::~QtcCppcheckPlugin()
   // Delete members
 
   delete settings_;
-  delete runner_;
 }
 
 bool QtcCppcheckPlugin::initialize(const QStringList &arguments, QString *errorString)
@@ -260,6 +259,11 @@ void QtcCppcheckPlugin::checkCurrentNode()
 
 QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelected) const
 {
+  if (!node)
+  {
+    return {};
+  }
+
   QList<QRegExp> filters;
   for (const auto& i: settings_->ignorePatterns ())
   {
@@ -267,38 +271,32 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelect
   }
 
   QStringList files;
-  switch (node->nodeType ())
-  {
-    case FileNodeType:
-    {
-      const FileNode* file = (const FileNode*) node;
-      auto name = file->filePath ().toString ();
-      if (forceSelected || (isFileNodeCheckable (name) && !isFilteredOut (name, filters)))
-      {
-        files << name;
-      }
-    }
-      break;
-
-    case ProjectNodeType:
-    case FolderNodeType:
-    case VirtualFolderNodeType:
-    {
-      const FolderNode* folder = (const FolderNode*) node;
-      foreach (const FolderNode* subfolder, folder->subFolderNodes ())
-      {
-        files += checkableFiles (subfolder, false); // force only selected, not its children
-      }
-      foreach (const FileNode* file, folder->fileNodes ())
-      {
-        files += checkableFiles (file, false); // force only selected, not its children
-      }
-    }
-      break;
-
-    default:
-      break;
+  const FolderNode* folder = nullptr;
+  if (const auto* container = node->asContainerNode ()) {
+    folder = container->rootProjectNode ();
   }
+  if (!folder) {
+    folder = node->asFolderNode ();
+  }
+
+  if (folder) {
+    for (const auto* subfolder: folder->folderNodes ())
+    {
+      files += checkableFiles (subfolder, false); // force only selected, not its children
+    }
+    for (const auto* file: folder->fileNodes ())
+    {
+      files += checkableFiles (file, false); // force only selected, not its children
+    }
+  }
+  else if (const auto* file = node->asFileNode ()) {
+    auto name = file->filePath ().toString ();
+    if (forceSelected || (isFileNodeCheckable (name) && !isFilteredOut (name, filters)))
+    {
+      files << name;
+    }
+  }
+
   return files;
 }
 
