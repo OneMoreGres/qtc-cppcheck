@@ -29,7 +29,7 @@ namespace
     foreach (const QString& file, files)
     {
       QFileInfo info (file);
-      QString current = info.absolutePath ();
+      QString current = QLatin1String ("-I") + info.absolutePath ();
       if (!paths.contains(current))
       {
         paths << current;
@@ -166,18 +166,21 @@ void CppcheckRunner::checkQueuedFiles()
   arguments += runArguments_;
 
   QStringList includes = includePaths (fileCheckQueue_);
-  arguments += includes;
   arguments += fileCheckQueue_;
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
 
   int argumentLength = arguments.join (QLatin1Literal (" ")).length ();
-  if (argumentLength >= maxArgumentsLength_) {
+  int includesLength = includes.join (QLatin1Literal (" ")).length ();
+  if (argumentLength + includesLength >= maxArgumentsLength_) {
     if (fileListFileContents_ != currentlyCheckingFiles_) {
       fileListFileContents_ = currentlyCheckingFiles_;
       if (fileListFile_.open () && includeListFile_.open ()){
         QByteArray filesArg = fileListFileContents_.join (QLatin1String ("\n")).toLocal8Bit ();
         fileListFile_.write (filesArg);
+        for (auto& i: includes) {
+          i = i.mid (2);
+        }
         QByteArray includesArg = includes.join (QLatin1String ("\n")).toLocal8Bit ();
         includeListFile_.write (includesArg);
       }
@@ -189,6 +192,9 @@ void CppcheckRunner::checkQueuedFiles()
     arguments = runArguments_;
     arguments << QString (QLatin1String("--file-list=%1")).arg (fileListFile_.fileName ());
     arguments << QString (QLatin1String("--includes-file=%1")).arg (includeListFile_.fileName ());
+  }
+  else {
+    arguments += includes;
   }
   emit startedChecking (currentlyCheckingFiles_);
   if (showOutput_)
