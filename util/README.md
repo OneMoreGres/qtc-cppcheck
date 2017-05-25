@@ -1,4 +1,7 @@
 # Changelog
+## v 4.3.0
+- Can show error id in Issues pane
+- Some bugfixes
 ## v 4.2.0
 - QTC version update
 - Add ability to exlude files from check.
