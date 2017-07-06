@@ -304,8 +304,8 @@ void QtcCppcheckPlugin::updateProjectFileList()
 {
   if (activeProject_)
   {
-    Q_ASSERT (activeProject_->rootProjectNode () != NULL);
-    projectFileList_ = checkableFiles (activeProject_->rootProjectNode ());
+    if (ProjectNode *rootNode = activeProject_->rootProjectNode ())
+      projectFileList_ = checkableFiles (rootNode);
   }
 }
 
