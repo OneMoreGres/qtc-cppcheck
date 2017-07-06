@@ -29,14 +29,12 @@ namespace QtcCppcheck {
         void applySettings ();
 
       private slots:
-        void selectBinaryFile ();
         void getPossibleParams ();
 
         void finished ();
 
       private:
         void initInterface ();
-        void getVersion ();
 
       private:
         Ui::OptionsWidget *ui;
