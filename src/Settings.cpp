@@ -1,5 +1,8 @@
 #include <QString>
 
+#include <utils/hostosinfo.h>
+#include <utils/fileutils.h>
+
 #include <coreplugin/icore.h>
 
 #include "Settings.h"
@@ -43,6 +46,21 @@ void Settings::save()
   settings.endGroup ();
 }
 
+static QString defaultBinary()
+{
+  QString res;
+  if (Utils::HostOsInfo::isWindowsHost())
+  {
+    res = Utils::FileName::fromUserInput(QLatin1String(qgetenv("ProgramFiles")))
+        .appendPath("Cppcheck/cppcheck.exe").toString();
+  }
+  else
+  {
+    res = "/usr/bin/cppcheck";
+  }
+  return QFile::exists(res) ? res : QString();
+}
+
 void Settings::load()
 {
   Q_ASSERT (Core::ICore::settings () != NULL);
@@ -75,6 +93,8 @@ void Settings::load()
   popupOnWarning_ = settings.value (QLatin1String (SETTINGS_POPUP_ON_WARNING),
                                       true).toBool ();
   settings.endGroup ();
+  if (binaryFile_.isEmpty())
+    binaryFile_ = defaultBinary();
 }
 
 QString Settings::binaryFile() const
