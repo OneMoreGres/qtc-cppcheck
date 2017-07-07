@@ -1,4 +1,5 @@
 #include <QString>
+#include <QFile>
 
 #include <utils/hostosinfo.h>
 #include <utils/fileutils.h>
