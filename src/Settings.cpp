@@ -12,6 +12,23 @@
 using namespace QtcCppcheck::Constants;
 using namespace QtcCppcheck::Internal;
 
+namespace {
+  QString defaultBinary()
+  {
+    QString res;
+    if (Utils::HostOsInfo::isWindowsHost())
+    {
+      res = Utils::FileName::fromUserInput(QLatin1String(qgetenv("ProgramFiles")))
+          .appendPath("Cppcheck/cppcheck.exe").toString();
+    }
+    else
+    {
+      res = "/usr/bin/cppcheck";
+    }
+    return QFile::exists(res) ? res : QString();
+  }
+}
+
 Settings::Settings(bool autoLoad) :
   checkOnBuild_ (false), checkOnSave_ (false),
   checkOnProjectChange_ (false), checkOnFileAdd_ (false),
@@ -47,21 +64,6 @@ void Settings::save()
   settings.endGroup ();
 }
 
-static QString defaultBinary()
-{
-  QString res;
-  if (Utils::HostOsInfo::isWindowsHost())
-  {
-    res = Utils::FileName::fromUserInput(QLatin1String(qgetenv("ProgramFiles")))
-        .appendPath("Cppcheck/cppcheck.exe").toString();
-  }
-  else
-  {
-    res = "/usr/bin/cppcheck";
-  }
-  return QFile::exists(res) ? res : QString();
-}
-
 void Settings::load()
 {
   Q_ASSERT (Core::ICore::settings () != NULL);
@@ -95,7 +97,9 @@ void Settings::load()
                                       true).toBool ();
   settings.endGroup ();
   if (binaryFile_.isEmpty())
+  {
     binaryFile_ = defaultBinary();
+  }
 }
 
 QString Settings::binaryFile() const
