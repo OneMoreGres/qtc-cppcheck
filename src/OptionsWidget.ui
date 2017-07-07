@@ -33,12 +33,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="binFileEdit"/>
-     </item>
-     <item>
-      <widget class="QToolButton" name="binSelectButton">
-       <property name="text">
-        <string>...</string>
+      <widget class="Utils::PathChooser" name="binFileEdit" native="true">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
        </property>
       </widget>
      </item>
@@ -192,9 +189,16 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Utils::PathChooser</class>
+   <extends>QWidget</extends>
+   <header location="global">utils/pathchooser.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>binFileEdit</tabstop>
-  <tabstop>binSelectButton</tabstop>
   <tabstop>onBuildCheckBox</tabstop>
   <tabstop>onProjectChangeCheckBox</tabstop>
   <tabstop>onSaveCheckBox</tabstop>

@@ -23,11 +23,12 @@ OptionsWidget::OptionsWidget(Settings *settings, QWidget *parent) :
   Q_ASSERT (settings_ != NULL);
 
   ui->setupUi(this);
+  ui->binFileEdit->setExpectedKind(Utils::PathChooser::ExistingCommand);
+  ui->binFileEdit->setCommandVersionArguments({ versionArg });
 
   auto chooser = new Core::VariableChooser(this);
   chooser->addSupportedWidget(ui->customParametersEdit);
 
-  connect (ui->binSelectButton, SIGNAL (clicked ()), SLOT (selectBinaryFile ()));
   connect (ui->getHelpButton, SIGNAL (clicked ()), SLOT (getPossibleParams ()));
   connect (&process_, SIGNAL (finished(int, QProcess::ExitStatus)), SLOT (finished ()));
 
@@ -40,31 +41,9 @@ OptionsWidget::~OptionsWidget()
   settings_ = NULL;
 }
 
-void OptionsWidget::selectBinaryFile()
-{
-  QString fileName = QFileDialog::getOpenFileName ();
-  if (!fileName.isEmpty ())
-  {
-    ui->binFileEdit->setText (fileName);
-    getVersion ();
-  }
-}
-
-void OptionsWidget::getVersion()
-{
-  ui->binFileEdit->setToolTip (QString ());
-  QString binary = ui->binFileEdit->text ();
-  if (binary.isEmpty ())
-  {
-    return;
-  }
-  processArguments_ = QStringList () << versionArg;
-  process_.start (binary, processArguments_);
-}
-
 void OptionsWidget::getPossibleParams()
 {
-  QString binary = ui->binFileEdit->text ();
+  QString binary = ui->binFileEdit->path ();
   if (binary.isEmpty ())
   {
     return;
@@ -77,12 +56,7 @@ void OptionsWidget::finished()
 {
   QByteArray output = process_.readAllStandardOutput ();
   QString outputString = QString::fromUtf8 (output).trimmed ();
-  if (processArguments_.contains (versionArg))
-  {
-    QString version = outputString.mid (outputString.indexOf (QLatin1Char (' ')) + 1);
-    ui->binFileEdit->setToolTip (tr ("Version: ") + version);
-  }
-  else if (processArguments_.contains (helpArg))
+  if (processArguments_.contains (helpArg))
   {
     int startIndex = outputString.indexOf (QLatin1String ("Options:"));
     int endIndex = outputString.indexOf (QLatin1String ("Example usage:"));
@@ -103,7 +77,7 @@ void OptionsWidget::finished()
 void OptionsWidget::applySettings()
 {
   Q_ASSERT (settings_ != NULL);
-  settings_->setBinaryFile (ui->binFileEdit->text ());
+  settings_->setBinaryFile (ui->binFileEdit->path ());
   settings_->setCheckOnBuild (ui->onBuildCheckBox->isChecked ());
   settings_->setCheckOnSave (ui->onSaveCheckBox->isChecked ());
   settings_->setCheckOnProjectChange (ui->onProjectChangeCheckBox->isChecked ());
@@ -122,7 +96,7 @@ void OptionsWidget::applySettings()
 void OptionsWidget::initInterface()
 {
   Q_ASSERT (settings_ != NULL);
-  ui->binFileEdit->setText (settings_->binaryFile ());
+  ui->binFileEdit->setPath (settings_->binaryFile ());
   ui->onBuildCheckBox->setChecked (settings_->checkOnBuild ());
   ui->onSaveCheckBox->setChecked (settings_->checkOnSave ());
   ui->onProjectChangeCheckBox->setChecked (settings_->checkOnProjectChange ());
@@ -135,5 +109,4 @@ void OptionsWidget::initInterface()
   ui->showIdCheckBox->setChecked (settings_->showId ());
   ui->popupOnErrorCheckBox->setChecked (settings_->popupOnError ());
   ui->popupOnWarningCheckBox->setChecked (settings_->popupOnWarning ());
-  getVersion ();
 }

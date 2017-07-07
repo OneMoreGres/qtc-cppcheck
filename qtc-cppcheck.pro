@@ -43,7 +43,7 @@ PROVIDER = Gres
 
 QTC_PLUGIN_NAME = QtcCppcheck
 QTC_LIB_DEPENDS += \
-    # nothing here at this time
+    utils
 
 QTC_PLUGIN_DEPENDS += \
     coreplugin\
