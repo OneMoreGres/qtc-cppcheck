@@ -35,6 +35,14 @@ using namespace Core;
 
 namespace
 {
+  void addToMenu(Command *command, const char *containerId, const char *groupId)
+  {
+    if (ActionContainer *menu = ActionManager::actionContainer(containerId))
+    {
+      menu->addAction (command, groupId);
+    }
+  }
+
   QStringList supportedExtensions () {
     QStringList extensions;
     extensions << QLatin1String("cpp") << QLatin1String("cxx") << QLatin1String("cc")
@@ -118,13 +126,11 @@ void QtcCppcheckPlugin::initMenus()
                             Context(Core::Constants::C_EDIT_MODE));
   connect(checkNodeAction, SIGNAL(triggered()), this, SLOT(checkCurrentNode()));
 
-#define ADD_TO_MENU(COMMAND, CONTAINER_ID) {ActionContainer *menu = ActionManager::actionContainer(CONTAINER_ID); if (menu != NULL) {menu->addAction (COMMAND);} }
-  ADD_TO_MENU (checkNodeCmd, ProjectExplorer::Constants::M_FILECONTEXT);
-  ADD_TO_MENU (checkNodeCmd, ProjectExplorer::Constants::M_FOLDERCONTEXT);
-  ADD_TO_MENU (checkNodeCmd, ProjectExplorer::Constants::M_PROJECTCONTEXT);
-  ADD_TO_MENU (checkNodeCmd, ProjectExplorer::Constants::M_SUBPROJECTCONTEXT);
-#undef ADD_TO_MENU
-
+  using namespace ProjectExplorer::Constants;
+  addToMenu (checkNodeCmd, M_FILECONTEXT, G_FILE_OTHER);
+  addToMenu (checkNodeCmd, M_FOLDERCONTEXT, G_FOLDER_FILES);
+  addToMenu (checkNodeCmd, M_PROJECTCONTEXT, G_PROJECT_FILES);
+  addToMenu (checkNodeCmd, M_SUBPROJECTCONTEXT, G_PROJECT_FILES);
 
   QAction *checkProjectAction = new QAction(tr("Check current &project"), this);
   Core::Command *checkProjectCmd = ActionManager::registerAction(
