@@ -10,38 +10,37 @@
 
 using namespace QtcCppcheck::Internal;
 
-namespace
-{
-  const QLatin1String versionArg ("--version");
-  const QLatin1String helpArg ("--help");
+namespace {
+const QLatin1String versionArg ("--version");
+const QLatin1String helpArg ("--help");
 }
 
-OptionsWidget::OptionsWidget(Settings *settings, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::OptionsWidget), settings_ (settings)
+OptionsWidget::OptionsWidget (Settings *settings, QWidget *parent) :
+  QWidget (parent),
+  ui (new Ui::OptionsWidget), settings_ (settings)
 {
   Q_ASSERT (settings_ != NULL);
 
-  ui->setupUi(this);
-  ui->binFileEdit->setExpectedKind(Utils::PathChooser::ExistingCommand);
-  ui->binFileEdit->setCommandVersionArguments({ versionArg });
+  ui->setupUi (this);
+  ui->binFileEdit->setExpectedKind (Utils::PathChooser::ExistingCommand);
+  ui->binFileEdit->setCommandVersionArguments ({ versionArg });
 
-  auto chooser = new Core::VariableChooser(this);
-  chooser->addSupportedWidget(ui->customParametersEdit);
+  auto chooser = new Core::VariableChooser (this);
+  chooser->addSupportedWidget (ui->customParametersEdit);
 
   connect (ui->getHelpButton, SIGNAL (clicked ()), SLOT (getPossibleParams ()));
-  connect (&process_, SIGNAL (finished(int, QProcess::ExitStatus)), SLOT (finished ()));
+  connect (&process_, SIGNAL (finished (int,QProcess::ExitStatus)), SLOT (finished ()));
 
   initInterface ();
 }
 
-OptionsWidget::~OptionsWidget()
+OptionsWidget::~OptionsWidget ()
 {
   delete ui;
   settings_ = NULL;
 }
 
-void OptionsWidget::getPossibleParams()
+void OptionsWidget::getPossibleParams ()
 {
   QString binary = ui->binFileEdit->path ();
   if (binary.isEmpty ())
@@ -52,7 +51,7 @@ void OptionsWidget::getPossibleParams()
   process_.start (binary, processArguments_);
 }
 
-void OptionsWidget::finished()
+void OptionsWidget::finished ()
 {
   QByteArray output = process_.readAllStandardOutput ();
   QString outputString = QString::fromUtf8 (output).trimmed ();
@@ -65,7 +64,7 @@ void OptionsWidget::finished()
       return;
     }
     QString options = outputString.mid (startIndex, endIndex - startIndex);
-    QTextEdit* editor = new QTextEdit;
+    QTextEdit *editor = new QTextEdit;
     editor->setAttribute (Qt::WA_ShowModal);
     editor->setAttribute (Qt::WA_DeleteOnClose);
     editor->setReadOnly (false);
@@ -74,7 +73,7 @@ void OptionsWidget::finished()
   }
 }
 
-void OptionsWidget::applySettings()
+void OptionsWidget::applySettings ()
 {
   Q_ASSERT (settings_ != NULL);
   settings_->setBinaryFile (ui->binFileEdit->path ());
@@ -93,7 +92,7 @@ void OptionsWidget::applySettings()
   settings_->save ();
 }
 
-void OptionsWidget::initInterface()
+void OptionsWidget::initInterface ()
 {
   Q_ASSERT (settings_ != NULL);
   ui->binFileEdit->setPath (settings_->binaryFile ());

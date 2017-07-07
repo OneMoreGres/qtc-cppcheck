@@ -33,7 +33,8 @@ TRANSLATIONS += \
 OTHER_FILES += \
     LICENSE.md \
     README.md \
-    util/README.md
+    util/README.md \
+    uncrustify.cfg
 
 PROVIDER = Gres
 

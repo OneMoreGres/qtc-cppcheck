@@ -7,35 +7,35 @@
 
 using namespace QtcCppcheck::Internal;
 
-OptionsPage::OptionsPage(Settings *settings, QObject *parent) :
-  IOptionsPage(parent), settings_ (settings)
+OptionsPage::OptionsPage (Settings *settings, QObject *parent) :
+  IOptionsPage (parent), settings_ (settings)
 {
   Q_ASSERT (settings_ != NULL);
   setId (Constants::OPTIONS_PAGE_ID);
   setDisplayName (tr ("QtcCppcheck"));
-  setCategory(Constants::OPTIONS_CATEGORY_ID);
-  setDisplayCategory(QCoreApplication::translate("Analyzer", "Analyzer"));
-  setCategoryIcon(Utils::Icon (Constants::OPTIONS_CATEGORY_ICON));
+  setCategory (Constants::OPTIONS_CATEGORY_ID);
+  setDisplayCategory (QCoreApplication::translate ("Analyzer", "Analyzer"));
+  setCategoryIcon (Utils::Icon (Constants::OPTIONS_CATEGORY_ICON));
 
   keyWords_ << QLatin1String ("cppcheck");
 }
 
-OptionsPage::~OptionsPage()
+OptionsPage::~OptionsPage ()
 {
   settings_ = NULL;
 }
 
-bool OptionsPage::matches(const QString &searchKeyWord) const
+bool OptionsPage::matches (const QString &searchKeyWord) const
 {
   return keyWords_.contains (searchKeyWord);
 }
 
-QWidget *OptionsPage::widget()
+QWidget * OptionsPage::widget ()
 {
   return createPage (NULL);
 }
 
-QWidget *OptionsPage::createPage(QWidget *parent)
+QWidget * OptionsPage::createPage (QWidget *parent)
 {
   Q_ASSERT (settings_ != NULL);
   widget_ = new OptionsWidget (settings_, parent);
@@ -43,14 +43,14 @@ QWidget *OptionsPage::createPage(QWidget *parent)
   return widget_.data ();
 }
 
-void OptionsPage::apply()
+void OptionsPage::apply ()
 {
   Q_ASSERT (!widget_.isNull ());
   widget_->applySettings ();
   emit settingsChanged ();
 }
 
-void OptionsPage::finish()
+void OptionsPage::finish ()
 {
 
 }
