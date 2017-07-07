@@ -5,39 +5,39 @@
 #include <QPointer>
 
 namespace QtcCppcheck {
-namespace Internal {
+  namespace Internal {
 
-class Settings;
-class OptionsWidget;
+    class Settings;
+    class OptionsWidget;
 
-/*!
- * \brief Options page.
- * Creates edition widget. Emits settingsChanged().
- */
-class OptionsPage : public Core::IOptionsPage
-{
-Q_OBJECT
-public:
-  explicit OptionsPage (Settings *settings, QObject *parent = 0);
-  ~OptionsPage ();
+    /*!
+     * \brief Options page.
+     * Creates edition widget. Emits settingsChanged().
+     */
+    class OptionsPage : public Core::IOptionsPage {
+      Q_OBJECT
 
-  bool matches (const QString &searchKeyWord) const;
-  QWidget * widget ();
-  QWidget * createPage (QWidget *parent);
-  void apply ();
-  void finish ();
+      public:
+        explicit OptionsPage (Settings *settings, QObject *parent = 0);
+        ~OptionsPage ();
 
-signals:
-  void settingsChanged ();
+        bool matches (const QString &searchKeyWord) const;
+        QWidget *widget ();
+        QWidget *createPage (QWidget *parent);
+        void apply ();
+        void finish ();
 
-private:
-  QPointer<OptionsWidget> widget_;
-  Settings *settings_;
-  QStringList keyWords_;
+      signals:
+        void settingsChanged ();
 
-};
+      private:
+        QPointer<OptionsWidget> widget_;
+        Settings *settings_;
+        QStringList keyWords_;
 
-} // namespace Internal
+    };
+
+  } // namespace Internal
 } // namespace QtcCppcheck
 
 

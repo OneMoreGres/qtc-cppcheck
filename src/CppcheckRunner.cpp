@@ -16,33 +16,28 @@
 using namespace QtcCppcheck::Internal;
 
 namespace {
-enum ErrorField
-{
-  ErrorFieldFile = 0, ErrorFieldLine, ErrorFieldSeverity, ErrorFieldId,
-  ErrorFieldMessage
-};
+  enum ErrorField {
+    ErrorFieldFile = 0, ErrorFieldLine, ErrorFieldSeverity, ErrorFieldId,
+    ErrorFieldMessage
+  };
 
-QStringList includePaths (const QStringList &files)
-{
-  QStringList paths;
-  foreach (const QString &file, files)
-  {
-    QFileInfo info (file);
-    QString current = QLatin1String ("-I") + info.absolutePath ();
-    if (!paths.contains (current))
-    {
-      paths << current;
+  QStringList includePaths (const QStringList &files) {
+    QStringList paths;
+    foreach (const QString &file, files) {
+      QFileInfo info (file);
+      QString current = QLatin1String ("-I") + info.absolutePath ();
+      if (!paths.contains (current)) {
+        paths << current;
+      }
     }
+    return paths;
   }
-  return paths;
-}
 
 }
 
 CppcheckRunner::CppcheckRunner (Settings *settings, QObject *parent) :
   QObject (parent), settings_ (settings), showOutput_ (false), showId_ (false), futureInterface_ (NULL),
-  maxArgumentsLength_ (0)
-{
+  maxArgumentsLength_ (0) {
 #ifdef __linux__
   QProcess getConf;
   getConf.start (QLatin1String ("getconf ARG_MAX"));
@@ -70,10 +65,8 @@ CppcheckRunner::CppcheckRunner (Settings *settings, QObject *parent) :
            SLOT (checkQueuedFiles ()));
 }
 
-CppcheckRunner::~CppcheckRunner ()
-{
-  if (process_.isOpen ())
-  {
+CppcheckRunner::~CppcheckRunner () {
+  if (process_.isOpen ()) {
     process_.kill ();
   }
   queueTimer_.stop ();
@@ -81,8 +74,7 @@ CppcheckRunner::~CppcheckRunner ()
   delete futureInterface_;
 }
 
-void CppcheckRunner::updateSettings ()
-{
+void CppcheckRunner::updateSettings () {
   Q_ASSERT (settings_ != NULL);
   showOutput_ = settings_->showBinaryOutput ();
   showId_ = settings_->showId ();
@@ -90,41 +82,33 @@ void CppcheckRunner::updateSettings ()
   QString enabled = QLatin1String ("--enable=warning,style,performance,"
                                    "portability,information,missingInclude");
   // Overwrite enable with user parameters if present
-  for (int i = runArguments_.size () - 1; i >= 0; --i)
-  {
-    if (runArguments_.at (i).startsWith (QLatin1String ("--enable")))
-    {
+  for (int i = runArguments_.size () - 1; i >= 0; --i) {
+    if (runArguments_.at (i).startsWith (QLatin1String ("--enable"))) {
       enabled = runArguments_.takeAt (i);
       break;
     }
   }
-  if (settings_->checkUnused ())
-  {
+  if (settings_->checkUnused ()) {
     enabled += QLatin1String (",unusedFunction");
   }
-  else //TODO always check with threads but rescan for unused after finish?
-  {
+  else{ //TODO always check with threads but rescan for unused after finish?
     runArguments_ << (QLatin1String ("-j ") +
                       QString::number (QThread::idealThreadCount ()));
   }
   runArguments_ << enabled;
-  if (settings_->checkInconclusive ())
-  {
+  if (settings_->checkInconclusive ()) {
     runArguments_ << QLatin1String ("--inconclusive");
   }
   runArguments_ << QLatin1String ("--template={file},{line},{severity},{id},{message}");
 }
 
-void CppcheckRunner::checkFiles (const QStringList &fileNames)
-{
+void CppcheckRunner::checkFiles (const QStringList &fileNames) {
   Q_ASSERT (!fileNames.isEmpty ());
   fileCheckQueue_ += fileNames;
   fileCheckQueue_.removeDuplicates ();
   fileCheckQueue_.sort ();
-  if (process_.isOpen ())
-  {
-    if (fileCheckQueue_ == currentlyCheckingFiles_)
-    {
+  if (process_.isOpen ()) {
+    if (fileCheckQueue_ == currentlyCheckingFiles_) {
       process_.kill ();
       // Rechecking will be restarted on finish signal.
     }
@@ -132,30 +116,24 @@ void CppcheckRunner::checkFiles (const QStringList &fileNames)
   }
   // Delay helps to avoid double checking same file on editor change.
   const int checkDelayInMs = 200;
-  if (!queueTimer_.isActive ())
-  {
+  if (!queueTimer_.isActive ()) {
     queueTimer_.singleShot (checkDelayInMs, this, SLOT (checkQueuedFiles ()));
   }
 }
 
-void CppcheckRunner::stopChecking ()
-{
+void CppcheckRunner::stopChecking () {
   fileCheckQueue_.clear ();
-  if (process_.isOpen ())
-  {
+  if (process_.isOpen ()) {
     process_.kill ();
   }
 }
 
-void CppcheckRunner::checkQueuedFiles ()
-{
-  if (fileCheckQueue_.isEmpty ())
-  {
+void CppcheckRunner::checkQueuedFiles () {
+  if (fileCheckQueue_.isEmpty ()) {
     return;
   }
   QString binary = settings_->binaryFile ();
-  if (binary.isEmpty ())
-  {
+  if (binary.isEmpty ()) {
     return;
   }
   // Pass custom params BEFORE most of runner's to shadow if some repeat.
@@ -171,24 +149,19 @@ void CppcheckRunner::checkQueuedFiles ()
 
   int argumentLength = arguments.join (QLatin1Literal (" ")).length ();
   int includesLength = includes.join (QLatin1Literal (" ")).length ();
-  if (argumentLength + includesLength >= maxArgumentsLength_)
-  {
-    if (fileListFileContents_ != currentlyCheckingFiles_)
-    {
+  if (argumentLength + includesLength >= maxArgumentsLength_) {
+    if (fileListFileContents_ != currentlyCheckingFiles_) {
       fileListFileContents_ = currentlyCheckingFiles_;
-      if (fileListFile_.open () && includeListFile_.open ())
-      {
+      if (fileListFile_.open () && includeListFile_.open ()) {
         QByteArray filesArg = fileListFileContents_.join (QLatin1String ("\n")).toLocal8Bit ();
         fileListFile_.write (filesArg);
-        for (auto &i: includes)
-        {
+        for (auto &i: includes) {
           i = i.mid (2);
         }
         QByteArray includesArg = includes.join (QLatin1String ("\n")).toLocal8Bit ();
         includeListFile_.write (includesArg);
       }
-      else
-      {
+      else{
         Core::MessageManager::write (tr ("Failed to write cppcheck's argument files"), Core::MessageManager::Silent);
         return;
       }
@@ -197,38 +170,31 @@ void CppcheckRunner::checkQueuedFiles ()
     arguments << QString (QLatin1String ("--file-list=%1")).arg (fileListFile_.fileName ());
     arguments << QString (QLatin1String ("--includes-file=%1")).arg (includeListFile_.fileName ());
   }
-  else
-  {
+  else{
     arguments += includes;
   }
   emit startedChecking (currentlyCheckingFiles_);
-  if (showOutput_)
-  {
+  if (showOutput_) {
     Core::MessageManager::write (QString ("Starting CppChecker with:%1, %2").arg (binary,arguments.join (" ")), Core::MessageManager::WithFocus);
   }
   process_.start (binary, arguments);
 }
 
-void CppcheckRunner::readOutput ()
-{
-  if (!showOutput_)
-  {
+void CppcheckRunner::readOutput () {
+  if (!showOutput_) {
     return;
   }
   process_.setReadChannel (QProcess::StandardOutput);
 
-  while (!process_.atEnd ())
-  {
+  while (!process_.atEnd ()) {
     QByteArray rawLine = process_.readLine ();
     QString line = QString::fromUtf8 (rawLine).trimmed ();
-    if (line.isEmpty ())
-    {
+    if (line.isEmpty ()) {
       continue;
     }
     const QString progressSample = QLatin1String ("% done");
     // check futureInterface because read can be triggered before started..
-    if (line.endsWith (progressSample) && futureInterface_ != NULL)
-    {
+    if (line.endsWith (progressSample) && futureInterface_ != NULL) {
       int percentEndIndex = line.length () - progressSample.length ();
       int percentStartIndex = line.lastIndexOf (QLatin1String (" "), percentEndIndex);
       int done = line.mid (percentStartIndex, percentEndIndex - percentStartIndex).toInt ();
@@ -238,33 +204,27 @@ void CppcheckRunner::readOutput ()
   }
 }
 
-void CppcheckRunner::readError ()
-{
+void CppcheckRunner::readError () {
   process_.setReadChannel (QProcess::StandardError);
 
-  while (!process_.atEnd ())
-  {
+  while (!process_.atEnd ()) {
     QByteArray rawLine = process_.readLine ();
     QString line = QString::fromUtf8 (rawLine).trimmed ();
-    if (line.isEmpty ())
-    {
+    if (line.isEmpty ()) {
       continue;
     }
-    if (showOutput_)
-    {
+    if (showOutput_) {
       Core::MessageManager::write (line, Core::MessageManager::Silent);
     }
     QStringList details = line.split (QLatin1Char (','));
-    if (details.size () <= ErrorFieldMessage)
-    {
+    if (details.size () <= ErrorFieldMessage) {
       continue;
     }
     QString file = QDir::fromNativeSeparators (details.at (ErrorFieldFile));
     int lineNumber = details.at (ErrorFieldLine).toInt ();
     char type = details.at (ErrorFieldSeverity).at (0).toLatin1 ();
     QString id = "";
-    if (showId_)
-    {
+    if (showId_) {
       id = details.at (ErrorFieldId);
     }
     QString description = line.mid (line.indexOf (details.at (ErrorFieldMessage)));
@@ -272,10 +232,8 @@ void CppcheckRunner::readError ()
   }
 }
 
-void CppcheckRunner::started ()
-{
-  if (showOutput_)
-  {
+void CppcheckRunner::started () {
+  if (showOutput_) {
     Core::MessageManager::write (tr ("Cppcheck started"), Core::MessageManager::Silent);
   }
 
@@ -289,30 +247,24 @@ void CppcheckRunner::started ()
   futureInterface_->reportStarted ();
 }
 
-void CppcheckRunner::error (QProcess::ProcessError error)
-{
+void CppcheckRunner::error (QProcess::ProcessError error) {
   Q_UNUSED (error);
-  if (showOutput_)
-  {
+  if (showOutput_) {
     Core::MessageManager::write (tr ("Cppcheck error occured"), Core::MessageManager::Silent);
   }
-  if (error == QProcess::FailedToStart)
-  {
+  if (error == QProcess::FailedToStart) {
     finished (-1, QProcess::CrashExit);
   }
 }
 
-void CppcheckRunner::finished (int exitCode, QProcess::ExitStatus exitStatus)
-{
+void CppcheckRunner::finished (int exitCode, QProcess::ExitStatus exitStatus) {
   Q_UNUSED (exitCode);
   Q_UNUSED (exitStatus);
-  if (futureInterface_ != NULL)
-  {
+  if (futureInterface_ != NULL) {
     futureInterface_->reportFinished ();
   }
   process_.close ();
-  if (showOutput_)
-  {
+  if (showOutput_) {
     Core::MessageManager::write (tr ("Cppcheck finished"), Core::MessageManager::Silent);
   }
 }

@@ -11,14 +11,13 @@
 using namespace QtcCppcheck::Internal;
 
 namespace {
-const QLatin1String versionArg ("--version");
-const QLatin1String helpArg ("--help");
+  const QLatin1String versionArg ("--version");
+  const QLatin1String helpArg ("--help");
 }
 
 OptionsWidget::OptionsWidget (Settings *settings, QWidget *parent) :
   QWidget (parent),
-  ui (new Ui::OptionsWidget), settings_ (settings)
-{
+  ui (new Ui::OptionsWidget), settings_ (settings) {
   Q_ASSERT (settings_ != NULL);
 
   ui->setupUi (this);
@@ -34,33 +33,27 @@ OptionsWidget::OptionsWidget (Settings *settings, QWidget *parent) :
   initInterface ();
 }
 
-OptionsWidget::~OptionsWidget ()
-{
+OptionsWidget::~OptionsWidget () {
   delete ui;
   settings_ = NULL;
 }
 
-void OptionsWidget::getPossibleParams ()
-{
+void OptionsWidget::getPossibleParams () {
   QString binary = ui->binFileEdit->path ();
-  if (binary.isEmpty ())
-  {
+  if (binary.isEmpty ()) {
     return;
   }
   processArguments_ = QStringList () << helpArg;
   process_.start (binary, processArguments_);
 }
 
-void OptionsWidget::finished ()
-{
+void OptionsWidget::finished () {
   QByteArray output = process_.readAllStandardOutput ();
   QString outputString = QString::fromUtf8 (output).trimmed ();
-  if (processArguments_.contains (helpArg))
-  {
+  if (processArguments_.contains (helpArg)) {
     int startIndex = outputString.indexOf (QLatin1String ("Options:"));
     int endIndex = outputString.indexOf (QLatin1String ("Example usage:"));
-    if (startIndex >= endIndex)
-    {
+    if (startIndex >= endIndex) {
       return;
     }
     QString options = outputString.mid (startIndex, endIndex - startIndex);
@@ -73,8 +66,7 @@ void OptionsWidget::finished ()
   }
 }
 
-void OptionsWidget::applySettings ()
-{
+void OptionsWidget::applySettings () {
   Q_ASSERT (settings_ != NULL);
   settings_->setBinaryFile (ui->binFileEdit->path ());
   settings_->setCheckOnBuild (ui->onBuildCheckBox->isChecked ());
@@ -92,8 +84,7 @@ void OptionsWidget::applySettings ()
   settings_->save ();
 }
 
-void OptionsWidget::initInterface ()
-{
+void OptionsWidget::initInterface () {
   Q_ASSERT (settings_ != NULL);
   ui->binFileEdit->setPath (settings_->binaryFile ());
   ui->onBuildCheckBox->setChecked (settings_->checkOnBuild ());

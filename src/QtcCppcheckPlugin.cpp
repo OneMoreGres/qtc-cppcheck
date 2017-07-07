@@ -34,64 +34,54 @@ using namespace ProjectExplorer;
 using namespace Core;
 
 namespace {
-void addToMenu (Command *command, const char *containerId, const char *groupId)
-{
-  if (ActionContainer *menu = ActionManager::actionContainer (containerId))
-  {
-    menu->addAction (command, groupId);
-  }
-}
-
-QStringList supportedExtensions ()
-{
-  QStringList extensions;
-  extensions << QLatin1String ("cpp") << QLatin1String ("cxx") << QLatin1String ("cc")
-             << QLatin1String ("c") << QLatin1String ("c++") << QLatin1String ("txx")
-             << QLatin1String ("tpp")
-             << QLatin1String ("h") << QLatin1String ("hh") << QLatin1String ("hpp")
-             << QLatin1String ("h++") << QLatin1String ("hxx");
-  return extensions;
-}
-
-bool isFilteredOut (const QString &name, const QList<QRegExp> &filters)
-{
-  for (const auto &filter: filters)
-  {
-    if (filter.exactMatch (name))
-    {
-      return true;
+  void addToMenu (Command *command, const char *containerId, const char *groupId) {
+    if (ActionContainer *menu = ActionManager::actionContainer (containerId)) {
+      menu->addAction (command, groupId);
     }
   }
-  return false;
-}
 
-//! Check if node with given name should me checked.
-bool isFileNodeCheckable (const QString &name)
-{
-  static QStringList extensions = supportedExtensions ();
-  QFileInfo info (name);
-  QString extension = info.completeSuffix ();
-  return (extensions.contains (extension));
-}
+  QStringList supportedExtensions () {
+    QStringList extensions;
+    extensions << QLatin1String ("cpp") << QLatin1String ("cxx") << QLatin1String ("cc")
+               << QLatin1String ("c") << QLatin1String ("c++") << QLatin1String ("txx")
+               << QLatin1String ("tpp")
+               << QLatin1String ("h") << QLatin1String ("hh") << QLatin1String ("hpp")
+               << QLatin1String ("h++") << QLatin1String ("hxx");
+    return extensions;
+  }
+
+  bool isFilteredOut (const QString &name, const QList<QRegExp> &filters) {
+    for (const auto &filter: filters) {
+      if (filter.exactMatch (name)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //! Check if node with given name should me checked.
+  bool isFileNodeCheckable (const QString &name) {
+    static QStringList extensions = supportedExtensions ();
+    QFileInfo info (name);
+    QString extension = info.completeSuffix ();
+    return (extensions.contains (extension));
+  }
 }
 
 QtcCppcheckPlugin::QtcCppcheckPlugin () :
   IPlugin (), settings_ (new Settings (true)),
-  runner_ (new CppcheckRunner (settings_, this))
-{
+  runner_ (new CppcheckRunner (settings_, this)) {
   // Create your members
 }
 
-QtcCppcheckPlugin::~QtcCppcheckPlugin ()
-{
+QtcCppcheckPlugin::~QtcCppcheckPlugin () {
   // Unregister objects from the plugin manager's object pool
   // Delete members
 
   delete settings_;
 }
 
-bool QtcCppcheckPlugin::initialize (const QStringList &arguments, QString *errorString)
-{
+bool QtcCppcheckPlugin::initialize (const QStringList &arguments, QString *errorString) {
   // Register objects in the plugin manager's object pool
   // Load settings
   // Add actions to menus
@@ -118,8 +108,7 @@ bool QtcCppcheckPlugin::initialize (const QStringList &arguments, QString *error
   return true;
 }
 
-void QtcCppcheckPlugin::initMenus ()
-{
+void QtcCppcheckPlugin::initMenus () {
   QAction *checkNodeAction = new QAction (tr ("Scan with cppcheck"), this);
   Command *checkNodeCmd = ActionManager::registerAction (
     checkNodeAction, Constants::ACTION_CHECK_NODE_ID,
@@ -154,8 +143,7 @@ void QtcCppcheckPlugin::initMenus ()
   ActionManager::actionContainer (Core::Constants::M_TOOLS)->addMenu (menu);
 }
 
-void QtcCppcheckPlugin::initConnections ()
-{
+void QtcCppcheckPlugin::initConnections () {
   connect (runner_, SIGNAL (newTask (char,const QString&,const QString&,const QString&,int)),
            SLOT (addTask (char,const QString&,const QString&,const QString&,int)));
   connect (runner_, SIGNAL (startedChecking (const QStringList&)),
@@ -183,19 +171,15 @@ void QtcCppcheckPlugin::initConnections ()
            SLOT (handleDocumentsClose (const QModelIndex&,int,int)));
 }
 
-void QtcCppcheckPlugin::initLanguage ()
-{
+void QtcCppcheckPlugin::initLanguage () {
   const QString &language = Core::ICore::userInterfaceLanguage ();
-  if (!language.isEmpty ())
-  {
+  if (!language.isEmpty ()) {
     QStringList paths;
     paths << ICore::resourcePath () << ICore::userResourcePath ();
     const QString &trFile = QLatin1String ("QtcCppcheck_") + language;
     QTranslator *translator = new QTranslator (this);
-    foreach (const QString &path, paths)
-    {
-      if (translator->load (trFile, path + QLatin1String ("/translations")))
-      {
+    foreach (const QString &path, paths) {
+      if (translator->load (trFile, path + QLatin1String ("/translations"))) {
         qApp->installTranslator (translator);
         break;
       }
@@ -203,106 +187,85 @@ void QtcCppcheckPlugin::initLanguage ()
   }
 }
 
-void QtcCppcheckPlugin::extensionsInitialized ()
-{
+void QtcCppcheckPlugin::extensionsInitialized () {
   // Retrieve objects from the plugin manager's object pool
   // In the extensionsInitialized function, a plugin can be sure that all
   // plugins that depend on it are completely initialized.
 }
 
-ExtensionSystem::IPlugin::ShutdownFlag QtcCppcheckPlugin::aboutToShutdown ()
-{
+ExtensionSystem::IPlugin::ShutdownFlag QtcCppcheckPlugin::aboutToShutdown () {
   // Save settings
   // Disconnect from signals that are not needed during shutdown
   // Hide UI (if you add UI that is not in the main window directly)
   return SynchronousShutdown;
 }
 
-void QtcCppcheckPlugin::checkFiles (const QStringList &fileNames)
-{
+void QtcCppcheckPlugin::checkFiles (const QStringList &fileNames) {
   Q_ASSERT (runner_ != NULL);
   Q_ASSERT (!fileNames.isEmpty ());
   runner_->checkFiles (fileNames);
 }
 
-void QtcCppcheckPlugin::checkCurrentDocument ()
-{
+void QtcCppcheckPlugin::checkCurrentDocument () {
   IDocument *document = EditorManager::currentDocument ();
-  if (document == NULL)
-  {
+  if (document == NULL) {
     return;
   }
   // Check event if it not belongs to active project.
   checkFiles (QStringList () << document->filePath ().toString ());
 }
 
-void QtcCppcheckPlugin::checkActiveProject ()
-{
-  if (projectFileList_.isEmpty ())
-  {
+void QtcCppcheckPlugin::checkActiveProject () {
+  if (projectFileList_.isEmpty ()) {
     updateProjectFileList ();
   }
-  if (!projectFileList_.isEmpty ())
-  {
+  if (!projectFileList_.isEmpty ()) {
     checkFiles (projectFileList_);
   }
 }
 
-void QtcCppcheckPlugin::checkCurrentNode ()
-{
+void QtcCppcheckPlugin::checkCurrentNode () {
   Node *node = ProjectTree::currentNode ();
-  if (node == NULL)
-  {
+  if (node == NULL) {
     return;
   }
 
   QStringList files = checkableFiles (node, true);
-  if (!files.isEmpty ())
-  {
+  if (!files.isEmpty ()) {
     checkFiles (files);
   }
 }
 
-QStringList QtcCppcheckPlugin::checkableFiles (const Node *node, bool forceSelected) const
-{
-  if (!node)
-  {
+QStringList QtcCppcheckPlugin::checkableFiles (const Node *node, bool forceSelected) const {
+  if (!node) {
     return {};
   }
 
   QList<QRegExp> filters;
-  for (const auto &i: settings_->ignorePatterns ())
-  {
+  for (const auto &i: settings_->ignorePatterns ()) {
     filters << QRegExp (i, Qt::CaseSensitive, QRegExp::Wildcard);
   }
 
   QStringList files;
   const FolderNode *folder = nullptr;
-  if (const auto *container = node->asContainerNode ())
-  {
+  if (const auto *container = node->asContainerNode ()) {
     folder = container->rootProjectNode ();
   }
-  if (!folder)
-  {
+  if (!folder) {
     folder = node->asFolderNode ();
   }
 
-  if (folder)
-  {
-    for (const auto *subfolder: folder->folderNodes ())
-    {
+  if (folder) {
+    for (const auto *subfolder: folder->folderNodes ()) {
       files += checkableFiles (subfolder, false); // force only selected, not its children
     }
-    for (const auto *file: folder->fileNodes ())
-    {
+    for (const auto *file: folder->fileNodes ()) {
       files += checkableFiles (file, false); // force only selected, not its children
     }
   }
-  else if (const auto *file = node->asFileNode ())
-  {
+  else if (const auto *file = node->asFileNode ()) {
     auto name = file->filePath ().toString ();
-    if (forceSelected || (isFileNodeCheckable (name) && !isFilteredOut (name, filters)))
-    {
+    if (forceSelected || (isFileNodeCheckable (name) && !isFilteredOut (name, filters))) {
       files << name;
     }
   }
@@ -310,21 +273,16 @@ QStringList QtcCppcheckPlugin::checkableFiles (const Node *node, bool forceSelec
   return files;
 }
 
-void QtcCppcheckPlugin::updateProjectFileList ()
-{
-  if (activeProject_)
-  {
-    if (ProjectNode *rootNode = activeProject_->rootProjectNode ())
-    {
+void QtcCppcheckPlugin::updateProjectFileList () {
+  if (activeProject_) {
+    if (ProjectNode *rootNode = activeProject_->rootProjectNode ()) {
       projectFileList_ = checkableFiles (rootNode);
     }
   }
 }
 
-void QtcCppcheckPlugin::handleStartupProjectChange (Project *project)
-{
-  if (!activeProject_.isNull ())
-  {
+void QtcCppcheckPlugin::handleStartupProjectChange (Project *project) {
+  if (!activeProject_.isNull ()) {
     disconnect (activeProject_.data (), SIGNAL (fileListChanged ()),
                 this, SLOT (handleProjectFileListChanged ()));
   }
@@ -332,23 +290,19 @@ void QtcCppcheckPlugin::handleStartupProjectChange (Project *project)
   handleProjectFileListChanged ();
   Q_ASSERT (runner_ != NULL);
   runner_->stopChecking ();
-  if (project == NULL)
-  {
+  if (project == NULL) {
     return;
   }
   connect (project, SIGNAL (fileListChanged ()), SLOT (handleProjectFileListChanged ()));
 
   Q_ASSERT (settings_ != NULL);
-  if (settings_->checkOnProjectChange ())
-  {
+  if (settings_->checkOnProjectChange ()) {
     checkActiveProject ();
   }
 }
 
-void QtcCppcheckPlugin::handleProjectFileListChanged ()
-{
-  if (activeProject_.isNull ())
-  {
+void QtcCppcheckPlugin::handleProjectFileListChanged () {
+  if (activeProject_.isNull ()) {
     projectFileList_.clear ();
     clearTasksForFiles ();
     return;
@@ -357,107 +311,86 @@ void QtcCppcheckPlugin::handleProjectFileListChanged ()
   QStringList oldFiles = projectFileList_;
   updateProjectFileList ();
   QStringList addedFiles;
-  foreach (const QString &file, projectFileList_)
-  {
-    if (oldFiles.contains (file))
-    {
+  foreach (const QString &file, projectFileList_) {
+    if (oldFiles.contains (file)) {
       oldFiles.removeAll (file);
       continue;
     }
     addedFiles << file;
   }
-  if (!oldFiles.isEmpty ())
-  {
+  if (!oldFiles.isEmpty ()) {
     clearTasksForFiles (oldFiles); // Removed files.
   }
 
-  if (settings_->checkOnFileAdd () && !addedFiles.isEmpty ())
-  {
+  if (settings_->checkOnFileAdd () && !addedFiles.isEmpty ()) {
     checkFiles (addedFiles);
   }
 }
 
-void QtcCppcheckPlugin::handleSessionUnload ()
-{
+void QtcCppcheckPlugin::handleSessionUnload () {
   clearTasksForFiles ();
   Q_ASSERT (runner_ != NULL);
   runner_->stopChecking ();
 }
 
-void QtcCppcheckPlugin::handleBuildStateChange (Project *project)
-{
+void QtcCppcheckPlugin::handleBuildStateChange (Project *project) {
   Q_ASSERT (settings_ != NULL);
   if (!settings_->checkOnBuild () ||
-      project == NULL || project != activeProject_.data ())
-  {
+      project == NULL || project != activeProject_.data ()) {
     return;
   }
-  if (!BuildManager::isBuilding (activeProject_.data ())) // Finished building.
-  {
+  if (!BuildManager::isBuilding (activeProject_.data ())) { // Finished building.
     checkActiveProject ();
   }
 }
 
 void QtcCppcheckPlugin::handleDocumentsChange (const QModelIndex &topLeft,
                                                const QModelIndex &bottomRight,
-                                               const QVector<int> &roles)
-{
+                                               const QVector<int> &roles) {
   Q_UNUSED (roles);
-  if (settings_->checkOnSave ())
-  {
+  if (settings_->checkOnSave ()) {
     checkActiveProjectDocuments (topLeft.row (), bottomRight.row (), false);
   }
 }
 
 void QtcCppcheckPlugin::handleDocumentsClose (const QModelIndex &parent,
-                                              int start, int end)
-{
+                                              int start, int end) {
   Q_UNUSED (parent);
-  if (settings_->checkOnSave ())
-  {
+  if (settings_->checkOnSave ()) {
     checkActiveProjectDocuments (start, end, true); // Documents were modified before remove.
   }
 }
 
 void QtcCppcheckPlugin::checkActiveProjectDocuments (int beginRow, int endRow,
-                                                     bool modifiedFlag)
-{
+                                                     bool modifiedFlag) {
   QStringList filesToCheck;
-  for (int row = beginRow; row <= endRow; ++row)
-  {
+  for (int row = beginRow; row <= endRow; ++row) {
     DocumentModel::Entry *entry = DocumentModel::entryAtRow (row);
-    if (entry == NULL)
-    {
+    if (entry == NULL) {
       continue;
     }
     IDocument *document = entry->document;
-    if (document == NULL)
-    {
+    if (document == NULL) {
       continue;
     }
-    if (projectFileList_.isEmpty ())
-    {
+    if (projectFileList_.isEmpty ()) {
       updateProjectFileList ();
     }
     if (projectFileList_.contains (document->filePath ().toString ()) &&
-        document->isModified () == modifiedFlag)
-    {
+        document->isModified () == modifiedFlag) {
       filesToCheck << document->filePath ().toString ();
     }
   }
 
-  if (!filesToCheck.isEmpty ())
-  {
+  if (!filesToCheck.isEmpty ()) {
     checkFiles (filesToCheck);
   }
 }
 
 void QtcCppcheckPlugin::addTask (char type, const QString &id, const QString &description,
-                                 const QString &fileName, int line)
-{
+                                 const QString &fileName, int line) {
   QFileInfo info (fileName);
-  if (!info.exists ()) // Not points to file.
-  {
+  if (!info.exists ()) { // Not points to file.
     return;
   }
   Utils::FileName file (info);
@@ -466,8 +399,7 @@ void QtcCppcheckPlugin::addTask (char type, const QString &id, const QString &de
                             QLatin1String (": ") + description;
   TaskInfo taskInfo (line, fullDescription);
   // Search for duplicates (see TaskInfo class description).
-  if (fileTasks_.values (fileName).contains (taskInfo))
-  {
+  if (fileTasks_.values (fileName).contains (taskInfo)) {
     return;
   }
 
@@ -477,8 +409,7 @@ void QtcCppcheckPlugin::addTask (char type, const QString &id, const QString &de
   Q_ASSERT (settings_ != NULL);
   bool shouldPopup = (taskType == Task::Error) ? settings_->popupOnError ()
                      : settings_->popupOnWarning ();
-  if (shouldPopup)
-  {
+  if (shouldPopup) {
     TaskHub::requestPopup ();
   }
 
@@ -486,24 +417,18 @@ void QtcCppcheckPlugin::addTask (char type, const QString &id, const QString &de
   fileTasks_.insertMulti (fileName, taskInfo);
 }
 
-void QtcCppcheckPlugin::clearTasksForFiles (const QStringList &fileList)
-{
-  if (fileList.isEmpty ())
-  {
+void QtcCppcheckPlugin::clearTasksForFiles (const QStringList &fileList) {
+  if (fileList.isEmpty ()) {
     TaskHub::clearTasks (Constants::TASK_CATEGORY_ID);
     fileTasks_.clear ();
   }
-  else
-  {
-    foreach (const QString &file, fileList)
-    {
-      if (!fileTasks_.contains (file))
-      {
+  else{
+    foreach (const QString &file, fileList) {
+      if (!fileTasks_.contains (file)) {
         continue;
       }
       Task task;
-      foreach (const TaskInfo &info, fileTasks_.values (file))
-      {
+      foreach (const TaskInfo &info, fileTasks_.values (file)) {
         info.init (task);
         TaskHub::removeTask (task);
       }
@@ -512,8 +437,7 @@ void QtcCppcheckPlugin::clearTasksForFiles (const QStringList &fileList)
   }
 }
 
-void QtcCppcheckPlugin::updateSettings ()
-{
+void QtcCppcheckPlugin::updateSettings () {
   Q_ASSERT (runner_ != NULL);
   runner_->updateSettings ();
 }

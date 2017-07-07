@@ -13,20 +13,17 @@ using namespace QtcCppcheck::Constants;
 using namespace QtcCppcheck::Internal;
 
 namespace {
-QString defaultBinary ()
-{
-  QString res;
-  if (Utils::HostOsInfo::isWindowsHost ())
-  {
-    res = Utils::FileName::fromUserInput (QLatin1String (qgetenv ("ProgramFiles")))
-          .appendPath ("Cppcheck/cppcheck.exe").toString ();
+  QString defaultBinary () {
+    QString res;
+    if (Utils::HostOsInfo::isWindowsHost ()) {
+      res = Utils::FileName::fromUserInput (QLatin1String (qgetenv ("ProgramFiles")))
+            .appendPath ("Cppcheck/cppcheck.exe").toString ();
+    }
+    else{
+      res = "/usr/bin/cppcheck";
+    }
+    return QFile::exists (res) ? res : QString ();
   }
-  else
-  {
-    res = "/usr/bin/cppcheck";
-  }
-  return QFile::exists (res) ? res : QString ();
-}
 }
 
 Settings::Settings (bool autoLoad) :
@@ -35,16 +32,13 @@ Settings::Settings (bool autoLoad) :
   checkUnused_ (false), checkInconclusive_ (false),
   showBinaryOutput_ (false),
   showId_ (false),
-  popupOnError_ (false), popupOnWarning_ (false)
-{
-  if (autoLoad)
-  {
+  popupOnError_ (false), popupOnWarning_ (false) {
+  if (autoLoad) {
     load ();
   }
 }
 
-void Settings::save ()
-{
+void Settings::save () {
   Q_ASSERT (Core::ICore::settings () != NULL);
   QSettings &settings = *(Core::ICore::settings ());
   settings.beginGroup (QLatin1String (SETTINGS_GROUP));
@@ -64,8 +58,7 @@ void Settings::save ()
   settings.endGroup ();
 }
 
-void Settings::load ()
-{
+void Settings::load () {
   Q_ASSERT (Core::ICore::settings () != NULL);
   QSettings &settings = *(Core::ICore::settings ());
   settings.beginGroup (QLatin1String (SETTINGS_GROUP));
@@ -96,141 +89,113 @@ void Settings::load ()
   popupOnWarning_ = settings.value (QLatin1String (SETTINGS_POPUP_ON_WARNING),
                                     true).toBool ();
   settings.endGroup ();
-  if (binaryFile_.isEmpty ())
-  {
+  if (binaryFile_.isEmpty ()) {
     binaryFile_ = defaultBinary ();
   }
 }
 
-QString Settings::binaryFile () const
-{
+QString Settings::binaryFile () const {
   return binaryFile_;
 }
 
-void Settings::setBinaryFile (const QString &binaryFile)
-{
+void Settings::setBinaryFile (const QString &binaryFile) {
   binaryFile_ = binaryFile;
 }
 
-bool Settings::checkOnBuild () const
-{
+bool Settings::checkOnBuild () const {
   return checkOnBuild_;
 }
 
-void Settings::setCheckOnBuild (bool checkOnBuild)
-{
+void Settings::setCheckOnBuild (bool checkOnBuild) {
   checkOnBuild_ = checkOnBuild;
 }
 
-bool Settings::checkInconclusive () const
-{
+bool Settings::checkInconclusive () const {
   return checkInconclusive_;
 }
 
-void Settings::setCheckInconclusive (bool checkInconclusive)
-{
+void Settings::setCheckInconclusive (bool checkInconclusive) {
   checkInconclusive_ = checkInconclusive;
 }
 
-QString Settings::customParameters () const
-{
+QString Settings::customParameters () const {
   return customParameters_;
 }
 
-void Settings::setCustomParameters (const QString &customParameters)
-{
+void Settings::setCustomParameters (const QString &customParameters) {
   customParameters_ = customParameters;
 }
 
-bool Settings::showBinaryOutput () const
-{
+bool Settings::showBinaryOutput () const {
   return showBinaryOutput_;
 }
 
-void Settings::setShowBinaryOutput (bool showBinaryOutput)
-{
+void Settings::setShowBinaryOutput (bool showBinaryOutput) {
   showBinaryOutput_ = showBinaryOutput;
 }
 
-bool Settings::showId () const
-{
+bool Settings::showId () const {
   return showId_;
 }
 
-void Settings::setShowId (bool showId)
-{
+void Settings::setShowId (bool showId) {
   showId_ = showId;
 }
 
-bool Settings::popupOnError () const
-{
+bool Settings::popupOnError () const {
   return popupOnError_;
 }
 
-void Settings::setPopupOnError (bool popupOnError)
-{
+void Settings::setPopupOnError (bool popupOnError) {
   popupOnError_ = popupOnError;
 }
-bool Settings::popupOnWarning () const
-{
+bool Settings::popupOnWarning () const {
   return popupOnWarning_;
 }
 
-void Settings::setPopupOnWarning (bool popupOnWarning)
-{
+void Settings::setPopupOnWarning (bool popupOnWarning) {
   popupOnWarning_ = popupOnWarning;
 }
 
-QStringList Settings::ignorePatterns () const
-{
+QStringList Settings::ignorePatterns () const {
   return ignorePatterns_;
 }
 
-void Settings::setIgnorePatterns (const QStringList &ignorePatterns)
-{
+void Settings::setIgnorePatterns (const QStringList &ignorePatterns) {
   ignorePatterns_ = ignorePatterns;
-  for (auto &i: ignorePatterns_)
-  {
+  for (auto &i: ignorePatterns_) {
     i = i.trimmed ();
   }
 }
 
-bool Settings::checkOnProjectChange () const
-{
+bool Settings::checkOnProjectChange () const {
   return checkOnProjectChange_;
 }
 
-void Settings::setCheckOnProjectChange (bool checkOnProjectChange)
-{
+void Settings::setCheckOnProjectChange (bool checkOnProjectChange) {
   checkOnProjectChange_ = checkOnProjectChange;
 }
 
-bool Settings::checkOnFileAdd () const
-{
+bool Settings::checkOnFileAdd () const {
   return checkOnFileAdd_;
 }
 
-void Settings::setCheckOnFileAdd (bool checkOnFileAdd)
-{
+void Settings::setCheckOnFileAdd (bool checkOnFileAdd) {
   checkOnFileAdd_ = checkOnFileAdd;
 }
 
-bool Settings::checkUnused () const
-{
+bool Settings::checkUnused () const {
   return checkUnused_;
 }
 
-void Settings::setCheckUnused (bool checkUnused)
-{
+void Settings::setCheckUnused (bool checkUnused) {
   checkUnused_ = checkUnused;
 }
 
-bool Settings::checkOnSave () const
-{
+bool Settings::checkOnSave () const {
   return checkOnSave_;
 }
 
-void Settings::setCheckOnSave (bool checkOnSave)
-{
+void Settings::setCheckOnSave (bool checkOnSave) {
   checkOnSave_ = checkOnSave;
 }

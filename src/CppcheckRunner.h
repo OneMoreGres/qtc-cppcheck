@@ -8,80 +8,80 @@
 #include <QFuture>
 
 namespace QtcCppcheck {
-namespace Internal {
+  namespace Internal {
 
-class Settings;
+    class Settings;
 
-/*!
- * \brief Cppcheck binary runner.
- *  Does not have ownership on settings_ (must be destroyed before settings).
- * Launches, finishes, reads result, passes start arguments, etc.
- */
-class CppcheckRunner : public QObject
-{
-Q_OBJECT
-public:
-  explicit CppcheckRunner (Settings *settings, QObject *parent = 0);
-  ~CppcheckRunner ();
+    /*!
+     * \brief Cppcheck binary runner.
+     *  Does not have ownership on settings_ (must be destroyed before settings).
+     * Launches, finishes, reads result, passes start arguments, etc.
+     */
+    class CppcheckRunner : public QObject {
+      Q_OBJECT
 
-  //! Add files to check queue.
-  void checkFiles (const QStringList &fileNames);
+      public:
+        explicit CppcheckRunner (Settings *settings, QObject *parent = 0);
+        ~CppcheckRunner ();
 
-  //! Update data based on current settings_.
-  void updateSettings ();
+        //! Add files to check queue.
+        void checkFiles (const QStringList &fileNames);
 
-public slots:
-  //! Stop check progress if running and clear check queue.
-  void stopChecking ();
+        //! Update data based on current settings_.
+        void updateSettings ();
 
-signals:
-  //! New task has been generated.
-  void newTask (char type, const QString &id, const QString &description,
-                const QString &fileName, int line);
-  //! Inform about starting checking specified files.
-  void startedChecking (const QStringList &files);
+      public slots:
+        //! Stop check progress if running and clear check queue.
+        void stopChecking ();
 
-private slots:
-  //! Check files from queue.
-  void checkQueuedFiles ();
+      signals:
+        //! New task has been generated.
+        void newTask (char type, const QString &id, const QString &description,
+                      const QString &fileName, int line);
+        //! Inform about starting checking specified files.
+        void startedChecking (const QStringList &files);
 
-  // QProcess handling.
-  void readOutput ();
-  void readError ();
-  void started ();
-  void error (QProcess::ProcessError error);
-  void finished (int exitCode, QProcess::ExitStatus exitStatus);
+      private slots:
+        //! Check files from queue.
+        void checkQueuedFiles ();
 
-private:
-  //! Timer to delay queue checking.
-  QTimer queueTimer_;
-  //! Binary runner.
-  QProcess process_;
-  //! Plugin's settings.
-  Settings *settings_;
-  //! Binary run arguments.
-  QStringList runArguments_;
-  //! Queued list of files to check.
-  QStringList fileCheckQueue_;
-  //! List of files currently being checked.
-  QStringList currentlyCheckingFiles_;
-  //! Should print process' output to MessageManager or not.
-  bool showOutput_;
-  //! Show message Id in issue field.
-  bool showId_;
-  //! Interface to inform about checking.
-  QFutureInterface<void> *futureInterface_;
-  //! Max summary arguments length.
-  int maxArgumentsLength_;
-  //! Current file names in fileListFile_.
-  QStringList fileListFileContents_;
-  //! File that contains files to check (if there are too much run args).
-  QTemporaryFile fileListFile_;
-  //! File that contains include paths list (if there are too much run args).
-  QTemporaryFile includeListFile_;
-};
+        // QProcess handling.
+        void readOutput ();
+        void readError ();
+        void started ();
+        void error (QProcess::ProcessError error);
+        void finished (int exitCode, QProcess::ExitStatus exitStatus);
 
-} // namespace Internal
+      private:
+        //! Timer to delay queue checking.
+        QTimer queueTimer_;
+        //! Binary runner.
+        QProcess process_;
+        //! Plugin's settings.
+        Settings *settings_;
+        //! Binary run arguments.
+        QStringList runArguments_;
+        //! Queued list of files to check.
+        QStringList fileCheckQueue_;
+        //! List of files currently being checked.
+        QStringList currentlyCheckingFiles_;
+        //! Should print process' output to MessageManager or not.
+        bool showOutput_;
+        //! Show message Id in issue field.
+        bool showId_;
+        //! Interface to inform about checking.
+        QFutureInterface<void> *futureInterface_;
+        //! Max summary arguments length.
+        int maxArgumentsLength_;
+        //! Current file names in fileListFile_.
+        QStringList fileListFileContents_;
+        //! File that contains files to check (if there are too much run args).
+        QTemporaryFile fileListFile_;
+        //! File that contains include paths list (if there are too much run args).
+        QTemporaryFile includeListFile_;
+    };
+
+  } // namespace Internal
 } // namespace QtcCppcheck
 
 
