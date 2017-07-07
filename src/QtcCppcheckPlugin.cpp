@@ -126,14 +126,14 @@ void QtcCppcheckPlugin::initMenus()
 #undef ADD_TO_MENU
 
 
-  QAction *checkProjectAction = new QAction(tr("Check current project"), this);
+  QAction *checkProjectAction = new QAction(tr("Check current &project"), this);
   Core::Command *checkProjectCmd = ActionManager::registerAction(
                                      checkProjectAction, Constants::ACTION_CHECK_PROJECT_ID,
                                      Context(Core::Constants::C_GLOBAL));
   checkProjectCmd->setDefaultKeySequence (QKeySequence (tr ("Alt+C,Ctrl+A")));
   connect(checkProjectAction, SIGNAL(triggered()), this, SLOT(checkActiveProject()));
 
-  QAction *checkDocumentAction = new QAction(tr("Check current document"), this);
+  QAction *checkDocumentAction = new QAction(tr("Check current &document"), this);
   Command *checkDocumentCmd = ActionManager::registerAction(
                                 checkDocumentAction, Constants::ACTION_CHECK_DOCUMENT_ID,
                                 Context(Core::Constants::C_GLOBAL));
@@ -142,7 +142,7 @@ void QtcCppcheckPlugin::initMenus()
 
 
   ActionContainer *menu = ActionManager::createMenu(Constants::MENU_ID);
-  menu->menu()->setTitle(tr("Cppcheck"));
+  menu->menu()->setTitle(tr("C&ppcheck"));
   menu->addAction(checkProjectCmd);
   menu->addAction(checkDocumentCmd);
   ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
