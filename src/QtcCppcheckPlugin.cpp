@@ -35,6 +35,14 @@ using namespace Core;
 
 namespace
 {
+  void addToMenu(Command *command, const char *containerId, const char *groupId)
+  {
+    if (ActionContainer *menu = ActionManager::actionContainer(containerId))
+    {
+      menu->addAction (command, groupId);
+    }
+  }
+
   QStringList supportedExtensions () {
     QStringList extensions;
     extensions << QLatin1String("cpp") << QLatin1String("cxx") << QLatin1String("cc")
@@ -108,12 +116,6 @@ bool QtcCppcheckPlugin::initialize(const QStringList &arguments, QString *errorS
   initMenus ();
   initConnections ();
   return true;
-}
-
-static void addToMenu(Command *command, const char *containerId, const char *groupId)
-{
-  if (ActionContainer *menu = ActionManager::actionContainer(containerId))
-    menu->addAction (command, groupId);
 }
 
 void QtcCppcheckPlugin::initMenus()
