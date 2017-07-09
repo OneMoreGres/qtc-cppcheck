@@ -23,11 +23,6 @@
     </message>
     <message>
         <location filename="../src/OptionsWidget.ui" line="41"/>
-        <source>...</source>
-        <translation>...</translation>
-    </message>
-    <message>
-        <location filename="../src/OptionsWidget.ui" line="169"/>
         <source>Popup issues pane when warnings found</source>
         <translation>Показывать панель проблем для предупреждений</translation>
     </message>
@@ -128,17 +123,9 @@
 <context>
     <name>QtcCppcheck::Internal::OptionsPage</name>
     <message>
-        <location filename="../src/OptionsPage.cpp" line="15"/>
-        <source>QtcCppcheck</source>
-        <translation>QtcCppcheck</translation>
-    </message>
-</context>
-<context>
-    <name>QtcCppcheck::Internal::OptionsWidget</name>
-    <message>
-        <location filename="../src/OptionsWidget.cpp" line="83"/>
-        <source>Version: </source>
-        <translation>Версия: </translation>
+        <location filename="../src/OptionsPage.cpp" line="14"/>
+        <source>Cppcheck</source>
+        <translation>Cppcheck</translation>
     </message>
 </context>
 <context>
@@ -149,29 +136,29 @@
         <translation>Проверить Cppcheck</translation>
     </message>
     <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="130"/>
-        <source>Check current project</source>
-        <translation>Проверить активный проект</translation>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="124"/>
+        <source>Check current &amp;project</source>
+        <translation>Проверить &amp;проект</translation>
+    </message>
+    <message>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="131"/>
+        <source>Check current &amp;document</source>
+        <translation>Проверить &amp;документ</translation>
     </message>
     <message>
         <location filename="../src/QtcCppcheckPlugin.cpp" line="134"/>
+        <source>C&amp;ppcheck</source>
+        <translation>C&amp;ppcheck</translation>
+    </message>
+    <message>
+        <location filename="../src/QtcCppcheckPlugin.cpp" line="128"/>
         <source>Alt+C,Ctrl+A</source>
         <translation>Alt+C,Ctrl+A</translation>
     </message>
     <message>
         <location filename="../src/QtcCppcheckPlugin.cpp" line="137"/>
-        <source>Check current document</source>
-        <translation>Проверить активный документ</translation>
-    </message>
-    <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="141"/>
         <source>Alt+C,Ctrl+D</source>
         <translation>Alt+C,Ctrl+D</translation>
-    </message>
-    <message>
-        <location filename="../src/QtcCppcheckPlugin.cpp" line="146"/>
-        <source>Cppcheck</source>
-        <translation>Cppcheck</translation>
     </message>
 </context>
 </TS>
