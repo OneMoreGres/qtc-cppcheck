@@ -11,7 +11,7 @@ OptionsPage::OptionsPage (Settings *settings, QObject *parent) :
   IOptionsPage (parent), settings_ (settings) {
   Q_ASSERT (settings_ != NULL);
   setId (Constants::OPTIONS_PAGE_ID);
-  setDisplayName (tr ("QtcCppcheck"));
+  setDisplayName (tr ("Cppcheck"));
   setCategory (Constants::OPTIONS_CATEGORY_ID);
   setDisplayCategory (QCoreApplication::translate ("Analyzer", "Analyzer"));
   setCategoryIcon (Utils::Icon (Constants::OPTIONS_CATEGORY_ICON));
