@@ -1,5 +1,3 @@
-DEFINES += QTCCPPCHECK_LIBRARY
-
 VERSION_SUFFIX = ""
 
 include(paths.pri)
@@ -20,7 +18,6 @@ HEADERS += \
     src/CppcheckRunner.h \
     src/Settings.h \
     src/Constants.h \
-    src/PluginGlobal.h \
     src/TaskInfo.h \
     src/QtcCppcheckPlugin.h
 

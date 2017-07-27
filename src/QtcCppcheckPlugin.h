@@ -1,7 +1,6 @@
 #ifndef QTCCPPCHECK_H
 #define QTCCPPCHECK_H
 
-#include "PluginGlobal.h"
 #include <QModelIndex>
 #include <QStringList>
 #include <QPointer>
