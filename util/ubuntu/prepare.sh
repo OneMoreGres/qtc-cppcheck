@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+SELF_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+
+sudo apt-get -qq update
+sudo apt-get -y -qq install wget libfontconfig libgl1-mesa-dev
+
+mkdir -p download
+mkdir -p qtcreator-latest
+if [ -z "$VERSION" ]; then VERSION="debug"; fi
+echo "$VERSION" > qtcreator-latest/version
+
+if [ ! -d "qtcreator-latest/src" ]; then
+  wget -cq http://download.qt.io/official_releases/qtcreator/4.3/4.3.1/qt-creator-opensource-src-4.3.1.tar.gz -O download/src.tar.gz
+  tar axf download/src.tar.gz -C qtcreator-latest
+  mv qtcreator-latest/qt-creator* qtcreator-latest/src
+fi
+
+if [ ! -d "qtcreator-latest/compiled" ]; then
+  wget -cq http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run -O download/installer.run
+  chmod +x download/installer.run
+  sudo QT_QPA_PLATFORM="minimal" download/installer.run --script "$SELF_PATH/qt_install.qs"
+  sudo chmod a+w /opt/qt/Tools/QtCreator/lib/qtcreator/plugins
+  ln -s /opt/qt/5.9.1/gcc_64 qtcreator-latest/Qt
+  ln -s /opt/qt/Tools/QtCreator qtcreator-latest/compiled
+fi
+
