@@ -1,0 +1,32 @@
+image: Visual Studio 2015
+
+clone_depth: 1
+
+platform:
+  - x64
+
+init:
+  - if /i %APPVEYOR_REPO_TAG% == true    set VERSION=%APPVEYOR_REPO_TAG_NAME%
+  
+cache:
+  - qtcreator-latest\compiled -> util\win\prepare.bat
+  
+install:
+  - call "util\win\prepare.bat"
+  
+build_script:
+  - call "util\win\build.bat"
+
+artifacts:
+  - path: 'QtcCppcheck-*.zip'
+    name: archive
+
+deploy:
+  - provider: GitHub
+    description: ''
+    auth_token:
+      secure: NnyUV44yNAx8ea1L46dVhE4kQxUGd5M1O+yVk+9ncsNHWtw/9JoCnDqNybnxTccP
+    artifact: archive
+    force_update: true
+    on:
+      appveyor_repo_tag: true
