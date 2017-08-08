@@ -26,7 +26,18 @@ cd ..
 PLUGIN_NAME="QtcCppcheck"
 VERSION=$(cat qtcreator-latest/version)
 
-if [ ! -f qtcreator-latest/compiled/Contents/PlugIns/lib$PLUGIN_NAME.dylib ]; then exit 1; fi
-cp qtcreator-latest/compiled/Contents/PlugIns/lib$PLUGIN_NAME.dylib lib$PLUGIN_NAME.dylib
+if [ ! -f "qtcreator-latest/compiled/Contents/PlugIns/lib$PLUGIN_NAME.dylib" ]; then exit 1; fi
 
-ls -l lib$PLUGIN_NAME.dylib
+rm -rf dist
+mkdir -p dist/Contents/PlugIns/
+mkdir -p dist/Contents/Resources/translations
+cp qtcreator-latest/compiled/Contents/PlugIns/lib$PLUGIN_NAME.dylib dist/Contents/PlugIns/
+ls -l dist/Contents/PlugIns/lib$PLUGIN_NAME.dylib
+cp $ROOT/translation/*.qm dist/Contents/Resources/translations
+
+rm -f $PLUGIN_NAME-$VERSION-osx.tar.gz
+cd dist
+tar czf ../$PLUGIN_NAME-$VERSION-osx.tar.gz
+cd ..
+
+ls -l $PLUGIN_NAME-$VERSION-osx.tar.gz
