@@ -26,6 +26,7 @@ mkdir qtcreator-latest\compiled
 cd qtcreator-latest\compiled
 qmake QMAKE_CXXFLAGS+=/MP ..\src
 nmake /S
+rd /Q /S src
 cd ..\..
 
 :end
