@@ -22,8 +22,8 @@ if [ ! -d "qtcreator-latest/compiled" ]; then
   sudo QT_QPA_PLATFORM="minimal" ./run --script "$SELF_PATH/qt_install.qs"
   rm run
   hdiutil unmount installer
-  sudo chmod a+w /opt/qt/QtCreator.app/Contents/PlugIns
+  sudo chmod a+w /opt/qt/Qt\ Creator.app/Contents/PlugIns
   ln -s /opt/qt/5.9.1/clang_64 qtcreator-latest/Qt
-  ln -s /opt/qt/QtCreator.app qtcreator-latest/compiled
+  ln -s /opt/qt/Qt\ Creator.app qtcreator-latest/compiled
 fi
 
