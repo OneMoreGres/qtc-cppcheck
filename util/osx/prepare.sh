@@ -19,6 +19,7 @@ if [ ! -d "qtcreator-latest/compiled" ]; then
   curl -fsSLk -o download/installer.dmg http://download.qt.io/official_releases/online_installers/qt-unified-mac-x64-online.dmg
   hdiutil attach -mountpoint installer download/installer.dmg
   ln -s installer/qt-*/Contents/MacOS/qt-* run
+  ls -l run
   sudo QT_QPA_PLATFORM="minimal" ./run --script "$SELF_PATH/qt_install.qs"
   rm run
   hdiutil unmount installer
