@@ -6,7 +6,7 @@ SELF_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export PATH="$PWD/qtcreator-latest/Qt/bin/:$PATH"
 ROOT="$SELF_PATH/../.."
-echo `g++ --version`
+echo `clang --version`
 echo `qmake --version`
 
 
