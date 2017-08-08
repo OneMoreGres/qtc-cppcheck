@@ -32,6 +32,7 @@ mkdir -p dist/lib/qtcreator/plugins
 mkdir -p dist/share/qtcreator/translations
 cp qtcreator-latest/compiled/lib/qtcreator/plugins/lib$PLUGIN_NAME.so dist/lib/qtcreator/plugins
 strip dist/lib/qtcreator/plugins/lib$PLUGIN_NAME.so
+ls -l dist/lib/qtcreator/plugins/lib$PLUGIN_NAME.so
 cp $SELF_PATH/../../translation/*.qm dist/share/qtcreator/translations
 
 rm -f $PLUGIN_NAME-$VERSION-linux-x64.tar.gz
