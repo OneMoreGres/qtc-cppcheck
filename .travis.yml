@@ -5,18 +5,21 @@ sudo: required
 
 git:
   depth: 1
-  
+
 matrix:
   include:
     - os: osx
       osx_image: xcode7.3
     - os: linux
       dist: trusty
-  
+  allow_failures:
+    - os: osx
+      osx_image: xcode7.3
+
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./util/osx/prepare.sh & ./util/osx/prepare.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./util/ubuntu/prepare.sh & sudo ./util/ubuntu/prepare.sh; fi
-  
+
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./util/osx/build.sh & ./util/osx/build.sh ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./util/ubuntu/build.sh & ./util/ubuntu/build.sh; fi
