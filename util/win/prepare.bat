@@ -5,7 +5,7 @@ call %SELF_PATH%\env.bat
 
 
 mkdir qtcreator-latest
-mklnk /D %QT_DIR% qtcreator-latest\Qt
+mklink /D %QT_DIR% qtcreator-latest\Qt
 if "%VERSION%"=="" set VERSION=debug
 echo %VERSION%>qtcreator-latest\version
 
