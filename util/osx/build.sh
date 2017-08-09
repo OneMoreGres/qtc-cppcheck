@@ -37,7 +37,7 @@ cp $ROOT/translation/*.qm dist/Contents/Resources/translations
 
 rm -f $PLUGIN_NAME-$VERSION-osx.tar.gz
 cd dist
-tar czf ../$PLUGIN_NAME-$VERSION-osx.tar.gz
+tar czf ../$PLUGIN_NAME-$VERSION-osx.tar.gz .
 cd ..
 
 ls -l $PLUGIN_NAME-$VERSION-osx.tar.gz

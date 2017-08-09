@@ -12,9 +12,6 @@ matrix:
       osx_image: xcode7.3
     - os: linux
       dist: trusty
-  allow_failures:
-    - os: osx
-      osx_image: xcode7.3
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./util/osx/prepare.sh & ./util/osx/prepare.sh; fi
