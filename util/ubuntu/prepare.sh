@@ -22,7 +22,7 @@ fi
 if [ ! -d "qtcreator-latest/compiled" ]; then
   wget -cq http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run -O download/installer.run
   chmod +x download/installer.run
-  sudo QT_QPA_PLATFORM="minimal" download/installer.run --script "$SELF_PATH/qt_install.qs"
+  sudo QT_QPA_PLATFORM="minimal" download/installer.run --script "$SELF_PATH/qt_install.qs" -v
   sudo chmod a+w /opt/qt/Tools/QtCreator/lib/qtcreator/plugins
   ln -s /opt/qt/5.9.1/gcc_64 qtcreator-latest/Qt
   ln -s /opt/qt/Tools/QtCreator qtcreator-latest/compiled
