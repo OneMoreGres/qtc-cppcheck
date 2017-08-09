@@ -1,0 +1,47 @@
+language: cpp
+
+dist: trusty
+sudo: required
+
+git:
+  depth: 1
+
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode7.3
+    - os: linux
+      dist: trusty
+
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./util/osx/prepare.sh & ./util/osx/prepare.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./util/ubuntu/prepare.sh & sudo ./util/ubuntu/prepare.sh; fi
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./util/osx/build.sh & ./util/osx/build.sh ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./util/ubuntu/build.sh & ./util/ubuntu/build.sh; fi
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: "K+jeDetf7fsc3N8bknZ9NNNfxNcm/r2+BAGMPr/sBGaPxMWhy0XW1Zj5w12j2MfQAVRB1ttRzwchmH3AfPZh0mRH4znjxdNlPY9zYv0vMC+KzsMaa51/3CgP6z3r0xq1X8HXaLsZt59qyqNBV/6vPiRSChRJmOUcyDkftlcCMERp2vjToW3BZDCx81Y8LoKsB+2xj9s9YpJhCNpiAydcfeTjd7uVoLQjJD4ZuMHBVLMjTDA9jUlhokHQiD4qo+SWfeRvSUPx6CIGVTFy4QFSGKz2voqk+iu+78K8Tux1bZOOgzbT/L66UP8BnfILPfqihRLs1IWHic3478/WE6+sZqjqhpzTRwd8ns52EEBpkrBTDlsClMHS8gjLN7jwiJCR+U5mHjTn4gkk99hu9GSQ/gjrdcNrD/+iqceKV5U0P6e6qirrQSJI1/kLMOroqMvW+zTYhh5tbYzpXagxSEihEjeH1MuBzV2GuwkOuRZJ7L16UZVx9xR2+nQWCnlHbVcd94mud1ost8VEBN+yo7qypsePJpXp1FxkhfDz17D+J+r6UIqiFshE3nAJw4+7hQefs/39rmeguT+0MRbFGGTrVIS3C8EuIODuBAFUdiRkMXmMuaG2rPEuJ5kT8eA029oPD3JLNp8GdmWiZolUruMkPzBq8s2rrLjM7+rNe5G33oI="
+    file_glob: true
+    file: "QtcCppcheck-*.tar.gz"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = linux
+  - provider: releases
+    api_key:
+      secure: "K+jeDetf7fsc3N8bknZ9NNNfxNcm/r2+BAGMPr/sBGaPxMWhy0XW1Zj5w12j2MfQAVRB1ttRzwchmH3AfPZh0mRH4znjxdNlPY9zYv0vMC+KzsMaa51/3CgP6z3r0xq1X8HXaLsZt59qyqNBV/6vPiRSChRJmOUcyDkftlcCMERp2vjToW3BZDCx81Y8LoKsB+2xj9s9YpJhCNpiAydcfeTjd7uVoLQjJD4ZuMHBVLMjTDA9jUlhokHQiD4qo+SWfeRvSUPx6CIGVTFy4QFSGKz2voqk+iu+78K8Tux1bZOOgzbT/L66UP8BnfILPfqihRLs1IWHic3478/WE6+sZqjqhpzTRwd8ns52EEBpkrBTDlsClMHS8gjLN7jwiJCR+U5mHjTn4gkk99hu9GSQ/gjrdcNrD/+iqceKV5U0P6e6qirrQSJI1/kLMOroqMvW+zTYhh5tbYzpXagxSEihEjeH1MuBzV2GuwkOuRZJ7L16UZVx9xR2+nQWCnlHbVcd94mud1ost8VEBN+yo7qypsePJpXp1FxkhfDz17D+J+r6UIqiFshE3nAJw4+7hQefs/39rmeguT+0MRbFGGTrVIS3C8EuIODuBAFUdiRkMXmMuaG2rPEuJ5kT8eA029oPD3JLNp8GdmWiZolUruMkPzBq8s2rrLjM7+rNe5G33oI="
+    file_glob: true
+    file: "libQtcCppcheck-*.dylib"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = osx
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
