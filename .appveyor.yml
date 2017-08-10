@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-clone_depth: 1
+clone_depth: 10
 
 platform:
   - x86
