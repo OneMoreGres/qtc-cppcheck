@@ -168,7 +168,8 @@ void CppcheckRunner::checkQueuedFiles () {
         includeListFile_.close ();
       }
       else{
-        Core::MessageManager::write (tr ("Failed to write cppcheck's argument files"), Core::MessageManager::Silent);
+        Core::MessageManager::write (tr ("Failed to write cppcheck's argument files"),
+                                     Core::MessageManager::Silent);
         return;
       }
     }
@@ -181,7 +182,8 @@ void CppcheckRunner::checkQueuedFiles () {
   }
   emit startedChecking (currentlyCheckingFiles_);
   if (showOutput_) {
-    Core::MessageManager::write (QString ("Starting CppChecker with:%1, %2").arg (binary,arguments.join (" ")), Core::MessageManager::WithFocus);
+    Core::MessageManager::write (QString ("Starting CppChecker with:%1, %2")
+                                 .arg (binary,arguments.join (" ")), Core::MessageManager::WithFocus);
   }
   process_.start (binary, arguments);
 }
