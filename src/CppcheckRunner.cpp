@@ -143,13 +143,13 @@ void CppcheckRunner::checkQueuedFiles () {
   arguments += runArguments_;
 
   QStringList includes = includePaths (fileCheckQueue_);
-  arguments += fileCheckQueue_;
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
 
   int argumentLength = arguments.join (QLatin1Literal (" ")).length ();
+  int filesLength = currentlyCheckingFiles_.join (QLatin1Literal (" ")).length ();
   int includesLength = includes.join (QLatin1Literal (" ")).length ();
-  if (argumentLength + includesLength >= maxArgumentsLength_) {
+  if (argumentLength + includesLength + filesLength >= maxArgumentsLength_) {
     if (fileListFileContents_ != currentlyCheckingFiles_) {
       fileListFileContents_ = currentlyCheckingFiles_;
       if (fileListFile_.open () && includeListFile_.open ()) {
@@ -166,11 +166,11 @@ void CppcheckRunner::checkQueuedFiles () {
         return;
       }
     }
-    arguments = runArguments_;
     arguments << QString (QLatin1String ("--file-list=%1")).arg (fileListFile_.fileName ());
     arguments << QString (QLatin1String ("--includes-file=%1")).arg (includeListFile_.fileName ());
   }
   else{
+    arguments += currentlyCheckingFiles_;
     arguments += includes;
   }
   emit startedChecking (currentlyCheckingFiles_);
