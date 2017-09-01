@@ -152,14 +152,20 @@ void CppcheckRunner::checkQueuedFiles () {
   if (argumentLength + includesLength + filesLength >= maxArgumentsLength_) {
     if (fileListFileContents_ != currentlyCheckingFiles_) {
       fileListFileContents_ = currentlyCheckingFiles_;
+      fileListFile_.resize (0);
+      includeListFile_.resize (0);
+
       if (fileListFile_.open () && includeListFile_.open ()) {
         QByteArray filesArg = fileListFileContents_.join (QLatin1String ("\n")).toLocal8Bit ();
         fileListFile_.write (filesArg);
+        fileListFile_.close ();
+
         for (auto &i: includes) {
           i = i.mid (2);
         }
         QByteArray includesArg = includes.join (QLatin1String ("\n")).toLocal8Bit ();
         includeListFile_.write (includesArg);
+        includeListFile_.close ();
       }
       else{
         Core::MessageManager::write (tr ("Failed to write cppcheck's argument files"), Core::MessageManager::Silent);
