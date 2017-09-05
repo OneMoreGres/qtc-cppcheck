@@ -13,7 +13,7 @@ echo %VERSION%>qtcreator-latest\version
 if exist qtcreator-latest/src goto build
 
 mkdir download
-if not exist download/src.zip  curl -fsSLk -o download\src.zip http://download.qt.io/official_releases/qtcreator/4.3/4.3.1/qt-creator-opensource-src-4.3.1.zip
+if not exist download/src.zip  curl -fsSLk -o download\src.zip http://download.qt.io/official_releases/qtcreator/4.4/4.4.0/qt-creator-opensource-src-4.4.0.zip
 unzip -qq download\src.zip -d qtcreator-latest
 move qtcreator-latest\qt-creator* qtcreator-latest\src
 

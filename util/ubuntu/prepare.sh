@@ -14,7 +14,7 @@ if [ -z "$VERSION" ]; then VERSION="debug"; fi
 echo "$VERSION" > qtcreator-latest/version
 
 if [ ! -d "qtcreator-latest/src" ]; then
-  wget -cq http://download.qt.io/official_releases/qtcreator/4.3/4.3.1/qt-creator-opensource-src-4.3.1.tar.gz -O download/src.tar.gz
+  wget -cq http://download.qt.io/official_releases/qtcreator/4.4/4.4.0/qt-creator-opensource-src-4.4.0.tar.gz -O download/src.tar.gz
   tar axf download/src.tar.gz -C qtcreator-latest
   mv qtcreator-latest/qt-creator* qtcreator-latest/src
 fi

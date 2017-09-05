@@ -1,4 +1,7 @@
 # Changelog
+
+## v 4.4.0
+- QTC version update
 ## v 4.3.0
 - Can show error id in Issues pane
 - Some bugfixes
