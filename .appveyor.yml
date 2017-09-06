@@ -12,7 +12,7 @@ init:
   - if /i %APPVEYOR_REPO_TAG% == true    set VERSION=%APPVEYOR_REPO_TAG_NAME%
   
 cache:
-  - qtcreator-latest\compiled -> util\win\prepare.bat
+  - qtcreator-latest\compiled
   
 install:
   - call "util\win\prepare.bat"
