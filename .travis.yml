@@ -6,6 +6,9 @@ sudo: required
 git:
   depth: 10
 
+env:
+  - VERSION="$TRAVIS_TAG"
+
 matrix:
   include:
     - os: osx
