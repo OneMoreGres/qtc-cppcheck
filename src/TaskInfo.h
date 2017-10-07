@@ -15,7 +15,7 @@ namespace QtcCppcheck {
      * Required to prevend addition of duplicate tasks in situations where
      * tasks found for non-checking files (checking cpp -> reported for header).
      */
-    class TaskInfo1 {
+    class TaskInfo {
       public:
         TaskInfo ();
         TaskInfo (uint line, const QString &description);
