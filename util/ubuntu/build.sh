@@ -4,7 +4,8 @@ set -e
 
 SELF_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-export PATH="$PWD/qtcreator-latest/Qt/bin/:$PATH"
+GCC_PATH=/opt/gcc-5/
+export PATH="$GCC_PATH:$PWD/qtcreator-latest/Qt/bin/:$PATH"
 ROOT="$SELF_PATH/../.."
 echo `g++ --version`
 echo `qmake --version`

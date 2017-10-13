@@ -5,8 +5,14 @@ set -e
 SELF_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get -qq update
-sudo apt-get -y -qq install wget libfontconfig libgl1-mesa-dev
+sudo apt-get -y -qq install gcc-5 g++-5 wget libfontconfig libgl1-mesa-dev
+
+GCC_PATH=/opt/gcc-5
+sudo mkdir -p $GCC_PATH
+sudo ln -sf /usr/bin/g++-5 $GCC_PATH/g++
+sudo ln -sf /usr/bin/gcc-5 $GCC_PATH/gcc
 
 mkdir -p download
 mkdir -p qtcreator-latest
