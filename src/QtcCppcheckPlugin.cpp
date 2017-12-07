@@ -225,7 +225,7 @@ void QtcCppcheckPlugin::checkActiveProject () {
 }
 
 void QtcCppcheckPlugin::checkCurrentNode () {
-  Node *node = ProjectTree::currentNode ();
+  Node *node = ProjectTree::findCurrentNode ();
   if (node == NULL) {
     return;
   }
