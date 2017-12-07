@@ -10,7 +10,7 @@ if [ -z "$VERSION" ]; then VERSION="debug"; fi
 echo "$VERSION" > qtcreator-latest/version
 
 if [ ! -d "qtcreator-latest/src" ]; then
-  curl -fsSLk -o download/src.tar.gz http://download.qt.io/official_releases/qtcreator/4.4/4.4.0/qt-creator-opensource-src-4.4.0.tar.gz
+  curl -fsSLk -o download/src.tar.gz http://download.qt.io/official_releases/qtcreator/4.5/4.5.0/qt-creator-opensource-src-4.5.0.tar.gz
   tar zxf download/src.tar.gz -C qtcreator-latest
   mv qtcreator-latest/qt-creator* qtcreator-latest/src
 fi
@@ -24,7 +24,7 @@ if [ ! -d "qtcreator-latest/compiled" ]; then
   rm run
   hdiutil unmount installer
   sudo chmod a+w /opt/qt/Qt\ Creator.app/Contents/PlugIns
-  ln -s /opt/qt/5.9.1/clang_64 qtcreator-latest/Qt
+  ln -s /opt/qt/5.10.0/clang_64 qtcreator-latest/Qt
   ln -s /opt/qt/Qt\ Creator.app qtcreator-latest/compiled
 fi
 

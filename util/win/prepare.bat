@@ -14,7 +14,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 if exist qtcreator-latest/src goto build
 
 mkdir download
-if not exist download/src.zip  curl -fsSLk -o download\src.zip http://download.qt.io/official_releases/qtcreator/4.4/4.4.0/qt-creator-opensource-src-4.4.0.zip
+if not exist download/src.zip  curl -fsSLk -o download\src.zip http://download.qt.io/official_releases/qtcreator/4.5/4.5.0/qt-creator-opensource-src-4.5.0.zip
 unzip -qq download\src.zip -d qtcreator-latest
 move qtcreator-latest\qt-creator* qtcreator-latest\src
 if %errorlevel% neq 0 exit /b %errorlevel%

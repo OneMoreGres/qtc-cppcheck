@@ -20,7 +20,7 @@ if [ -z "$VERSION" ]; then VERSION="debug"; fi
 echo "$VERSION" > qtcreator-latest/version
 
 if [ ! -d "qtcreator-latest/src" ]; then
-  wget -cq http://download.qt.io/official_releases/qtcreator/4.4/4.4.0/qt-creator-opensource-src-4.4.0.tar.gz -O download/src.tar.gz
+  wget -cq http://download.qt.io/official_releases/qtcreator/4.5/4.5.0/qt-creator-opensource-src-4.5.0.tar.gz -O download/src.tar.gz
   tar axf download/src.tar.gz -C qtcreator-latest
   mv qtcreator-latest/qt-creator* qtcreator-latest/src
 fi
@@ -30,7 +30,7 @@ if [ ! -d "qtcreator-latest/compiled" ]; then
   chmod +x download/installer.run
   sudo QT_QPA_PLATFORM="minimal" download/installer.run --script "$SELF_PATH/qt_install.qs" -v
   sudo chmod a+w /opt/qt/Tools/QtCreator/lib/qtcreator/plugins
-  ln -s /opt/qt/5.9.1/gcc_64 qtcreator-latest/Qt
+  ln -s /opt/qt/5.10.0/gcc_64 qtcreator-latest/Qt
   ln -s /opt/qt/Tools/QtCreator qtcreator-latest/compiled
 fi
 
