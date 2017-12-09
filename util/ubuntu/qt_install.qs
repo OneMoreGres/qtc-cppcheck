@@ -6,7 +6,7 @@ function Controller() {
 }
 
 Controller.prototype.WelcomePageCallback = function() {
-  gui.clickButton(buttons.NextButton);
+  gui.clickButton(buttons.NextButton, 2000);
 }
 
 Controller.prototype.CredentialsPageCallback = function() {
@@ -25,7 +25,7 @@ Controller.prototype.TargetDirectoryPageCallback = function() {
 Controller.prototype.ComponentSelectionPageCallback = function() {
   var widget = gui.currentPageWidget();
   widget.deselectAll();
-  widget.selectComponent('qt.5100.gcc_64');
+  widget.selectComponent('qt.qt5.5100.gcc_64');
   gui.clickButton(buttons.NextButton);
 }
   
