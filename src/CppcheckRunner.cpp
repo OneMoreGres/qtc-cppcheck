@@ -137,7 +137,7 @@ void CppcheckRunner::checkQueuedFiles () {
   QStringList arguments (expanded.split (QLatin1Char (' '), QString::SkipEmptyParts));
   arguments += runArguments_;
 
-  QStringList includes = includePaths_;
+  auto includes = !settings_->ignoreIncludePaths () ? includePaths_ : QStringList {};
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
 

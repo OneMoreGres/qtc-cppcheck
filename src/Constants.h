@@ -18,6 +18,7 @@ namespace QtcCppcheck {
     const char SETTINGS_CHECK_INCONCLUSIVE[] = "checkInconclusive";
     const char SETTINGS_CUSTOM_PARAMS[] = "customParams";
     const char SETTINGS_IGNORE_PATTERNS[] = "ignorePatterns";
+    const char SETTINGS_IGNORE_INCLUDE_PATHS[] = "ignoreIncludePaths";
     const char SETTINGS_SHOW_OUTPUT[] = "showOutput";
     const char SETTINGS_SHOW_ID[] = "showId";
     const char SETTINGS_POPUP_ON_ERROR[] = "popupOnError";
