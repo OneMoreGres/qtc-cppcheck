@@ -30,6 +30,8 @@ namespace QtcCppcheck {
         //! Update data based on current settings_.
         void updateSettings ();
 
+        void setIncludePaths (const QStringList &paths);
+
       public slots:
         //! Stop check progress if running and clear check queue.
         void stopChecking ();
@@ -61,6 +63,8 @@ namespace QtcCppcheck {
         Settings *settings_;
         //! Binary run arguments.
         QStringList runArguments_;
+        //! Current project's include paths.
+        QStringList includePaths_;
         //! Queued list of files to check.
         QStringList fileCheckQueue_;
         //! List of files currently being checked.

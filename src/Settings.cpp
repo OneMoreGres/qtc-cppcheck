@@ -30,6 +30,7 @@ Settings::Settings (bool autoLoad) :
   checkOnBuild_ (false), checkOnSave_ (false),
   checkOnProjectChange_ (false), checkOnFileAdd_ (false),
   checkUnused_ (false), checkInconclusive_ (false),
+  ignoreIncludePaths_ (false),
   showBinaryOutput_ (false),
   showId_ (false),
   popupOnError_ (false), popupOnWarning_ (false) {
@@ -51,6 +52,7 @@ void Settings::save () {
   settings.setValue (QLatin1String (SETTINGS_CHECK_INCONCLUSIVE), checkInconclusive_);
   settings.setValue (QLatin1String (SETTINGS_CUSTOM_PARAMS), customParameters_);
   settings.setValue (QLatin1String (SETTINGS_IGNORE_PATTERNS), ignorePatterns_.join (","));
+  settings.setValue (QLatin1String (SETTINGS_IGNORE_INCLUDE_PATHS), ignoreIncludePaths_);
   settings.setValue (QLatin1String (SETTINGS_SHOW_OUTPUT), showBinaryOutput_);
   settings.setValue (QLatin1String (SETTINGS_SHOW_ID), showId_);
   settings.setValue (QLatin1String (SETTINGS_POPUP_ON_ERROR), popupOnError_);
@@ -80,6 +82,8 @@ void Settings::load () {
                                       QString ()).toString ();
   ignorePatterns_ = settings.value (QLatin1String (SETTINGS_IGNORE_PATTERNS),
                                     QString ()).toString ().split (",", QString::SkipEmptyParts);
+  ignoreIncludePaths_ = settings.value (QLatin1String (SETTINGS_IGNORE_INCLUDE_PATHS),
+                                        false).toBool ();
   showBinaryOutput_ = settings.value (QLatin1String (SETTINGS_SHOW_OUTPUT),
                                       false).toBool ();
   showId_ = settings.value (QLatin1String (SETTINGS_SHOW_ID),
@@ -166,6 +170,14 @@ void Settings::setIgnorePatterns (const QStringList &ignorePatterns) {
   for (auto &i: ignorePatterns_) {
     i = i.trimmed ();
   }
+}
+
+bool Settings::ignoreIncludePaths () const {
+  return ignoreIncludePaths_;
+}
+
+void Settings::setIgnoreIncludePaths (bool ignoreIncludePaths) {
+  ignoreIncludePaths_ = ignoreIncludePaths;
 }
 
 bool Settings::checkOnProjectChange () const {

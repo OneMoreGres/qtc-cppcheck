@@ -77,6 +77,7 @@ void OptionsWidget::applySettings () {
   settings_->setCheckInconclusive (ui->inconclusiveCheckBox->isChecked ());
   settings_->setCustomParameters (ui->customParametersEdit->text ());
   settings_->setIgnorePatterns (ui->ignoreEdit->text ().split (","));
+  settings_->setIgnoreIncludePaths (ui->ignoreIncludePathsCheck->isChecked ());
   settings_->setShowBinaryOutput (ui->showOutputCheckBox->isChecked ());
   settings_->setShowId (ui->showIdCheckBox->isChecked ());
   settings_->setPopupOnError (ui->popupOnErrorCheckBox->isChecked ());
@@ -95,6 +96,7 @@ void OptionsWidget::initInterface () {
   ui->inconclusiveCheckBox->setChecked (settings_->checkInconclusive ());
   ui->customParametersEdit->setText (settings_->customParameters ());
   ui->ignoreEdit->setText (settings_->ignorePatterns ().join (","));
+  ui->ignoreIncludePathsCheck->setChecked (settings_->ignoreIncludePaths ());
   ui->showOutputCheckBox->setChecked (settings_->showBinaryOutput ());
   ui->showIdCheckBox->setChecked (settings_->showId ());
   ui->popupOnErrorCheckBox->setChecked (settings_->popupOnError ());

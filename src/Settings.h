@@ -57,6 +57,9 @@ namespace QtcCppcheck {
         QStringList ignorePatterns () const;
         void setIgnorePatterns (const QStringList &ignorePatterns);
 
+        bool ignoreIncludePaths () const;
+        void setIgnoreIncludePaths (bool ignoreIncludePaths);
+
       private:
         QString binaryFile_;
 
@@ -69,6 +72,7 @@ namespace QtcCppcheck {
         bool checkInconclusive_;
         QString customParameters_;
         QStringList ignorePatterns_;
+        bool ignoreIncludePaths_;
         bool showBinaryOutput_;
         bool showId_;
 

@@ -19,6 +19,10 @@
 #include <projectexplorer/session.h>
 #include <projectexplorer/projecttree.h>
 
+#include <cpptools/projectinfo.h>
+#include <cpptools/projectpart.h>
+#include <cpptools/cppmodelmanager.h>
+
 #include <QtPlugin>
 
 #include "QtcCppcheckPlugin.h"
@@ -275,6 +279,24 @@ QStringList QtcCppcheckPlugin::checkableFiles (const Node *node, bool forceSelec
 
 void QtcCppcheckPlugin::updateProjectFileList () {
   if (activeProject_) {
+
+    const auto *modelManager = CppTools::CppModelManager::instance ();
+    auto info = modelManager->projectInfo (activeProject_);
+
+    const auto projectPath = activeProject_->projectDirectory ().toString ();
+    QStringList paths;
+    for (const auto &i: info.projectParts ()) {
+      for (const auto &j: i->headerPaths) {
+        if (j.type == CppTools::ProjectPartHeaderPath::IncludePath &&
+            j.path.startsWith (projectPath)) {
+          paths.append (j.path);
+        }
+      }
+    }
+
+    paths.removeDuplicates ();
+    runner_->setIncludePaths (paths);
+
     if (ProjectNode *rootNode = activeProject_->rootProjectNode ()) {
       projectFileList_ = checkableFiles (rootNode);
     }

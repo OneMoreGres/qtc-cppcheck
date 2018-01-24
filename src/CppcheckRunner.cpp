@@ -20,19 +20,6 @@ namespace {
     ErrorFieldFile = 0, ErrorFieldLine, ErrorFieldSeverity, ErrorFieldId,
     ErrorFieldMessage
   };
-
-  QStringList includePaths (const QStringList &files) {
-    QStringList paths;
-    foreach (const QString &file, files) {
-      QFileInfo info (file);
-      QString current = QLatin1String ("-I") + info.absolutePath ();
-      if (!paths.contains (current)) {
-        paths << current;
-      }
-    }
-    return paths;
-  }
-
 }
 
 CppcheckRunner::CppcheckRunner (Settings *settings, QObject *parent) :
@@ -102,6 +89,14 @@ void CppcheckRunner::updateSettings () {
   runArguments_ << QLatin1String ("--template={file},{line},{severity},{id},{message}");
 }
 
+void CppcheckRunner::setIncludePaths (const QStringList &paths) {
+  includePaths_.clear ();
+  includePaths_.reserve (paths.size ());
+  for (const auto &i: paths) {
+    includePaths_.append (QLatin1String ("-I") + i);
+  }
+}
+
 void CppcheckRunner::checkFiles (const QStringList &fileNames) {
   Q_ASSERT (!fileNames.isEmpty ());
   fileCheckQueue_ += fileNames;
@@ -142,7 +137,7 @@ void CppcheckRunner::checkQueuedFiles () {
   QStringList arguments (expanded.split (QLatin1Char (' '), QString::SkipEmptyParts));
   arguments += runArguments_;
 
-  QStringList includes = includePaths (fileCheckQueue_);
+  auto includes = !settings_->ignoreIncludePaths () ? includePaths_ : QStringList {};
   currentlyCheckingFiles_ = fileCheckQueue_;
   fileCheckQueue_.clear ();
 
