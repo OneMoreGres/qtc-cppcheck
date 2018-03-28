@@ -7,15 +7,15 @@ if /i %ARCH% == x64       goto x64
 goto end
 
 :x64
-call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-set PATH=c:\Qt\5.10\msvc2017_64\bin\;%PATH%
-set QT_DIR=c:\Qt\5.10\msvc2017_64\
+call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+set PATH=c:\Qt\5.10.1\msvc2015_64\bin\;%PATH%
+set QT_DIR=c:\Qt\5.10.1\msvc2015_64\
 goto end
 
 :x86
-call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
-set PATH=c:\Qt\5.10\msvc2017\bin\;%PATH%
-set QT_DIR=c:\Qt\5.10\msvc2017\
+call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+set PATH=c:\Qt\5.10.1\msvc2015\bin\;%PATH%
+set QT_DIR=c:\Qt\5.10.1\msvc2015\
 goto end
 
 :end
