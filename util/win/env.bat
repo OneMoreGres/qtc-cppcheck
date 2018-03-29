@@ -1,6 +1,6 @@
 @echo off
 
-if "%ARCH%" == "" set ARCH=x64
+if "%ARCH%" == "" set ARCH=x86
 
 if /i %ARCH% == x86       goto x86
 if /i %ARCH% == x64       goto x64
