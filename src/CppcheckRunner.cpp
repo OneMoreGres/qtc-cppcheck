@@ -189,7 +189,7 @@ void CppcheckRunner::readOutput () {
   }
   process_.setReadChannel (QProcess::StandardOutput);
 
-  while (!process_.atEnd ()) {
+  while (!process_.atEnd () && process_.canReadLine ()) {
     QByteArray rawLine = process_.readLine ();
     QString line = QString::fromUtf8 (rawLine).trimmed ();
     if (line.isEmpty ()) {
@@ -210,7 +210,7 @@ void CppcheckRunner::readOutput () {
 void CppcheckRunner::readError () {
   process_.setReadChannel (QProcess::StandardError);
 
-  while (!process_.atEnd ()) {
+  while (!process_.atEnd () && process_.canReadLine ()) {
     QByteArray rawLine = process_.readLine ();
     QString line = QString::fromUtf8 (rawLine).trimmed ();
     if (line.isEmpty ()) {
