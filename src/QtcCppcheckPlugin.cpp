@@ -103,9 +103,8 @@ bool QtcCppcheckPlugin::initialize (const QStringList &arguments, QString *error
 
   updateSettings ();
 
-  OptionsPage *optionsPage = new OptionsPage (settings_);
+  OptionsPage *optionsPage = new OptionsPage (settings_, this);
   connect (optionsPage, SIGNAL (settingsChanged ()), SLOT (updateSettings ()));
-  addAutoReleasedObject (optionsPage);
 
   initMenus ();
   initConnections ();
