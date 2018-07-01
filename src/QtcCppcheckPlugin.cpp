@@ -104,7 +104,7 @@ bool QtcCppcheckPlugin::initialize (const QStringList &arguments, QString *error
   updateSettings ();
 
   OptionsPage *optionsPage = new OptionsPage (settings_);
-  connect (optionsPage, SIGNAL (settingsChanged ()), SLOT (updateSettings ()));
+  connect (optionsPage, &OptionsPage::settingsChanged, this, &QtcCppcheckPlugin::updateSettings);
   addAutoReleasedObject (optionsPage);
 
   initMenus ();
@@ -117,7 +117,7 @@ void QtcCppcheckPlugin::initMenus () {
   Command *checkNodeCmd = ActionManager::registerAction (
     checkNodeAction, Constants::ACTION_CHECK_NODE_ID,
     Context (Core::Constants::C_EDIT_MODE));
-  connect (checkNodeAction, SIGNAL (triggered ()), this, SLOT (checkCurrentNode ()));
+  connect (checkNodeAction, &QAction::triggered, this, &QtcCppcheckPlugin::checkCurrentNode);
 
   using namespace ProjectExplorer::Constants;
   addToMenu (checkNodeCmd, M_FILECONTEXT, G_FILE_OTHER);
@@ -130,14 +130,14 @@ void QtcCppcheckPlugin::initMenus () {
     checkProjectAction, Constants::ACTION_CHECK_PROJECT_ID,
     Context (Core::Constants::C_GLOBAL));
   checkProjectCmd->setDefaultKeySequence (QKeySequence (tr ("Alt+C,Ctrl+A")));
-  connect (checkProjectAction, SIGNAL (triggered ()), this, SLOT (checkActiveProject ()));
+  connect (checkProjectAction, &QAction::triggered, this, &QtcCppcheckPlugin::checkActiveProject);
 
   QAction *checkDocumentAction = new QAction (tr ("Check current &document"), this);
   Command *checkDocumentCmd = ActionManager::registerAction (
     checkDocumentAction, Constants::ACTION_CHECK_DOCUMENT_ID,
     Context (Core::Constants::C_GLOBAL));
   checkDocumentCmd->setDefaultKeySequence (QKeySequence (tr ("Alt+C,Ctrl+D")));
-  connect (checkDocumentAction, SIGNAL (triggered ()), this, SLOT (checkCurrentDocument ()));
+  connect (checkDocumentAction, &QAction::triggered, this, &QtcCppcheckPlugin::checkCurrentDocument);
 
 
   ActionContainer *menu = ActionManager::createMenu (Constants::MENU_ID);
@@ -148,31 +148,26 @@ void QtcCppcheckPlugin::initMenus () {
 }
 
 void QtcCppcheckPlugin::initConnections () {
-  connect (runner_, SIGNAL (newTask (char,const QString&,const QString&,const QString&,int)),
-           SLOT (addTask (char,const QString&,const QString&,const QString&,int)));
-  connect (runner_, SIGNAL (startedChecking (const QStringList&)),
-           SLOT (clearTasksForFiles (const QStringList&)));
+  connect (runner_, &CppcheckRunner::newTask,
+           this, &QtcCppcheckPlugin::addTask);
+  connect (runner_, &CppcheckRunner::startedChecking,
+           this, &QtcCppcheckPlugin::clearTasksForFiles);
 
-  connect (SessionManager::instance (),
-           SIGNAL (aboutToUnloadSession (QString)),
-           SLOT (handleSessionUnload ()));
+  connect (SessionManager::instance (), &SessionManager::aboutToUnloadSession,
+           this, &QtcCppcheckPlugin::handleSessionUnload);
 
-  connect (SessionManager::instance (),
-           SIGNAL (startupProjectChanged (ProjectExplorer::Project *)),
-           SLOT (handleStartupProjectChange (ProjectExplorer::Project *)));
+  connect (SessionManager::instance (), &SessionManager::startupProjectChanged,
+           this, &QtcCppcheckPlugin::handleStartupProjectChange);
 
   // Check on build
-  connect (BuildManager::instance (),
-           SIGNAL (buildStateChanged (ProjectExplorer::Project *)),
-           SLOT (handleBuildStateChange (ProjectExplorer::Project *)));
+  connect (BuildManager::instance (), &BuildManager::buildStateChanged,
+           this, &QtcCppcheckPlugin::handleBuildStateChange);
 
   // Open documents auto check.
-  connect (DocumentModel::model (),
-           SIGNAL (dataChanged (const QModelIndex&,const QModelIndex&,const QVector<int> &)),
-           SLOT (handleDocumentsChange (const QModelIndex&,const QModelIndex&,const QVector<int> &)));
-  connect (DocumentModel::model (),
-           SIGNAL (rowsAboutToBeRemoved (const QModelIndex&,int,int)),
-           SLOT (handleDocumentsClose (const QModelIndex&,int,int)));
+  connect (DocumentModel::model (), &QAbstractItemModel::dataChanged,
+           this, &QtcCppcheckPlugin::handleDocumentsChange);
+  connect (DocumentModel::model (), &QAbstractItemModel::rowsAboutToBeRemoved,
+           this, &QtcCppcheckPlugin::handleDocumentsClose);
 }
 
 void QtcCppcheckPlugin::initLanguage () {
@@ -305,8 +300,8 @@ void QtcCppcheckPlugin::updateProjectFileList () {
 
 void QtcCppcheckPlugin::handleStartupProjectChange (Project *project) {
   if (!activeProject_.isNull ()) {
-    disconnect (activeProject_.data (), SIGNAL (fileListChanged ()),
-                this, SLOT (handleProjectFileListChanged ()));
+    disconnect (activeProject_.data (), &Project::fileListChanged,
+                this, &QtcCppcheckPlugin::handleProjectFileListChanged);
   }
   activeProject_ = project;
   handleProjectFileListChanged ();
@@ -315,7 +310,7 @@ void QtcCppcheckPlugin::handleStartupProjectChange (Project *project) {
   if (project == NULL) {
     return;
   }
-  connect (project, SIGNAL (fileListChanged ()), SLOT (handleProjectFileListChanged ()));
+  connect (project, &Project::fileListChanged, this, &QtcCppcheckPlugin::handleProjectFileListChanged);
 
   Q_ASSERT (settings_ != NULL);
   if (settings_->checkOnProjectChange ()) {

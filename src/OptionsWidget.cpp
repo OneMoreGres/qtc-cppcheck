@@ -27,8 +27,9 @@ OptionsWidget::OptionsWidget (Settings *settings, QWidget *parent) :
   auto chooser = new Core::VariableChooser (this);
   chooser->addSupportedWidget (ui->customParametersEdit);
 
-  connect (ui->getHelpButton, SIGNAL (clicked ()), SLOT (getPossibleParams ()));
-  connect (&process_, SIGNAL (finished (int,QProcess::ExitStatus)), SLOT (finished ()));
+  connect (ui->getHelpButton, &QAbstractButton::clicked, this, &OptionsWidget::getPossibleParams);
+  connect (&process_, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+           this, &OptionsWidget::finished);
 
   initInterface ();
 }

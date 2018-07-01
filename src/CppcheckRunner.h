@@ -52,7 +52,7 @@ namespace QtcCppcheck {
         void readError ();
         void started ();
         void error (QProcess::ProcessError error);
-        void finished (int exitCode, QProcess::ExitStatus exitStatus);
+        void finished (int exitCode);
 
       private:
         //! Timer to delay queue checking.

@@ -36,20 +36,20 @@ CppcheckRunner::CppcheckRunner (Settings *settings, QObject *parent) :
 #endif
   Q_ASSERT (settings_ != NULL);
 
-  connect (&process_, SIGNAL (readyReadStandardOutput ()),
-           SLOT (readOutput ()));
-  connect (&process_, SIGNAL (readyReadStandardError ()),
-           SLOT (readError ()));
-  connect (&process_, SIGNAL (started ()),
-           SLOT (started ()));
-  connect (&process_, SIGNAL (error (QProcess::ProcessError)),
-           SLOT (error (QProcess::ProcessError)));
-  connect (&process_, SIGNAL (finished (int,QProcess::ExitStatus)),
-           SLOT (finished (int,QProcess::ExitStatus)));
+  connect (&process_, &QProcess::readyReadStandardOutput,
+           this, &CppcheckRunner::readOutput);
+  connect (&process_, &QProcess::readyReadStandardError,
+           this, &CppcheckRunner::readError);
+  connect (&process_, &QProcess::started,
+           this, &CppcheckRunner::started);
+  connect (&process_, &QProcess::errorOccurred,
+           this, &CppcheckRunner::error);
+  connect (&process_, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+           this, &CppcheckRunner::finished);
 
   // Restart checking if got queue.
-  connect (&process_, SIGNAL (finished (int,QProcess::ExitStatus)),
-           SLOT (checkQueuedFiles ()));
+  connect (&process_, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+           this, &CppcheckRunner::checkQueuedFiles);
 }
 
 CppcheckRunner::~CppcheckRunner () {
@@ -112,7 +112,7 @@ void CppcheckRunner::checkFiles (const QStringList &fileNames) {
   // Delay helps to avoid double checking same file on editor change.
   const int checkDelayInMs = 200;
   if (!queueTimer_.isActive ()) {
-    queueTimer_.singleShot (checkDelayInMs, this, SLOT (checkQueuedFiles ()));
+    queueTimer_.singleShot (checkDelayInMs, this, &CppcheckRunner::checkQueuedFiles);
   }
 }
 
@@ -245,7 +245,7 @@ void CppcheckRunner::started () {
   futureInterface_ = new QFutureInterface<void>;
   FutureProgress *progress = ProgressManager::addTask (futureInterface_->future (),
                                                        tr ("Cppcheck"), Constants::TASK_CHECKING);
-  connect (progress, SIGNAL (canceled ()), SLOT (stopChecking ()));
+  connect (progress, &Core::FutureProgress::canceled, this, &CppcheckRunner::stopChecking);
   futureInterface_->setProgressRange (0, 100); // %
   futureInterface_->reportStarted ();
 }
@@ -256,13 +256,12 @@ void CppcheckRunner::error (QProcess::ProcessError error) {
     Core::MessageManager::write (tr ("Cppcheck error occured"), Core::MessageManager::Silent);
   }
   if (error == QProcess::FailedToStart) {
-    finished (-1, QProcess::CrashExit);
+    finished (-1);
   }
 }
 
-void CppcheckRunner::finished (int exitCode, QProcess::ExitStatus exitStatus) {
+void CppcheckRunner::finished (int exitCode) {
   Q_UNUSED (exitCode);
-  Q_UNUSED (exitStatus);
   if (futureInterface_ != NULL) {
     futureInterface_->reportFinished ();
   }
