@@ -281,7 +281,7 @@ void QtcCppcheckPlugin::updateProjectFileList () {
     QStringList paths;
     for (const auto &i: info.projectParts ()) {
       for (const auto &j: i->headerPaths) {
-        if (j.type == CppTools::ProjectPartHeaderPath::IncludePath &&
+        if (j.type == HeaderPathType::User &&
             j.path.startsWith (projectPath)) {
           paths.append (j.path);
         }
