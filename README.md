@@ -19,8 +19,7 @@ Plugin integrates some [Cppcheck](http://cppcheck.sourceforge.net/ "Cppcheck") f
 
 ## Downloads
 
-Built plugin can be downloaded [here](https://sourceforge.net/projects/qtc-cppcheck/ "Sourceforge")
-or from github releases.
+Built plugin can be downloaded from [github releases](https://github.com/OneMoreGres/qtc-cppcheck/releases).
 
 
 ## Installation
