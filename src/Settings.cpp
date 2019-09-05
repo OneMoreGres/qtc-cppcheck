@@ -16,8 +16,8 @@ namespace {
   QString defaultBinary () {
     QString res;
     if (Utils::HostOsInfo::isWindowsHost ()) {
-      res = Utils::FileName::fromUserInput (QLatin1String (qgetenv ("ProgramFiles")))
-            .appendPath ("Cppcheck/cppcheck.exe").toString ();
+      res = Utils::FilePath::fromUserInput (QLatin1String (qgetenv ("ProgramFiles")))
+            .pathAppended("Cppcheck/cppcheck.exe").toString ();
     }
     else{
       res = "/usr/bin/cppcheck";

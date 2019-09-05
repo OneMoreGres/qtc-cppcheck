@@ -223,8 +223,8 @@ void QtcCppcheckPlugin::checkActiveProject () {
 }
 
 void QtcCppcheckPlugin::checkCurrentNode () {
-  Node *node = ProjectTree::findCurrentNode ();
-  if (node == NULL) {
+  Node *node = ProjectTree::currentNode ();
+  if (!node) {
     return;
   }
 
@@ -409,7 +409,7 @@ void QtcCppcheckPlugin::addTask (char type, const QString &id, const QString &de
   if (!info.exists ()) { // Not points to file.
     return;
   }
-  Utils::FileName file (info);
+  Utils::FilePath file = Utils::FilePath::fromFileInfo(info);
   QString fullDescription = QLatin1String (Constants::TASK_CATEGORY_NAME) +
                             ( id.isEmpty () ? QString ("") : QLatin1String ("(") + id + QLatin1String (")") ) +
                             QLatin1String (": ") + description;
